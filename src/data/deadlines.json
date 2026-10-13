@@ -1,0 +1,34 @@
+[
+  {
+    "id": "form-interaktif",
+    "title": "Membuat formulir interaktif",
+    "courseId": "MI2301",
+    "courseName": "Pemrograman Web",
+    "dueAt": "2026-10-15T23:59:00+07:00",
+    "status": "Mendesak"
+  },
+  {
+    "id": "normalisasi-perpustakaan",
+    "title": "Normalisasi basis data perpustakaan",
+    "courseId": "MI2302",
+    "courseName": "Basis Data",
+    "dueAt": "2026-10-16T23:59:00+07:00",
+    "status": "Akan Datang"
+  },
+  {
+    "id": "algoritma-pengurutan",
+    "title": "Implementasi algoritma pengurutan",
+    "courseId": "MI2303",
+    "courseName": "Struktur Data",
+    "dueAt": "2026-10-19T23:59:00+07:00",
+    "status": "Akan Datang"
+  },
+  {
+    "id": "proposal-tugas-akhir",
+    "title": "Pengumpulan proposal tugas akhir",
+    "courseId": "MI2304",
+    "courseName": "Analisis dan Perancangan Sistem Informasi",
+    "dueAt": "2026-10-20T23:59:00+07:00",
+    "status": "Selesai"
+  }
+]

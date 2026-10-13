@@ -1,0 +1,280 @@
+# Dokumentasi Teknis LearnEase LMS POLSRI
+
+## 1. Deskripsi Proyek
+
+**LearnEase LMS POLSRI** adalah aplikasi antarmuka Learning Management System (LMS) untuk Politeknik Negeri Sriwijaya. Aplikasi ini ditujukan bagi mahasiswa untuk melihat informasi pembelajaran, progres mata kuliah, jadwal, pengumuman kampus, dan tenggat tugas.
+
+Saat ini aplikasi merupakan prototipe sisi klien. Akun dan materi yang ditampilkan menggunakan data lokal, belum menggunakan backend atau basis data.
+
+## 2. Teknologi yang Digunakan
+
+Versi di bawah mengikuti rentang versi yang tercantum di `package.json`. Tanda `^` berarti pengelola paket dapat memilih pembaruan minor atau patch yang kompatibel saat memasang dependency. Versi Node.js tidak ditetapkan di `package.json`.
+
+### Bahasa pemrograman
+
+| Teknologi | Versi | Fungsi |
+|---|---|---|
+| JavaScript (ES Modules dan JSX) | Tidak ditetapkan di `package.json` | Digunakan untuk logika aplikasi, komponen React, dan tampilan. |
+| JSON | — | Menyimpan data contoh pengguna, mata kuliah, pertemuan, pengumuman, dan tenggat. |
+
+### Framework dan library utama
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| React | `^18.3.1` | Membuat antarmuka dari komponen yang dapat digunakan kembali. |
+| React DOM | `^18.3.1` | Menampilkan komponen React ke halaman web. |
+| Vite | `^6.0.7` | Menjalankan server pengembangan dan membangun aplikasi untuk produksi. |
+| `@vitejs/plugin-react` | `^4.3.4` | Mengaktifkan dukungan React pada Vite. |
+
+### Styling
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| Tailwind CSS | `^3.4.17` | Menyusun tampilan dengan kelas utility CSS. |
+| Plus Jakarta Sans | Tidak tercantum sebagai paket | Font antarmuka yang dimuat dari Google Fonts melalui stylesheet proyek. |
+
+### Routing
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| React Router DOM | `^6.30.1` | Mengatur perpindahan halaman dan rute aplikasi tanpa pemuatan ulang penuh. |
+
+### Ikon
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| `lucide-react` | `^0.468.0` | Menyediakan ikon SVG sebagai komponen React. |
+
+### Tools pengembangan
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| PostCSS | `^8.4.49` | Memproses CSS; konfigurasi proyek menggunakannya bersama Tailwind. |
+| Autoprefixer | `^10.4.20` | Menambahkan prefix CSS yang diperlukan agar aturan CSS lebih kompatibel dengan browser. |
+
+ESLint tidak tercantum sebagai dependency atau script dalam `package.json` yang diperiksa. Proyek menggunakan konfigurasi Vite di `vite.config.js` dan konfigurasi PostCSS di `postcss.config.js`.
+
+## 3. Struktur Folder Proyek
+
+Pohon berikut berasal dari pemindaian file aktual di `src/`. Folder `src/assets/` juga tersedia, tetapi tidak memiliki file dalam hasil pemindaian.
+
+```text
+src/
+├── App.jsx
+├── main.jsx
+├── assets/
+├── components/
+│   ├── course/
+│   │   ├── ActivityItem.jsx
+│   │   ├── CourseCard.jsx
+│   │   ├── CourseFilterBar.jsx
+│   │   ├── CourseHeader.jsx
+│   │   ├── CourseSummaryBar.jsx
+│   │   ├── LecturerCard.jsx
+│   │   ├── MeetingAccordion.jsx
+│   │   ├── NextDeadlineCard.jsx
+│   │   └── QuizCard.jsx
+│   ├── home/
+│   │   ├── AnnouncementCard.jsx
+│   │   ├── CalendarWidget.jsx
+│   │   ├── ContinueLearningCard.jsx
+│   │   ├── DeadlineList.jsx
+│   │   └── WelcomeBanner.jsx
+│   ├── layout/
+│   │   ├── AuthLayout.jsx
+│   │   ├── Breadcrumb.jsx
+│   │   ├── Footer.jsx
+│   │   ├── MainLayout.jsx
+│   │   └── Navbar.jsx
+│   └── ui/
+│       ├── Accordion.jsx
+│       ├── Badge.jsx
+│       ├── Button.jsx
+│       ├── Card.jsx
+│       ├── Input.jsx
+│       ├── PolsriLogo.jsx
+│       ├── ProgressBar.jsx
+│       ├── StatCard.jsx
+│       └── Tabs.jsx
+├── context/
+│   └── AuthContext.jsx
+├── data/
+│   ├── announcements.json
+│   ├── courses.json
+│   ├── deadlines.json
+│   ├── meetings.json
+│   └── user.json
+├── hooks/
+│   ├── useAuth.js
+│   ├── useCourses.js
+│   └── useHomeData.js
+├── pages/
+│   ├── CourseDetailPage.jsx
+│   ├── DashboardPage.jsx
+│   ├── HomePage.jsx
+│   ├── LoginPage.jsx
+│   ├── MyCoursesPage.jsx
+│   ├── NotFoundPage.jsx
+│   └── SplashPage.jsx
+├── routes/
+│   ├── AppRouter.jsx
+│   └── ProtectedRoute.jsx
+├── services/
+│   ├── api.js
+│   ├── authService.js
+│   ├── courseService.js
+│   └── homeService.js
+├── styles/
+│   └── index.css
+└── utils/
+    ├── courseStatus.js
+    └── formatDate.js
+```
+
+Fungsi folder utama:
+
+| Folder | Fungsi |
+|---|---|
+| `components/ui/` | Komponen antarmuka umum seperti tombol, input, kartu, badge, tab, dan progress bar. |
+| `components/layout/` | Kerangka dan navigasi halaman, termasuk layout autentikasi dan layout utama. |
+| `components/home/` | Komponen khusus Beranda, seperti kartu pengumuman, kalender, dan daftar tenggat. |
+| `components/course/` | Komponen daftar mata kuliah dan detail aktivitas/pertemuan pembelajaran. |
+| `pages/` | Komponen halaman yang dipasang pada rute aplikasi. |
+| `routes/` | Pemetaan rute dan pemeriksaan akses untuk halaman yang memerlukan login. |
+| `context/` | State autentikasi bersama yang dapat digunakan komponen aplikasi. |
+| `data/` | File JSON statis yang menjadi sumber data prototipe. |
+| `services/` | Fungsi akses data dan simulasi autentikasi. `api.js` saat ini kosong. |
+| `hooks/` | Hook React untuk mengambil state autentikasi dan data layanan. |
+| `utils/` | Fungsi bantu untuk status/progres mata kuliah dan format tanggal. |
+| `styles/` | CSS global, impor Tailwind, font, style dasar, dan animasi. |
+
+## 4. Halaman dan Routing
+
+| Path | Halaman | Deskripsi | Perlindungan |
+|---|---|---|---|
+| `/` | Splash | Halaman pembuka dengan animasi pemuatan, lalu mengarahkan pengguna sesuai status login. | Tidak |
+| `/login` | Login | Form login prototipe. | Tidak |
+| `/beranda` | Beranda | Ringkasan pembelajaran, pengumuman, kalender, tenggat, dan mata kuliah untuk dilanjutkan. | Ya |
+| `/dasbor` | Dasbor | Statistik progres belajar dan tenggat. | Ya |
+| `/mata-kuliah` | Mata Kuliah Saya | Ringkasan, pencarian, filter, pengurutan, dan daftar mata kuliah. | Ya |
+| `/mata-kuliah/:id` | Detail Mata Kuliah | Informasi mata kuliah, pertemuan, aktivitas, dan sidebar pembelajaran. | Ya |
+| `*` | Halaman tidak ditemukan | Pesan 404 dan tautan kembali ke Beranda. | Tidak |
+
+Route yang dilindungi menggunakan `ProtectedRoute`; pengguna yang belum login diarahkan ke `/login`. Halaman-halaman utama yang dilindungi dirender di dalam `MainLayout`, sedangkan halaman login memakai `AuthLayout`.
+
+## 5. Alur Autentikasi
+
+Autentikasi saat ini merupakan simulasi lokal:
+
+1. Form login meminta NIP/NPM/NIK dan kata sandi. NIP/NPM/NIK harus terisi, sedangkan kata sandi minimal enam karakter.
+2. `authService.js` menunggu sekitar 800 ms, lalu menganggap input yang memenuhi validasi sebagai login berhasil. Nilai ID tidak dicocokkan dengan akun tertentu.
+3. Profil pengguna yang dikembalikan berasal dari `src/data/user.json`; saat ini datanya atas nama Rizky Pratama.
+4. Status sesi sederhana disimpan di `localStorage` dengan kunci `learnease-session`. Saat aplikasi dimuat ulang, sesi tersebut digunakan untuk memulihkan status login.
+5. Fungsi Keluar menghapus kunci sesi dan mengarahkan pengguna ke halaman login.
+
+Login belum memverifikasi kredensial ke server, dan mekanisme ini **bukan autentikasi backend yang aman untuk penggunaan produksi**.
+
+## 6. Sumber Data
+
+Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambil dari database atau API.
+
+| File | Isi |
+|---|---|
+| `user.json` | Profil contoh pengguna: nama, inisial, program studi, semester, dan kelas. |
+| `courses.json` | Enam mata kuliah MI2301–MI2306, termasuk nama dosen, SKS, progres, materi berikutnya, program studi, semester, kelas, dan warna cover. |
+| `meetings.json` | Jadwal mingguan untuk MI2301 dan MI2302, serta delapan pertemuan beserta aktivitas untuk MI2301. Detail pertemuan mata kuliah lain belum tersedia. |
+| `announcements.json` | Tiga pengumuman kampus: akademik, beasiswa, dan kegiatan, masing-masing dengan tanggal dan deskripsi. |
+| `deadlines.json` | Empat tenggat dengan mata kuliah, tanggal/waktu, dan status; termasuk satu tenggat berstatus selesai. |
+
+`courseService.js` dan `homeService.js` membaca data lokal tersebut. Hook `useCourses` dan `useHomeData` menyediakan data untuk halaman React. Struktur layanan memisahkan akses data dari tampilan, tetapi penggantian ke API nyata belum dilakukan.
+
+## 7. Fitur yang Sudah Berfungsi
+
+### Splash
+
+- Menampilkan logo, judul, subjudul, progress pemuatan, glow, mesh latar, dan ikon dekoratif beranimasi.
+- Setelah sekitar 2,3 detik mengarahkan pengguna ke Beranda jika sesi aktif, atau ke Login jika belum login.
+
+### Login
+
+- Memvalidasi kolom ID dan kata sandi, termasuk panjang minimal kata sandi enam karakter.
+- Menyediakan toggle tampil/sembunyikan kata sandi.
+- Menampilkan status proses saat login dan pesan validasi dalam bahasa Indonesia.
+- Panel bantuan dapat dibuka dan ditutup.
+
+### Beranda
+
+- Menampilkan sapaan berdasarkan profil pengguna.
+- Menghitung jumlah tenggat yang belum lewat, jumlah jadwal hari ini, dan jumlah mata kuliah dengan progres di bawah 100%.
+- Menampilkan pengumuman, kalender bulan berjalan dengan tanggal hari ini ditandai, dan daftar tenggat.
+- Menampilkan hingga tiga mata kuliah aktif dengan progres tertinggi untuk dilanjutkan.
+- Tautan dari kartu mata kuliah membuka detail mata kuliah terkait; tautan daftar membuka `/mata-kuliah`.
+
+### Mata Kuliah Saya
+
+- Menampilkan ringkasan jumlah mata kuliah, total SKS, rata-rata progres, program studi, semester, dan kelas dari data pengguna/mata kuliah.
+- Menyediakan pencarian berdasarkan kode, nama mata kuliah, atau nama dosen.
+- Menyediakan filter semester dan status, tab Semua/Sedang dipelajari/Selesai dengan jumlah dinamis, serta pengurutan nama A–Z/Z–A.
+- Dapat mengubah tampilan daftar antara grid dan list.
+- Kartu mata kuliah menampilkan dosen, progres, materi berikutnya atau status selesai, dan tautan ke halaman detail.
+
+### Detail Mata Kuliah
+
+- Mengambil data mata kuliah berdasarkan `:id` dari `courses.json`.
+- Menampilkan breadcrumb, informasi mata kuliah, progres, dan hitungan aktivitas jika rincian pertemuan tersedia.
+- Menyediakan tab Materi pembelajaran, Tugas, dan Forum diskusi.
+- Untuk MI2301, menampilkan delapan pertemuan dalam accordion, status aktivitas, materi/tugas/kuis, serta kartu informasi dosen dan tenggat.
+- Mata kuliah tanpa data pertemuan menampilkan informasi bahwa rincian materi/tugas belum tersedia, bukan hitungan aktivitas `0 dari 0`.
+
+### Dasbor
+
+- Menghitung rata-rata progres, total SKS, jumlah mata kuliah selesai, dan tugas tertunda dari data yang tersedia.
+- Menampilkan seluruh mata kuliah menurut progres tertinggi ke terendah; setiap entri dapat membuka detail mata kuliah.
+- Menampilkan tenggat yang belum lewat, diurutkan berdasarkan tanggal terdekat.
+- Menampilkan progres pertemuan yang selesai dari total pertemuan MI2301 dan tautan menuju detailnya.
+
+## 8. Keterbatasan Saat Ini
+
+- Belum ada backend, database, atau permintaan data API; `src/services/api.js` masih berupa file kosong.
+- Login hanya simulasi sisi klien. ID yang tidak kosong dan kata sandi minimal enam karakter diterima, tanpa pencocokan akun atau verifikasi server.
+- Data progres dan status aktivitas tidak diperbarui melalui server atau penyimpanan permanen sebagai catatan belajar pengguna.
+- Rincian pertemuan hanya tersedia untuk MI2301. Mata kuliah lain memakai informasi progres dari `courses.json`, tanpa rincian aktivitas pertemuan.
+- Tombol Unduh, Kirim Tugas, dan Mulai Kuis merupakan elemen antarmuka; belum terhubung ke file materi, pengumpulan tugas, atau sistem kuis.
+- Link “Lupa kata sandi?” saat ini hanya berupa tautan placeholder dan tidak menjalankan pemulihan akun.
+- Tombol notifikasi Navbar dan pencarian belum terhubung ke fitur notifikasi/pencarian konten. Callback tersedia sebagai props, tetapi tidak diberikan oleh `MainLayout` saat ini.
+- Tautan “Panduan penggunaan” dan “Pusat bantuan” pada Footer masih mengarah ke anchor placeholder.
+- Kartu tenggat di sidebar detail menampilkan teks “2 hari lagi” secara tetap, sehingga belum dihitung dinamis terhadap waktu.
+- Rute halaman 404 bersifat publik, sementara tombol kembali ke Beranda menuju rute yang dilindungi dan dapat mengarahkan pengguna yang belum login kembali ke Login.
+
+## 9. Menjalankan Proyek Secara Lokal
+
+Pastikan Node.js dan npm sudah tersedia. Versi Node.js minimum tidak dinyatakan di `package.json`.
+
+1. Buka terminal di direktori root proyek.
+2. Pasang dependency:
+
+   ```bash
+   npm install
+   ```
+
+3. Jalankan server pengembangan:
+
+   ```bash
+   npm run dev
+   ```
+
+   Buka alamat lokal yang ditampilkan Vite di terminal.
+
+4. Buat build produksi:
+
+   ```bash
+   npm run build
+   ```
+
+5. Untuk menjalankan pratinjau build lokal, tersedia script:
+
+   ```bash
+   npm run preview
+   ```
+
+Script yang tersedia pada `package.json` adalah `dev`, `build`, dan `preview`; tidak ada script `test` atau `lint` yang didefinisikan.

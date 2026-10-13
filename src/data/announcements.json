@@ -1,0 +1,23 @@
+[
+  {
+    "id": "uts-ganjil",
+    "category": "Akademik",
+    "title": "Persiapan Ujian Tengah Semester",
+    "date": "2026-10-12",
+    "description": "Periksa kembali materi dan tugas yang belum diselesaikan sebelum pekan UTS."
+  },
+  {
+    "id": "beasiswa-ganjil",
+    "category": "Beasiswa",
+    "title": "Pendaftaran Beasiswa Semester Ganjil",
+    "date": "2026-10-15",
+    "description": "Pendaftaran beasiswa semester ganjil dibuka mulai hari ini hingga akhir bulan."
+  },
+  {
+    "id": "webinar-blockchain",
+    "category": "Kegiatan",
+    "title": "Webinar Teknologi Blockchain",
+    "date": "2026-10-18",
+    "description": "Webinar teknologi blockchain untuk mahasiswa semester 3 dan 5 akan diadakan minggu depan."
+  }
+]
