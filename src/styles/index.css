@@ -1,0 +1,629 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes splash-glow {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.94);
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    opacity: 0.62;
+    transform: scale(1.06);
+    animation-timing-function: ease-in-out;
+  }
+}
+
+@keyframes splash-free-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0);
+    animation-timing-function: ease-in-out;
+  }
+  33% {
+    transform: translate3d(var(--splash-x-1), var(--splash-y-1), 0) rotate(var(--splash-r-1));
+    animation-timing-function: ease-in-out;
+  }
+  66% {
+    transform: translate3d(var(--splash-x-2), var(--splash-y-2), 0) rotate(var(--splash-r-2));
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0);
+    animation-timing-function: ease-in-out;
+  }
+}
+
+@keyframes splash-flicker {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  47%,
+  60% {
+    opacity: 0.95;
+  }
+  53% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes splash-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes splash-logo-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-text-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-loading-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes splash-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.splash-glow {
+  opacity: 0.32;
+  animation: splash-glow 5.2s ease-in-out infinite;
+}
+
+.splash-glow-one {
+  animation-duration: 5.2s;
+  animation-delay: -1.4s;
+}
+
+.splash-glow-two {
+  animation-duration: 6s;
+  animation-delay: -3.7s;
+}
+
+.splash-float {
+  --splash-x-1: 9px;
+  --splash-y-1: -10px;
+  --splash-r-1: 3deg;
+  --splash-x-2: -8px;
+  --splash-y-2: 8px;
+  --splash-r-2: -4deg;
+  animation: splash-free-float var(--splash-duration, 5.5s) ease-in-out var(--splash-delay, 0s) infinite;
+}
+
+.splash-dot {
+  animation-name: splash-free-float, splash-dot-pulse;
+  animation-duration: var(--splash-duration, 5.5s), 3.8s;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-delay: var(--splash-delay, 0s), -1.3s;
+  animation-iteration-count: infinite, infinite;
+}
+
+.splash-flicker {
+  animation: splash-flicker 3.1s ease-in-out infinite;
+}
+
+.splash-float-1 {
+  --splash-duration: 5.1s;
+  --splash-delay: -1.3s;
+  --splash-x-1: -9px;
+  --splash-y-1: -7px;
+  --splash-r-1: -4deg;
+  --splash-x-2: 7px;
+  --splash-y-2: 10px;
+  --splash-r-2: 3deg;
+}
+
+.splash-float-2 {
+  --splash-duration: 6.4s;
+  --splash-delay: -3.5s;
+  --splash-x-1: 8px;
+  --splash-y-1: -11px;
+  --splash-r-1: 4deg;
+  --splash-x-2: -9px;
+  --splash-y-2: 6px;
+  --splash-r-2: -3deg;
+}
+
+.splash-float-3 {
+  --splash-duration: 4.6s;
+  --splash-delay: -2.2s;
+  --splash-x-1: -8px;
+  --splash-y-1: 9px;
+  --splash-r-1: 3deg;
+  --splash-x-2: 10px;
+  --splash-y-2: -7px;
+  --splash-r-2: -4deg;
+}
+
+.splash-float-4 {
+  --splash-duration: 7.4s;
+  --splash-delay: -4.3s;
+  --splash-x-1: 10px;
+  --splash-y-1: 8px;
+  --splash-r-1: -3deg;
+  --splash-x-2: -9px;
+  --splash-y-2: -10px;
+  --splash-r-2: 4deg;
+}
+
+.splash-float-5 {
+  --splash-duration: 5.8s;
+  --splash-delay: -2.7s;
+  --splash-x-1: -8px;
+  --splash-y-1: -11px;
+  --splash-r-1: -3deg;
+  --splash-x-2: 9px;
+  --splash-y-2: 7px;
+  --splash-r-2: 4deg;
+}
+
+.splash-float-6 {
+  --splash-duration: 6.9s;
+  --splash-delay: -4.6s;
+  --splash-x-1: 10px;
+  --splash-y-1: -8px;
+  --splash-r-1: 4deg;
+  --splash-x-2: -7px;
+  --splash-y-2: 11px;
+  --splash-r-2: -3deg;
+}
+
+.splash-float-7 {
+  --splash-duration: 4.9s;
+  --splash-delay: -0.9s;
+  --splash-x-1: -7px;
+  --splash-y-1: 8px;
+  --splash-r-1: 0deg;
+  --splash-x-2: 8px;
+  --splash-y-2: -9px;
+  --splash-r-2: 0deg;
+}
+
+.splash-float-8 {
+  --splash-duration: 7.7s;
+  --splash-delay: -5.1s;
+  --splash-x-1: 9px;
+  --splash-y-1: -8px;
+  --splash-r-1: 0deg;
+  --splash-x-2: -10px;
+  --splash-y-2: 9px;
+  --splash-r-2: 0deg;
+}
+
+.splash-logo {
+  animation: splash-logo-enter 650ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.splash-title {
+  animation: splash-text-enter 560ms cubic-bezier(0.32, 0.72, 0, 1) 250ms both;
+}
+
+.splash-subtitle {
+  animation: splash-text-enter 520ms cubic-bezier(0.32, 0.72, 0, 1) 400ms both;
+}
+
+.splash-loading,
+.splash-progress {
+  animation: splash-loading-enter 420ms cubic-bezier(0.32, 0.72, 0, 1) 700ms both;
+}
+
+.splash-progress-fill {
+  animation: splash-progress 1050ms cubic-bezier(0.32, 0.72, 0, 1) 850ms both;
+}
+
+.splash-screen-exit {
+  animation: splash-fade-out 350ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@media (max-width: 639px) {
+  .splash-glow {
+    opacity: 0.24;
+  }
+
+  .splash-float-1,
+  .splash-float-2,
+  .splash-float-3,
+  .splash-float-4 {
+    --splash-x-1: 4px;
+    --splash-y-1: -5px;
+    --splash-r-1: -2deg;
+    --splash-x-2: -4px;
+    --splash-y-2: 4px;
+    --splash-r-2: 2deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-glow,
+  .splash-logo,
+  .splash-title,
+  .splash-subtitle,
+  .splash-loading,
+  .splash-progress,
+  .splash-progress-fill,
+  .splash-screen-exit,
+  .splash-float,
+  .splash-dot,
+  .splash-flicker {
+    animation: none;
+  }
+
+  .splash-logo,
+  .splash-title,
+  .splash-subtitle,
+  .splash-loading,
+  .splash-progress {
+    opacity: 1;
+    transform: none;
+  }
+
+  .splash-progress-fill {
+    width: 100%;
+  }
+
+  .splash-screen-exit {
+    opacity: 0;
+  }
+}
+
+.auth-noise::after {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  content: '';
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+@keyframes auth-free-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0);
+    animation-timing-function: ease-in-out;
+  }
+  33% {
+    transform: translate3d(var(--auth-x-1), var(--auth-y-1), 0) rotate(var(--auth-r-1));
+    animation-timing-function: ease-in-out;
+  }
+  66% {
+    transform: translate3d(var(--auth-x-2), var(--auth-y-2), 0) rotate(var(--auth-r-2));
+    animation-timing-function: ease-in-out;
+  }
+}
+
+@keyframes auth-soft-flicker {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  48%,
+  58% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes auth-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.auth-float {
+  --auth-x-1: 8px;
+  --auth-y-1: -10px;
+  --auth-r-1: 3deg;
+  --auth-x-2: -7px;
+  --auth-y-2: 7px;
+  --auth-r-2: -3deg;
+  animation: auth-free-float var(--auth-duration, 5.5s) ease-in-out var(--auth-delay, 0s) infinite;
+}
+
+.auth-dot {
+  animation-name: auth-free-float, auth-dot-pulse;
+  animation-duration: var(--auth-duration, 5.5s), 3.7s;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-delay: var(--auth-delay, 0s), -1.1s;
+  animation-iteration-count: infinite, infinite;
+}
+
+.auth-flicker {
+  animation: auth-soft-flicker 3.2s ease-in-out infinite;
+}
+
+.auth-mobile-float-1 {
+  --auth-duration: 5.2s;
+  --auth-delay: -1.4s;
+  --auth-x-1: -5px;
+  --auth-y-1: -4px;
+  --auth-r-1: -2deg;
+  --auth-x-2: 4px;
+  --auth-y-2: 4px;
+  --auth-r-2: 2deg;
+}
+
+.auth-mobile-float-2 {
+  --auth-duration: 6.1s;
+  --auth-delay: -3.2s;
+  --auth-x-1: 5px;
+  --auth-y-1: -3px;
+  --auth-r-1: 2deg;
+  --auth-x-2: -4px;
+  --auth-y-2: 5px;
+  --auth-r-2: -2deg;
+}
+
+.auth-mobile-float-3 {
+  --auth-duration: 4.7s;
+  --auth-delay: -2.3s;
+  --auth-x-1: -4px;
+  --auth-y-1: 5px;
+  --auth-r-1: 3deg;
+  --auth-x-2: 5px;
+  --auth-y-2: -4px;
+  --auth-r-2: -2deg;
+}
+
+.auth-mobile-float-4 {
+  --auth-duration: 7.2s;
+  --auth-delay: -4.1s;
+  --auth-x-1: 4px;
+  --auth-y-1: 5px;
+  --auth-r-1: -3deg;
+  --auth-x-2: -5px;
+  --auth-y-2: -3px;
+  --auth-r-2: 2deg;
+}
+
+.auth-mobile-float-5 {
+  --auth-duration: 5.8s;
+  --auth-delay: -2.7s;
+  --auth-x-1: -5px;
+  --auth-y-1: -2px;
+  --auth-r-1: 2deg;
+  --auth-x-2: 4px;
+  --auth-y-2: 5px;
+  --auth-r-2: -3deg;
+}
+
+.auth-mobile-float-6 {
+  --auth-duration: 4.9s;
+  --auth-delay: -0.8s;
+  --auth-x-1: 4px;
+  --auth-y-1: -5px;
+  --auth-r-1: 0deg;
+  --auth-x-2: -4px;
+  --auth-y-2: 3px;
+  --auth-r-2: 0deg;
+}
+
+.auth-mobile-float-7 {
+  --auth-duration: 6.8s;
+  --auth-delay: -3.8s;
+  --auth-x-1: -4px;
+  --auth-y-1: 4px;
+  --auth-r-1: 0deg;
+  --auth-x-2: 5px;
+  --auth-y-2: -4px;
+  --auth-r-2: 0deg;
+}
+
+.auth-desktop-float-1 {
+  --auth-duration: 5.3s;
+  --auth-delay: -1.7s;
+  --auth-x-1: -10px;
+  --auth-y-1: -7px;
+  --auth-r-1: -4deg;
+  --auth-x-2: 7px;
+  --auth-y-2: 10px;
+  --auth-r-2: 3deg;
+}
+
+.auth-desktop-float-2 {
+  --auth-duration: 6.4s;
+  --auth-delay: -3.5s;
+  --auth-x-1: 9px;
+  --auth-y-1: -8px;
+  --auth-r-1: 4deg;
+  --auth-x-2: -8px;
+  --auth-y-2: 7px;
+  --auth-r-2: -3deg;
+}
+
+.auth-desktop-float-3 {
+  --auth-duration: 4.6s;
+  --auth-delay: -2.2s;
+  --auth-x-1: -8px;
+  --auth-y-1: 9px;
+  --auth-r-1: 3deg;
+  --auth-x-2: 10px;
+  --auth-y-2: -6px;
+  --auth-r-2: -4deg;
+}
+
+.auth-desktop-float-4 {
+  --auth-duration: 7.4s;
+  --auth-delay: -4.3s;
+  --auth-x-1: 8px;
+  --auth-y-1: 10px;
+  --auth-r-1: -3deg;
+  --auth-x-2: -9px;
+  --auth-y-2: -8px;
+  --auth-r-2: 4deg;
+}
+
+.auth-desktop-float-5 {
+  --auth-duration: 5.9s;
+  --auth-delay: -2.8s;
+  --auth-x-1: -7px;
+  --auth-y-1: -10px;
+  --auth-r-1: -2deg;
+  --auth-x-2: 9px;
+  --auth-y-2: 6px;
+  --auth-r-2: 3deg;
+}
+
+.auth-desktop-float-6 {
+  --auth-duration: 6.8s;
+  --auth-delay: -4.7s;
+  --auth-x-1: 10px;
+  --auth-y-1: -6px;
+  --auth-r-1: 3deg;
+  --auth-x-2: -7px;
+  --auth-y-2: 10px;
+  --auth-r-2: -3deg;
+}
+
+.auth-desktop-float-7 {
+  --auth-duration: 4.9s;
+  --auth-delay: -1.1s;
+  --auth-x-1: -9px;
+  --auth-y-1: 8px;
+  --auth-r-1: 4deg;
+  --auth-x-2: 8px;
+  --auth-y-2: -9px;
+  --auth-r-2: -2deg;
+}
+
+.auth-desktop-float-8 {
+  --auth-duration: 6.2s;
+  --auth-delay: -3.1s;
+  --auth-x-1: 8px;
+  --auth-y-1: -9px;
+  --auth-r-1: -3deg;
+  --auth-x-2: -10px;
+  --auth-y-2: 7px;
+  --auth-r-2: 4deg;
+}
+
+.auth-desktop-float-9 {
+  --auth-duration: 5.1s;
+  --auth-delay: -2.6s;
+  --auth-x-1: -10px;
+  --auth-y-1: -6px;
+  --auth-r-1: 3deg;
+  --auth-x-2: 7px;
+  --auth-y-2: 9px;
+  --auth-r-2: -4deg;
+}
+
+.auth-desktop-float-10 {
+  --auth-duration: 7.7s;
+  --auth-delay: -5.2s;
+  --auth-x-1: 9px;
+  --auth-y-1: 8px;
+  --auth-r-1: -4deg;
+  --auth-x-2: -8px;
+  --auth-y-2: -10px;
+  --auth-r-2: 3deg;
+}
+
+@media (max-width: 767px) {
+  .auth-desktop-float-8,
+  .auth-desktop-float-9,
+  .auth-desktop-float-10 {
+    --auth-x-1: 4px;
+    --auth-y-1: -4px;
+    --auth-r-1: -2deg;
+    --auth-x-2: -4px;
+    --auth-y-2: 4px;
+    --auth-r-2: 2deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-float,
+  .auth-dot,
+  .auth-flicker {
+    animation: none;
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #F8F9FA;
+    color: #1F2937;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline: 2px solid #0056B3;
+    outline-offset: 2px;
+  }
+}

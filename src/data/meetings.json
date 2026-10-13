@@ -1,0 +1,125 @@
+{
+  "schedule": [
+    {
+      "id": "mi2301-rabu",
+      "courseId": "MI2301",
+      "courseName": "Pemrograman Web",
+      "dayOfWeek": 3,
+      "startTime": "08.00",
+      "endTime": "09.40",
+      "room": "Lab Komputer 1"
+    },
+    {
+      "id": "mi2302-rabu",
+      "courseId": "MI2302",
+      "courseName": "Basis Data",
+      "dayOfWeek": 3,
+      "startTime": "10.00",
+      "endTime": "11.40",
+      "room": "Lab Basis Data"
+    }
+  ],
+  "courses": {
+    "MI2301": [
+      {
+        "number": 1,
+        "title": "Pengenalan pengembangan web",
+        "status": "completed",
+        "activities": [
+          { "title": "Konsep dasar website", "type": "material", "completed": true },
+          { "title": "Pengenalan browser dan server", "type": "material", "completed": true },
+          { "title": "Diskusi ruang lingkup web", "type": "discussion", "completed": true },
+          { "title": "Kuis pengenalan web", "type": "quiz", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Struktur halaman dengan HTML",
+        "status": "completed",
+        "activities": [
+          { "title": "Elemen dasar HTML", "type": "material", "completed": true },
+          { "title": "Struktur dokumen HTML", "type": "material", "completed": true },
+          { "title": "Latihan membuat halaman", "type": "material", "completed": true },
+          { "title": "Kuis HTML", "type": "quiz", "completed": true }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Tata letak responsif dengan CSS",
+        "status": "completed",
+        "activities": [
+          { "title": "Dasar CSS", "type": "material", "completed": true },
+          { "title": "Flexbox dan Grid", "type": "material", "completed": true },
+          { "title": "Latihan tata letak responsif", "type": "material", "completed": true },
+          { "title": "Kuis CSS responsif", "type": "quiz", "completed": true }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Manajemen Risiko Proyek",
+        "status": "active",
+        "activities": [
+          {
+            "title": "Slide Materi - Manajemen Risiko Proyek",
+            "type": "material",
+            "format": "PDF",
+            "fileSize": "2,4 MB",
+            "action": "Unduh",
+            "completed": true
+          },
+          {
+            "title": "Tugas 3 - Analisis Risiko Studi Kasus",
+            "type": "assignment",
+            "dueAt": "2026-10-14T23:59:00+07:00",
+            "statusLabel": "Belum Dikirim",
+            "action": "Kirim Tugas",
+            "completed": false
+          },
+          {
+            "title": "Kuis 2 - Manajemen Risiko Proyek",
+            "type": "quiz",
+            "duration": "45 Menit",
+            "attempts": "2 kali",
+            "questionCount": 20,
+            "description": "Baca petunjuk dengan teliti. Jawaban tidak dapat diubah setelah dikirim.",
+            "action": "Mulai Kuis",
+            "completed": false
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Integrasi antarmuka dan API",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi integrasi antarmuka dan API", "type": "material", "completed": false },
+          { "title": "Latihan menghubungkan API", "type": "material", "completed": false }
+        ]
+      },
+      {
+        "number": 6,
+        "title": "Pengenalan pemrograman sisi server",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi pemrograman sisi server", "type": "material", "completed": false }
+        ]
+      },
+      {
+        "number": 7,
+        "title": "Pengujian dan publikasi website",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi pengujian dan publikasi", "type": "material", "completed": false }
+        ]
+      },
+      {
+        "number": 8,
+        "title": "Proyek akhir website",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Panduan proyek akhir website", "type": "material", "completed": false }
+        ]
+      }
+    ]
+  }
+}

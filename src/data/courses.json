@@ -1,0 +1,75 @@
+[
+  {
+    "id": "MI2301",
+    "name": "Pemrograman Web",
+    "lecturer": "Dwi Lestari, S.Kom., M.Kom.",
+    "credits": 3,
+    "progress": 65,
+    "next": "Formulir dan validasi JavaScript",
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC",
+    "description": "Pelajari dasar pengembangan web, mulai dari struktur halaman hingga membangun antarmuka yang responsif dan interaktif."
+  },
+  {
+    "id": "MI2302",
+    "name": "Basis Data",
+    "lecturer": "Ahmad Fauzi, S.Kom., M.Kom.",
+    "credits": 3,
+    "progress": 40,
+    "next": "Relasi tabel dan normalisasi",
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC"
+  },
+  {
+    "id": "MI2303",
+    "name": "Struktur Data",
+    "lecturer": "Rina Apriani, S.Kom., M.Cs.",
+    "credits": 3,
+    "progress": 100,
+    "next": null,
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC"
+  },
+  {
+    "id": "MI2304",
+    "name": "Analisis dan Perancangan Sistem Informasi",
+    "lecturer": "Budi Santoso, S.Kom., M.Kom.",
+    "credits": 3,
+    "progress": 25,
+    "next": "Pemodelan proses dengan UML",
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC"
+  },
+  {
+    "id": "MI2305",
+    "name": "Jaringan Komputer",
+    "lecturer": "Siti Rahmawati, S.Kom., M.T.",
+    "credits": 3,
+    "progress": 55,
+    "next": "Pengalamatan IP dan subnetting",
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC"
+  },
+  {
+    "id": "MI2306",
+    "name": "Statistika Terapan",
+    "lecturer": "Andi Saputra, S.Si., M.Si.",
+    "credits": 3,
+    "progress": 10,
+    "next": "Ukuran pemusatan data",
+    "program": "D-III Manajemen Informatika",
+    "semester": 3,
+    "class": "3 MI A",
+    "coverColor": "#EAF3FC"
+  }
+]

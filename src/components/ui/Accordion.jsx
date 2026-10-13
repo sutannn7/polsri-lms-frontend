@@ -1,0 +1,54 @@
+import { useId, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+
+function Accordion({
+  title,
+  children,
+  open,
+  defaultOpen = false,
+  onOpenChange,
+  className = '',
+  contentClassName = '',
+}) {
+  const panelId = useId();
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isOpen = open ?? internalOpen;
+
+  function toggle() {
+    const nextOpen = !isOpen;
+    if (open === undefined) setInternalOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  }
+
+  return (
+    <section className={`overflow-hidden rounded-card border border-border bg-white ${className}`}>
+      <h3>
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          onClick={toggle}
+          className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left font-semibold text-main transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+        >
+          <span>{title}</span>
+          <ChevronDown
+            size={18}
+            aria-hidden="true"
+            className={`shrink-0 text-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          />
+        </button>
+      </h3>
+      <div
+        id={panelId}
+        aria-hidden={!isOpen}
+        className={`grid transition-[grid-template-rows,opacity] duration-[400ms] ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'} ${contentClassName}`}
+      >
+        <div className={`min-h-0 overflow-hidden ${isOpen ? 'border-t border-border px-4 py-4' : 'border-t-0 px-4 py-0'}`}>
+          {children}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Accordion;
