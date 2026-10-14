@@ -15,3 +15,14 @@ export function getCourseMeetings(courseId) {
     activities: meeting.activities.map((activity) => ({ ...activity })),
   }));
 }
+
+export function setLastOpenedCourseId(courseId) {
+  if (typeof window !== 'undefined') {
+    window.sessionStorage.setItem('learnease:last-opened-course', courseId);
+  }
+}
+
+export function getLastOpenedCourseId() {
+  if (typeof window === 'undefined') return null;
+  return window.sessionStorage.getItem('learnease:last-opened-course');
+}

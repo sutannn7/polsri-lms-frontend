@@ -10,8 +10,9 @@ import StatCard from '../components/ui/StatCard';
 import useAuth from '../hooks/useAuth';
 import useCourses from '../hooks/useCourses';
 import useHomeData from '../hooks/useHomeData';
+import { getLastOpenedCourseId } from '../services/courseService';
 import { getActiveCourses, getCourseStats } from '../utils/courseStatus';
-import { isUpcomingDeadline } from '../utils/formatDate';
+import { getDeadlineInfo, isUpcomingDeadline } from '../utils/formatDate';
 
 function HomePage() {
   const { user } = useAuth();
@@ -20,15 +21,36 @@ function HomePage() {
   const today = new Date();
   const stats = getCourseStats(courses);
   const upcomingDeadlines = deadlines.filter((deadline) => isUpcomingDeadline(deadline, today));
+  const closeDeadlines = upcomingDeadlines
+    .filter((deadline) => getDeadlineInfo(deadline, today).status === 'Mendesak')
+    .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
   const todaysMeetings = meetings.filter((meeting) => meeting.dayOfWeek === today.getDay());
   const continueCourses = useMemo(
     () => getActiveCourses(courses).sort((a, b) => b.progress - a.progress).slice(0, 3),
     [courses],
   );
+  const lastOpenedCourseId = getLastOpenedCourseId();
+  const lastOpenedCourse = courses.find((course) => course.id === lastOpenedCourseId);
+  const fallbackCourse = lastOpenedCourse ?? continueCourses[0];
+  const nearestDeadline = closeDeadlines[0];
+  const bannerSummary = nearestDeadline
+    ? `Ada ${closeDeadlines.length} tugas yang jatuh tempo dalam waktu dekat. Tenggat terdekat ${getDeadlineInfo(nearestDeadline, today).label.toLowerCase()}: ${nearestDeadline.title}.`
+    : lastOpenedCourse
+      ? `Tidak ada tenggat dalam 2 hari ke depan. Mata kuliah terakhir dibuka: ${lastOpenedCourse.name}.`
+      : `Tidak ada tenggat dalam 2 hari ke depan. Mulai pembelajaran dari ${fallbackCourse?.name ?? 'daftar mata kuliah Anda'}.`;
+  const bannerCourseHref = nearestDeadline
+    ? `/mata-kuliah/${nearestDeadline.courseId}`
+    : fallbackCourse
+      ? `/mata-kuliah/${fallbackCourse.id}`
+      : undefined;
 
   return (
     <div className="space-y-8">
-      <WelcomeBanner name={user?.name ?? 'Mahasiswa'} />
+      <WelcomeBanner
+        name={user?.name ?? 'Mahasiswa'}
+        summary={bannerSummary}
+        courseHref={bannerCourseHref}
+      />
 
       <section aria-label="Ringkasan pembelajaran" className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard
@@ -75,8 +97,8 @@ function HomePage() {
         </div>
 
         <aside className="space-y-6">
-          <CalendarWidget meetings={meetings} today={today} />
-          <DeadlineList deadlines={deadlines} />
+          <CalendarWidget meetings={meetings} deadlines={deadlines} today={today} />
+          <DeadlineList deadlines={upcomingDeadlines} />
         </aside>
       </div>
     </div>

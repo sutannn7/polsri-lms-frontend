@@ -4,7 +4,7 @@ import Card from '../ui/Card';
 
 const weekdayLabels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
-function CalendarWidget({ meetings = [], today = new Date() }) {
+function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
   const [visibleMonth, setVisibleMonth] = useState(
     () => new Date(today.getFullYear(), today.getMonth(), 1),
   );
@@ -18,9 +18,34 @@ function CalendarWidget({ meetings = [], today = new Date() }) {
     ...Array(firstWeekday).fill(null),
     ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
   ];
-  const scheduledWeekdays = new Set(meetings.map((meeting) => meeting.dayOfWeek));
   const isCurrentMonth = visibleMonth.getFullYear() === today.getFullYear()
     && visibleMonth.getMonth() === today.getMonth();
+  const markedDays = new Map();
+
+  function addDayLabel(day, label) {
+    const labels = markedDays.get(day) ?? [];
+    labels.push(label);
+    markedDays.set(day, labels);
+  }
+
+  deadlines.forEach((deadline) => {
+    const dueAt = new Date(deadline.dueAt);
+    if (
+      !Number.isNaN(dueAt.getTime())
+      && dueAt.getFullYear() === visibleMonth.getFullYear()
+      && dueAt.getMonth() === visibleMonth.getMonth()
+    ) {
+      addDayLabel(dueAt.getDate(), deadline.title);
+    }
+  });
+
+  meetings.forEach((meeting) => {
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      if (new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), day).getDay() === meeting.dayOfWeek) {
+        addDayLabel(day, `Jadwal ${meeting.courseName} pukul ${meeting.startTime}`);
+      }
+    }
+  });
 
   function changeMonth(offset) {
     setVisibleMonth((month) => new Date(month.getFullYear(), month.getMonth() + offset, 1));
@@ -58,16 +83,19 @@ function CalendarWidget({ meetings = [], today = new Date() }) {
           if (!day) return <span key={`empty-${index}`} aria-hidden="true" />;
           const weekday = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), day).getDay();
           const isToday = isCurrentMonth && day === today.getDate();
-          const hasMeeting = scheduledWeekdays.has(weekday);
+          const dayLabels = markedDays.get(day) ?? [];
+          const hasEvents = dayLabels.length > 0;
+          const eventDescription = dayLabels.join('; ');
           return (
             <span key={day} className="flex justify-center">
               <span
                 aria-current={isToday ? 'date' : undefined}
-                aria-label={`${day}${isToday ? ', hari ini' : ''}${hasMeeting ? ', ada jadwal' : ''}`}
+                aria-label={`${day}${isToday ? ', hari ini' : ''}${hasEvents ? `, ${eventDescription}` : ''}`}
+                title={hasEvents ? eventDescription : undefined}
                 className={`relative flex h-9 w-9 items-center justify-center rounded-lg text-xs ${isToday ? 'bg-primary font-semibold text-white' : 'text-main hover:bg-gray-100'}`}
               >
                 {day}
-                {hasMeeting && !isToday ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
+                {hasEvents && !isToday ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
               </span>
             </span>
           );

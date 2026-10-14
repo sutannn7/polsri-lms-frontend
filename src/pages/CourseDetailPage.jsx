@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BookOpenText, MessagesSquare } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import Breadcrumb from '../components/layout/Breadcrumb';
@@ -10,6 +10,8 @@ import NextDeadlineCard from '../components/course/NextDeadlineCard';
 import Tabs from '../components/ui/Tabs';
 import Card from '../components/ui/Card';
 import useCourses from '../hooks/useCourses';
+import { setLastOpenedCourseId } from '../services/courseService';
+import { isUpcomingDeadline } from '../utils/formatDate';
 
 function CourseDetailPage() {
   const { id } = useParams();
@@ -17,6 +19,9 @@ function CourseDetailPage() {
   const [activeTab, setActiveTab] = useState('materials');
   const course = courses.find((item) => item.id === id);
   const meetings = useMemo(() => getCourseMeetings(id), [getCourseMeetings, id]);
+  useEffect(() => {
+    if (course) setLastOpenedCourseId(course.id);
+  }, [course?.id]);
 
   if (!course) {
     return (
@@ -38,10 +43,12 @@ function CourseDetailPage() {
     (total, meeting) => total + meeting.activities.length,
     0,
   );
-  const tasks = meetings.flatMap((meeting) =>
-    meeting.activities.filter((activity) => activity.type === 'assignment'),
-  );
-  const activeMeeting = meetings.find((meeting) => meeting.status === 'active');
+  const tasks = meetings
+    .flatMap((meeting) => meeting.activities.filter((activity) => activity.type === 'assignment'))
+    .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+  const nextTask = tasks.find((task) => !task.completed && isUpcomingDeadline(task));
+  const activeMeeting = meetings.find((meeting) => meeting.status === 'active')
+    ?? [...meetings].reverse().find((meeting) => meeting.status === 'completed');
   const activeQuiz = activeMeeting?.activities.find((activity) => activity.type === 'quiz');
   const [lecturerName, ...degreeParts] = course.lecturer.split(', ');
   const lecturerDegree = degreeParts.join(', ');
@@ -102,7 +109,7 @@ function CourseDetailPage() {
                   <div key={meeting.number} id={`pertemuan-${meeting.number}`}>
                     <MeetingAccordion
                       meeting={meeting}
-                      defaultOpen={meeting.status === 'active'}
+                      defaultOpen={meeting.number === activeMeeting?.number}
                       onActivityAction={(activity) => {
                         if (activity.type === 'assignment') showTasks();
                       }}
@@ -167,7 +174,7 @@ function CourseDetailPage() {
                   onClick={scrollToActiveMeeting}
                   className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
-                  Lanjutkan Belajar
+                  {activeQuiz.completed ? 'Tinjau Kuis' : 'Lanjutkan Belajar'}
                 </button>
               </>
             ) : (
@@ -175,7 +182,7 @@ function CourseDetailPage() {
             )}
           </Card>
 
-          {tasks[0] ? <NextDeadlineCard activity={tasks[0]} onViewTasks={showTasks} /> : null}
+          {nextTask ? <NextDeadlineCard activity={nextTask} onViewTasks={showTasks} /> : null}
           <LecturerCard
             name={lecturerName}
             degree={lecturerDegree}

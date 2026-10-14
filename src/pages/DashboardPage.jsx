@@ -1,8 +1,7 @@
 import {
   BookOpenCheck,
-  CalendarClock,
   CheckCircle2,
-  Clock3,
+  Focus,
   GraduationCap,
   TrendingUp,
 } from 'lucide-react';
@@ -12,26 +11,31 @@ import Card from '../components/ui/Card';
 import ProgressBar from '../components/ui/ProgressBar';
 import StatCard from '../components/ui/StatCard';
 import useCourses from '../hooks/useCourses';
-import useHomeData from '../hooks/useHomeData';
 import { getCourseStats } from '../utils/courseStatus';
-import { formatDate, isUpcomingDeadline } from '../utils/formatDate';
-
-const deadlineVariants = {
-  Mendesak: 'warning',
-  'Akan Datang': 'info',
-};
 
 function DashboardPage() {
   const { courses, getCourseMeetings } = useCourses();
-  const { deadlines } = useHomeData();
-  const now = new Date();
   const courseStats = getCourseStats(courses);
   const sortedCourses = [...courses].sort(
     (a, b) => Number(b.progress) - Number(a.progress),
   );
-  const upcomingDeadlines = deadlines
-    .filter((deadline) => isUpcomingDeadline(deadline, now))
-    .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+  const taskStats = courses.map((course) => {
+    const assignments = getCourseMeetings(course.id)
+      .flatMap((meeting) => meeting.activities)
+      .filter((activity) => activity.type === 'assignment');
+    const completed = assignments.filter((activity) => activity.completed).length;
+    return {
+      course,
+      completed,
+      total: assignments.length,
+      pending: assignments.length - completed,
+      completedPercent: assignments.length ? Math.round((completed / assignments.length) * 100) : 0,
+    };
+  });
+  const pendingTaskCount = taskStats.reduce((total, item) => total + item.pending, 0);
+  const lowestProgressCourse = courses
+    .filter((course) => Number(course.progress) < 100)
+    .sort((a, b) => Number(a.progress) - Number(b.progress))[0];
   const courseMeetings = getCourseMeetings('MI2301');
   const completedMeetings = courseMeetings.filter(
     (meeting) => meeting.status === 'completed',
@@ -42,7 +46,7 @@ function DashboardPage() {
       <header>
         <h1 className="text-3xl font-bold text-main">Dasbor</h1>
         <p className="mt-2 text-sm leading-6 text-secondary">
-          Pantau progres belajar, mata kuliah, dan tenggat tugas Anda.
+          Pantau progres mata kuliah, aktivitas tugas, dan fokus belajar Anda.
         </p>
       </header>
 
@@ -63,9 +67,9 @@ function DashboardPage() {
           value={`${courseStats.completedCourses} dari ${courseStats.totalCourses}`}
         />
         <StatCard
-          icon={<CalendarClock size={21} />}
-          label="Tugas Tertunda"
-          value={`${upcomingDeadlines.length} Tugas`}
+          icon={<CheckCircle2 size={21} />}
+          label="Tugas Belum Selesai"
+          value={`${pendingTaskCount} Tugas`}
         />
       </section>
 
@@ -110,35 +114,53 @@ function DashboardPage() {
 
         <Card className="p-5 sm:p-6">
           <div className="flex items-center gap-2">
-            <Clock3 size={19} aria-hidden="true" className="text-primary" />
-            <h2 className="text-lg font-bold text-main">Tenggat Mendatang</h2>
+            <Focus size={19} aria-hidden="true" className="text-primary" />
+            <h2 className="text-lg font-bold text-main">Ringkasan Aktivitas Tugas</h2>
           </div>
-          <ul className="mt-3 divide-y divide-border">
-            {upcomingDeadlines.map((deadline) => (
-              <li key={deadline.id} className="py-4 first:pt-3 last:pb-0">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <Link
-                      to={`/mata-kuliah/${deadline.courseId}`}
-                      className="font-semibold leading-5 text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          <ul className="mt-2 divide-y divide-border">
+            {taskStats.map(({ course, completed, total, pending, completedPercent }) => (
+              <li key={course.id} className="py-3 first:pt-3 last:pb-0">
+                <Link
+                  to={`/mata-kuliah/${course.id}`}
+                  className="font-semibold text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  {course.name}
+                </Link>
+                {total > 0 ? (
+                  <>
+                    <div
+                      role="img"
+                      aria-label={`${course.name}: ${completed} dari ${total} tugas selesai, ${pending} belum selesai`}
+                      className="mt-2 flex h-2 overflow-hidden rounded-full bg-border"
                     >
-                      {deadline.title}
-                    </Link>
-                    <p className="mt-1 text-xs leading-5 text-secondary">{deadline.courseName}</p>
-                    <p className="mt-1 text-xs font-medium text-secondary">
-                      {formatDate(deadline.dueAt, { includeTime: true })}
-                    </p>
-                  </div>
-                  <Badge variant={deadlineVariants[deadline.status] ?? 'neutral'} className="shrink-0">
-                    {deadline.status}
-                  </Badge>
-                </div>
+                      <span className="shrink-0 bg-success transition-[width]" style={{ width: `${completedPercent}%` }} />
+                      <span className="shrink-0 bg-border" style={{ width: `${100 - completedPercent}%` }} />
+                    </div>
+                    <div className="mt-1 flex justify-between gap-3 text-xs text-secondary">
+                      <span>Selesai {completed} ({completedPercent}%)</span>
+                      <span>Belum selesai {pending}</span>
+                    </div>
+                  </>
+                ) : (
+                  <p className="mt-1 text-xs text-secondary">Belum ada tugas pada data pertemuan.</p>
+                )}
               </li>
             ))}
-            {upcomingDeadlines.length === 0 ? (
-              <li className="py-5 text-sm text-secondary">Tidak ada tenggat mendatang.</li>
-            ) : null}
           </ul>
+          {lowestProgressCourse ? (
+            <div className="mt-5 rounded-lg bg-primary-soft p-4">
+              <p className="text-xs font-semibold text-primary-dark">Mata kuliah dengan progres terendah</p>
+              <Link
+                to={`/mata-kuliah/${lowestProgressCourse.id}`}
+                className="mt-1 inline-block font-semibold text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {lowestProgressCourse.name}
+              </Link>
+              <p className="mt-1 text-sm text-secondary">
+                Progres {lowestProgressCourse.progress}%. Jadikan mata kuliah ini fokus belajar berikutnya.
+              </p>
+            </div>
+          ) : null}
         </Card>
       </div>
 

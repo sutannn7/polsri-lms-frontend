@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   BookOpen,
   ChevronDown,
   Home,
@@ -23,13 +22,10 @@ const navigationItems = [
 function Navbar({
   userName = '',
   userInitials = '',
-  onSearchChange,
-  searchValue,
-  onNotificationClick,
-  onProfileClick,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const { logout } = useAuth();
   const navigate = useNavigate();
   const initials = userInitials || userName
@@ -39,14 +35,6 @@ function Navbar({
     .map((part) => part[0])
     .join('')
     .toUpperCase();
-  const searchProps = {
-    'aria-label': 'Cari materi atau mata kuliah',
-    placeholder: 'Cari materi atau mata kuliah',
-    type: 'search',
-    onChange: onSearchChange,
-  };
-  if (searchValue !== undefined) searchProps.value = searchValue;
-
   function handleLogout() {
     logout();
     setIsProfileMenuOpen(false);
@@ -67,15 +55,37 @@ function Navbar({
     );
   }
 
+  function handleSearch(event) {
+    event.preventDefault();
+    const query = search.trim();
+    navigate(query ? `/mata-kuliah?q=${encodeURIComponent(query)}` : '/mata-kuliah');
+    setIsMenuOpen(false);
+  }
+
   function renderSearch() {
     return (
-      <label className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-white px-3 text-secondary transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 lg:w-64">
+      <form
+        role="search"
+        onSubmit={handleSearch}
+        className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-white px-3 text-secondary transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 lg:w-64"
+      >
         <Search size={18} aria-hidden="true" className="shrink-0" />
         <input
-          {...searchProps}
+          aria-label="Cari mata kuliah"
+          placeholder="Cari materi atau mata kuliah"
+          type="search"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
           className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus:ring-0"
         />
-      </label>
+        <button
+          type="submit"
+          aria-label="Cari mata kuliah"
+          className="sr-only"
+        >
+          Cari
+        </button>
+      </form>
     );
   }
 
@@ -88,7 +98,7 @@ function Navbar({
           className="flex shrink-0 items-center gap-2.5 rounded-md text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <PolsriLogo size={40} className="shrink-0" />
-          <span className="text-xl font-bold tracking-tight">LearnEase</span>
+          <span className="text-xl font-bold">LearnEase</span>
         </Link>
 
         <nav aria-label="Navigasi utama" className="hidden h-[72px] items-stretch gap-1 lg:flex">
@@ -111,25 +121,13 @@ function Navbar({
 
         <div className="hidden min-w-0 flex-1 items-center justify-end gap-6 lg:flex">
           {renderSearch()}
-          <button
-            type="button"
-            aria-label="Notifikasi"
-            onClick={onNotificationClick}
-            className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-main transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          >
-            <Bell size={20} aria-hidden="true" />
-            <span aria-label="Ada notifikasi baru" className="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger ring-2 ring-white" />
-          </button>
           <div className="relative">
             <button
               type="button"
               aria-label={userName ? `Menu profil ${userName}` : 'Menu profil'}
               aria-expanded={isProfileMenuOpen}
               aria-haspopup="menu"
-              onClick={() => {
-                setIsProfileMenuOpen((open) => !open);
-                onProfileClick?.();
-              }}
+              onClick={() => setIsProfileMenuOpen((open) => !open)}
               className="inline-flex max-w-52 shrink-0 items-center gap-2 rounded-lg py-1.5 pl-1.5 pr-2 text-left transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
@@ -174,17 +172,14 @@ function Navbar({
             ))}
           </nav>
           {renderSearch()}
-          <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+          <div className="mt-3 flex items-center border-t border-border pt-3">
             <div className="relative min-w-0">
               <button
                 type="button"
                 aria-label={userName ? `Menu profil ${userName}` : 'Menu profil'}
                 aria-expanded={isProfileMenuOpen}
                 aria-haspopup="menu"
-                onClick={() => {
-                  setIsProfileMenuOpen((open) => !open);
-                  onProfileClick?.();
-                }}
+                onClick={() => setIsProfileMenuOpen((open) => !open)}
                 className="inline-flex min-w-0 items-center gap-2 rounded-lg py-1 pr-2 text-left transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
@@ -199,15 +194,6 @@ function Navbar({
                 </div>
               ) : null}
             </div>
-            <button
-              type="button"
-              aria-label="Notifikasi"
-              onClick={onNotificationClick}
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-main hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            >
-              <Bell size={20} aria-hidden="true" />
-              <span aria-label="Ada notifikasi baru" className="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger ring-2 ring-white" />
-            </button>
           </div>
         </div>
       ) : null}

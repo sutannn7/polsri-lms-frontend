@@ -21,9 +21,19 @@ const courseIcons = {
   MI2306: BarChart3,
 };
 
-function CourseCard({ course, view = 'grid' }) {
+function CourseCard({
+  course,
+  view = 'grid',
+  contextSemester,
+  contextProgram,
+}) {
   const isCompleted = Number(course.progress) >= 100;
   const CourseIcon = courseIcons[course.id] ?? Code2;
+  const showSemester = contextSemester != null
+    && String(course.semester) !== String(contextSemester);
+  const showProgram = contextProgram
+    && course.program
+    && course.program !== contextProgram;
 
   return (
     <Card
@@ -37,7 +47,9 @@ function CourseCard({ course, view = 'grid' }) {
       >
         <div>
           <p className="text-sm font-semibold text-primary-dark">{course.id}</p>
-          <p className="mt-2 text-xs text-secondary">Semester {course.semester} • {course.credits} SKS</p>
+          <p className="mt-2 text-xs text-secondary">
+            {showSemester ? `Semester ${course.semester} • ` : ''}{course.credits} SKS
+          </p>
         </div>
         <div
           aria-hidden="true"
@@ -49,7 +61,9 @@ function CourseCard({ course, view = 'grid' }) {
       </Link>
 
       <div className="flex min-w-0 flex-1 flex-col p-5">
-        <Badge variant="info" className="mb-2 self-start">Manajemen Informatika</Badge>
+        {showProgram ? (
+          <Badge variant="info" className="mb-2 self-start">{course.program}</Badge>
+        ) : null}
         <Link to={`/mata-kuliah/${course.id}`} className="rounded-sm text-lg font-bold leading-snug text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
           {course.name}
         </Link>

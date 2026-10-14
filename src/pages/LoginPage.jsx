@@ -52,8 +52,7 @@ function LoginPage() {
           Masuk ke LearnEase LMS
         </h1>
         <p className="mt-3 max-w-sm text-sm leading-6 text-secondary">
-          Selamat datang kembali. Gunakan akun akademik Anda untuk melanjutkan
-          pembelajaran.
+          Masuk dengan NIP, NPM, atau NIK dan kata sandi akun akademik Anda.
         </p>
       </header>
 
@@ -85,13 +84,14 @@ function LoginPage() {
         />
 
         <div className="flex justify-end">
-          <a
-            href="#lupa-kata-sandi"
-            onClick={(event) => event.preventDefault()}
-            className="rounded-sm text-sm font-semibold text-primary hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          <button
+            type="button"
+            aria-disabled="true"
+            title="Pemulihan kata sandi belum tersedia"
+            className="cursor-not-allowed rounded-sm text-sm font-semibold text-secondary/70"
           >
             Lupa kata sandi?
-          </a>
+          </button>
         </div>
 
         {formError ? (
