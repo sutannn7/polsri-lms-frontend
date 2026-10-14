@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { LayoutGrid, List } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import Badge from '../components/ui/Badge';
 import CourseCard from '../components/course/CourseCard';
 import CourseFilterBar from '../components/course/CourseFilterBar';
@@ -12,13 +13,21 @@ import { getCourseStats } from '../utils/courseStatus';
 function MyCoursesPage() {
   const { user } = useAuth();
   const { courses } = useCourses();
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('q') ?? '';
+  const [search, setSearch] = useState(query);
   const [semester, setSemester] = useState('all');
   const [status, setStatus] = useState('all');
   const [sort, setSort] = useState('name-asc');
   const [view, setView] = useState('grid');
   const summary = getCourseStats(courses);
   const semesters = [...new Set(courses.map((course) => course.semester))].sort((a, b) => a - b);
+
+  useEffect(() => {
+    setSearch(query);
+    setSemester('all');
+    setStatus('all');
+  }, [query]);
 
   const semesterCourses = useMemo(
     () => courses.filter((course) => semester === 'all' || String(course.semester) === semester),
@@ -77,7 +86,6 @@ function MyCoursesPage() {
         semesters={semesters}
         onSemesterChange={setSemester}
         statusValue={status}
-        onStatusChange={setStatus}
         sortValue={sort}
         onSortChange={setSort}
       />
@@ -111,7 +119,15 @@ function MyCoursesPage() {
 
       {filteredCourses.length > 0 ? (
         <div className={view === 'grid' ? 'grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3' : 'flex flex-col gap-4'}>
-          {filteredCourses.map((course) => <CourseCard key={course.id} course={course} view={view} />)}
+          {filteredCourses.map((course) => (
+            <CourseCard
+              key={course.id}
+              course={course}
+              view={view}
+              contextSemester={user?.semester ?? courses[0]?.semester}
+              contextProgram={user?.program ?? courses[0]?.program}
+            />
+          ))}
         </div>
       ) : (
         <div className="rounded-card border border-dashed border-border bg-white px-5 py-12 text-center">

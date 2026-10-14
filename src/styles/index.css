@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -235,24 +233,24 @@
 }
 
 .splash-logo {
-  animation: splash-logo-enter 650ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  animation: splash-logo-enter 450ms cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 .splash-title {
-  animation: splash-text-enter 560ms cubic-bezier(0.32, 0.72, 0, 1) 250ms both;
+  animation: splash-text-enter 350ms cubic-bezier(0.32, 0.72, 0, 1) 120ms both;
 }
 
 .splash-subtitle {
-  animation: splash-text-enter 520ms cubic-bezier(0.32, 0.72, 0, 1) 400ms both;
+  animation: splash-text-enter 320ms cubic-bezier(0.32, 0.72, 0, 1) 250ms both;
 }
 
 .splash-loading,
 .splash-progress {
-  animation: splash-loading-enter 420ms cubic-bezier(0.32, 0.72, 0, 1) 700ms both;
+  animation: splash-loading-enter 250ms cubic-bezier(0.32, 0.72, 0, 1) 400ms both;
 }
 
 .splash-progress-fill {
-  animation: splash-progress 1050ms cubic-bezier(0.32, 0.72, 0, 1) 850ms both;
+  animation: splash-progress 420ms cubic-bezier(0.32, 0.72, 0, 1) 350ms both;
 }
 
 .splash-screen-exit {
@@ -265,9 +263,7 @@
   }
 
   .splash-float-1,
-  .splash-float-2,
-  .splash-float-3,
-  .splash-float-4 {
+  .splash-float-2 {
     --splash-x-1: 4px;
     --splash-y-1: -5px;
     --splash-r-1: -2deg;
@@ -609,6 +605,8 @@
     background-color: #F8F9FA;
     color: #1F2937;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: normal;
+    word-spacing: normal;
     font-size: 14px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;

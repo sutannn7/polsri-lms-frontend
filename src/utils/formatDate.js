@@ -24,5 +24,54 @@ export function formatDate(value, { includeTime = false, suffix = 'WIB' } = {}) 
 }
 
 export function isUpcomingDeadline(deadline, now = new Date()) {
-  return deadline.status !== 'Selesai' && new Date(deadline.dueAt).getTime() >= now.getTime();
+  const dueTime = new Date(deadline.dueAt).getTime();
+  return deadline.status !== 'Selesai'
+    && !deadline.completed
+    && deadline.statusLabel !== 'Terkirim'
+    && Number.isFinite(dueTime)
+    && dueTime >= now.getTime();
+}
+
+function jakartaDateNumber(value) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'Asia/Jakarta',
+  }).formatToParts(value);
+  const dateParts = Object.fromEntries(parts.map(({ type, value: partValue }) => [type, partValue]));
+  return Date.UTC(Number(dateParts.year), Number(dateParts.month) - 1, Number(dateParts.day));
+}
+
+export function getDeadlineInfo(deadline, now = new Date()) {
+  const dueAt = deadline instanceof Date ? deadline : new Date(
+    typeof deadline === 'string' ? deadline : deadline?.dueAt,
+  );
+
+  if (Number.isNaN(dueAt.getTime())) {
+    return { label: 'Tanggal tidak tersedia', status: 'Akan Datang', daysRemaining: null };
+  }
+
+  if (deadline?.status === 'Selesai' || deadline?.completed || deadline?.statusLabel === 'Terkirim') {
+    return { label: 'Selesai', status: 'Selesai', daysRemaining: null };
+  }
+
+  if (dueAt.getTime() < now.getTime()) {
+    return { label: 'Terlambat', status: 'Terlambat', daysRemaining: -1 };
+  }
+
+  const daysRemaining = Math.round(
+    (jakartaDateNumber(dueAt) - jakartaDateNumber(now)) / 86_400_000,
+  );
+  const label = daysRemaining === 0
+    ? 'Hari ini'
+    : daysRemaining === 1
+      ? 'Besok'
+      : `${daysRemaining} hari lagi`;
+
+  return {
+    label,
+    status: daysRemaining <= 2 ? 'Mendesak' : 'Akan Datang',
+    daysRemaining,
+  };
 }

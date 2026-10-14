@@ -155,7 +155,7 @@ Fungsi folder utama:
 | `/` | Splash | Halaman pembuka dengan animasi pemuatan, lalu mengarahkan pengguna sesuai status login. | Tidak |
 | `/login` | Login | Form login prototipe. | Tidak |
 | `/beranda` | Beranda | Ringkasan pembelajaran, pengumuman, kalender, tenggat, dan mata kuliah untuk dilanjutkan. | Ya |
-| `/dasbor` | Dasbor | Statistik progres belajar dan tenggat. | Ya |
+| `/dasbor` | Dasbor | Statistik progres belajar, aktivitas tugas, dan rekomendasi fokus belajar. | Ya |
 | `/mata-kuliah` | Mata Kuliah Saya | Ringkasan, pencarian, filter, pengurutan, dan daftar mata kuliah. | Ya |
 | `/mata-kuliah/:id` | Detail Mata Kuliah | Informasi mata kuliah, pertemuan, aktivitas, dan sidebar pembelajaran. | Ya |
 | `*` | Halaman tidak ditemukan | Pesan 404 dan tautan kembali ke Beranda. | Tidak |
@@ -182,7 +182,7 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 |---|---|
 | `user.json` | Profil contoh pengguna: nama, inisial, program studi, semester, dan kelas. |
 | `courses.json` | Enam mata kuliah MI2301–MI2306, termasuk nama dosen, SKS, progres, materi berikutnya, program studi, semester, kelas, dan warna cover. |
-| `meetings.json` | Jadwal mingguan untuk MI2301 dan MI2302, serta delapan pertemuan beserta aktivitas untuk MI2301. Detail pertemuan mata kuliah lain belum tersedia. |
+| `meetings.json` | Jadwal mingguan serta rincian pertemuan dan aktivitas untuk seluruh mata kuliah MI2301–MI2306. |
 | `announcements.json` | Tiga pengumuman kampus: akademik, beasiswa, dan kegiatan, masing-masing dengan tanggal dan deskripsi. |
 | `deadlines.json` | Empat tenggat dengan mata kuliah, tanggal/waktu, dan status; termasuk satu tenggat berstatus selesai. |
 
@@ -193,7 +193,7 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 ### Splash
 
 - Menampilkan logo, judul, subjudul, progress pemuatan, glow, mesh latar, dan ikon dekoratif beranimasi.
-- Setelah sekitar 2,3 detik mengarahkan pengguna ke Beranda jika sesi aktif, atau ke Login jika belum login.
+- Setelah sekitar 1,2 detik mengarahkan pengguna ke Beranda jika sesi aktif, atau ke Login jika belum login.
 
 ### Login
 
@@ -214,7 +214,8 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 
 - Menampilkan ringkasan jumlah mata kuliah, total SKS, rata-rata progres, program studi, semester, dan kelas dari data pengguna/mata kuliah.
 - Menyediakan pencarian berdasarkan kode, nama mata kuliah, atau nama dosen.
-- Menyediakan filter semester dan status, tab Semua/Sedang dipelajari/Selesai dengan jumlah dinamis, serta pengurutan nama A–Z/Z–A.
+- Menyediakan tab Semua/Sedang dipelajari/Selesai dengan jumlah dinamis dan pengurutan nama A–Z/Z–A. Filter semester hanya tampil bila ada lebih dari satu semester.
+- Pencarian dari Navbar membuka daftar mata kuliah dengan kata kunci pada parameter `q`.
 - Dapat mengubah tampilan daftar antara grid dan list.
 - Kartu mata kuliah menampilkan dosen, progres, materi berikutnya atau status selesai, dan tautan ke halaman detail.
 
@@ -223,14 +224,14 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 - Mengambil data mata kuliah berdasarkan `:id` dari `courses.json`.
 - Menampilkan breadcrumb, informasi mata kuliah, progres, dan hitungan aktivitas jika rincian pertemuan tersedia.
 - Menyediakan tab Materi pembelajaran, Tugas, dan Forum diskusi.
-- Untuk MI2301, menampilkan delapan pertemuan dalam accordion, status aktivitas, materi/tugas/kuis, serta kartu informasi dosen dan tenggat.
-- Mata kuliah tanpa data pertemuan menampilkan informasi bahwa rincian materi/tugas belum tersedia, bukan hitungan aktivitas `0 dari 0`.
+- Menampilkan rincian pertemuan, materi, tugas, dan kuis untuk keenam mata kuliah dalam accordion, beserta kartu informasi dosen dan tenggat.
+- Jumlah aktivitas yang selesai pada data pertemuan diselaraskan dengan progres pada `courses.json`; empty state tetap tersedia bila data pertemuan tidak ada.
 
 ### Dasbor
 
-- Menghitung rata-rata progres, total SKS, jumlah mata kuliah selesai, dan tugas tertunda dari data yang tersedia.
+- Menghitung rata-rata progres, total SKS, jumlah mata kuliah selesai, dan tugas belum selesai dari data yang tersedia.
 - Menampilkan seluruh mata kuliah menurut progres tertinggi ke terendah; setiap entri dapat membuka detail mata kuliah.
-- Menampilkan tenggat yang belum lewat, diurutkan berdasarkan tanggal terdekat.
+- Menampilkan persentase tugas selesai dan belum selesai per mata kuliah, serta merekomendasikan mata kuliah aktif dengan progres terendah.
 - Menampilkan progres pertemuan yang selesai dari total pertemuan MI2301 dan tautan menuju detailnya.
 
 ## 8. Keterbatasan Saat Ini
@@ -238,13 +239,12 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 - Belum ada backend, database, atau permintaan data API; `src/services/api.js` masih berupa file kosong.
 - Login hanya simulasi sisi klien. ID yang tidak kosong dan kata sandi minimal enam karakter diterima, tanpa pencocokan akun atau verifikasi server.
 - Data progres dan status aktivitas tidak diperbarui melalui server atau penyimpanan permanen sebagai catatan belajar pengguna.
-- Rincian pertemuan hanya tersedia untuk MI2301. Mata kuliah lain memakai informasi progres dari `courses.json`, tanpa rincian aktivitas pertemuan.
+- Data pertemuan, materi, dan tugas merupakan data contoh statis; status aktivitas tidak tersimpan sebagai catatan belajar pengguna.
 - Tombol Unduh, Kirim Tugas, dan Mulai Kuis merupakan elemen antarmuka; belum terhubung ke file materi, pengumpulan tugas, atau sistem kuis.
-- Link “Lupa kata sandi?” saat ini hanya berupa tautan placeholder dan tidak menjalankan pemulihan akun.
-- Tombol notifikasi Navbar dan pencarian belum terhubung ke fitur notifikasi/pencarian konten. Callback tersedia sebagai props, tetapi tidak diberikan oleh `MainLayout` saat ini.
-- Tautan “Panduan penggunaan” dan “Pusat bantuan” pada Footer masih mengarah ke anchor placeholder.
-- Kartu tenggat di sidebar detail menampilkan teks “2 hari lagi” secara tetap, sehingga belum dihitung dinamis terhadap waktu.
-- Rute halaman 404 bersifat publik, sementara tombol kembali ke Beranda menuju rute yang dilindungi dan dapat mengarahkan pengguna yang belum login kembali ke Login.
+- Fitur pemulihan kata sandi, panduan penggunaan, dan pusat bantuan belum tersedia; kontrolnya ditandai nonaktif.
+- Pencarian Navbar hanya mencari mata kuliah melalui kode, nama, dan dosen; pencarian materi dan notifikasi belum tersedia.
+- Tenggat ditampilkan menggunakan data lokal dan label relatif tanggal dihitung dari tanggal/waktu perangkat.
+- Rute halaman 404 bersifat publik; tombol kembali mengarah ke Beranda saat login dan ke Login bila belum login.
 
 ## 9. Menjalankan Proyek Secara Lokal
 
