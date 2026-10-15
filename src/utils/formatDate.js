@@ -23,6 +23,33 @@ export function formatDate(value, { includeTime = false, suffix = 'WIB' } = {}) 
   return `${formattedDate} • ${formattedTime} ${suffix}`;
 }
 
+export function relativeDay(value, now = new Date()) {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+
+  const getJakartaDay = (target) => {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'Asia/Jakarta',
+    }).formatToParts(target);
+    const dateParts = Object.fromEntries(parts.map(({ type, value: partValue }) => [type, partValue]));
+    return Date.UTC(Number(dateParts.year), Number(dateParts.month) - 1, Number(dateParts.day));
+  };
+  const daysRemaining = Math.round((getJakartaDay(date) - getJakartaDay(now)) / 86_400_000);
+
+  if (daysRemaining === 0) return 'Hari ini';
+  if (daysRemaining === 1) return 'Besok';
+  if (daysRemaining < 0) return 'Terlambat';
+
+  return new Intl.DateTimeFormat('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'Asia/Jakarta',
+  }).format(date).replace(/\./g, '');
+}
+
 export function isUpcomingDeadline(deadline, now = new Date()) {
   const dueTime = new Date(deadline.dueAt).getTime();
   return deadline.status !== 'Selesai'

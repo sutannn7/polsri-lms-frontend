@@ -4,16 +4,16 @@ import MainLayout from '../components/layout/MainLayout';
 import CourseDetailPage from '../pages/CourseDetailPage';
 import DashboardPage from '../pages/DashboardPage';
 import HomePage from '../pages/HomePage';
+import LandingPage from '../pages/LandingPage';
 import LoginPage from '../pages/LoginPage';
 import MyCoursesPage from '../pages/MyCoursesPage';
 import NotFoundPage from '../pages/NotFoundPage';
-import SplashPage from '../pages/SplashPage';
 import ProtectedRoute from './ProtectedRoute';
 
 function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<SplashPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
       </Route>

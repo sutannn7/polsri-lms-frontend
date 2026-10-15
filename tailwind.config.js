@@ -35,6 +35,10 @@ export default {
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'sans-serif'],
+      },
+      transitionTimingFunction: {
+        fluid: 'cubic-bezier(0.32, 0.72, 0, 1)',
       },
       borderRadius: {
         card: '12px',
