@@ -31,7 +31,7 @@ Versi di bawah mengikuti rentang versi yang tercantum di `package.json`. Tanda `
 | Teknologi | Versi di `package.json` | Fungsi |
 |---|---:|---|
 | Tailwind CSS | `^3.4.17` | Menyusun tampilan dengan kelas utility CSS. |
-| Plus Jakarta Sans | Tidak tercantum sebagai paket | Font antarmuka yang dimuat dari Google Fonts melalui stylesheet proyek. |
+| Plus Jakarta Sans | Tidak tercantum sebagai paket | Satu keluarga font untuk antarmuka dan landing page; dimuat dari Google Fonts dengan `display=swap`. |
 
 ### Routing
 
@@ -86,6 +86,18 @@ src/
 │   │   ├── Footer.jsx
 │   │   ├── MainLayout.jsx
 │   │   └── Navbar.jsx
+│   ├── landing/
+│   │   ├── CampusNews.jsx
+│   │   ├── FeatureBento.jsx
+│   │   ├── FinalCta.jsx
+│   │   ├── Hero.jsx
+│   │   ├── LandingFooter.jsx
+│   │   ├── LandingNav.jsx
+│   │   ├── PhonePreview.jsx
+│   │   ├── Questions.jsx
+│   │   ├── Steps.jsx
+│   │   ├── WeekCalendar.jsx
+│   │   └── WeekSchedule.jsx
 │   └── ui/
 │       ├── Accordion.jsx
 │       ├── Badge.jsx
@@ -107,7 +119,9 @@ src/
 ├── hooks/
 │   ├── useAuth.js
 │   ├── useCourses.js
-│   └── useHomeData.js
+│   ├── useHomeData.js
+│   ├── useCountUp.js
+│   └── useReveal.js
 ├── pages/
 │   ├── CourseDetailPage.jsx
 │   ├── DashboardPage.jsx
@@ -125,7 +139,9 @@ src/
 │   ├── courseService.js
 │   └── homeService.js
 ├── styles/
-│   └── index.css
+│   ├── index.css
+│   ├── landing.css
+│   └── landing-redesign.css
 └── utils/
     ├── courseStatus.js
     └── formatDate.js
@@ -137,6 +153,7 @@ Fungsi folder utama:
 |---|---|
 | `components/ui/` | Komponen antarmuka umum seperti tombol, input, kartu, badge, tab, dan progress bar. |
 | `components/layout/` | Kerangka dan navigasi halaman, termasuk layout autentikasi dan layout utama. |
+| `components/landing/` | Bagian landing publik, navigasi, ringkasan fitur, agenda pekan, pratinjau seluler, FAQ, langkah penggunaan, dan ajakan masuk. |
 | `components/home/` | Komponen khusus Beranda, seperti kartu pengumuman, kalender, dan daftar tenggat. |
 | `components/course/` | Komponen daftar mata kuliah dan detail aktivitas/pertemuan pembelajaran. |
 | `pages/` | Komponen halaman yang dipasang pada rute aplikasi. |
@@ -146,13 +163,13 @@ Fungsi folder utama:
 | `services/` | Fungsi akses data dan simulasi autentikasi. `api.js` saat ini kosong. |
 | `hooks/` | Hook React untuk mengambil state autentikasi dan data layanan. |
 | `utils/` | Fungsi bantu untuk status/progres mata kuliah dan format tanggal. |
-| `styles/` | CSS global, impor Tailwind, font, style dasar, dan animasi. |
+| `styles/` | CSS global, impor Tailwind, font, style dasar, animasi, dan stylesheet khusus landing page. |
 
 ## 4. Halaman dan Routing
 
 | Path | Halaman | Deskripsi | Perlindungan |
 |---|---|---|---|
-| `/` | Splash | Halaman pembuka dengan animasi pemuatan, lalu mengarahkan pengguna sesuai status login. | Tidak |
+| `/` | Landing page | Halaman publik dengan ringkasan tenggat, progres, kalender, pengumuman, dan tautan masuk. Pengguna yang sudah login diarahkan ke Beranda. | Tidak |
 | `/login` | Login | Form login prototipe. | Tidak |
 | `/beranda` | Beranda | Ringkasan pembelajaran, pengumuman, kalender, tenggat, dan mata kuliah untuk dilanjutkan. | Ya |
 | `/dasbor` | Dasbor | Statistik progres belajar, aktivitas tugas, dan rekomendasi fokus belajar. | Ya |
@@ -161,6 +178,7 @@ Fungsi folder utama:
 | `*` | Halaman tidak ditemukan | Pesan 404 dan tautan kembali ke Beranda. | Tidak |
 
 Route yang dilindungi menggunakan `ProtectedRoute`; pengguna yang belum login diarahkan ke `/login`. Halaman-halaman utama yang dilindungi dirender di dalam `MainLayout`, sedangkan halaman login memakai `AuthLayout`.
+Route `/` menampilkan landing page publik, dan mengarahkan pengguna yang sudah memiliki sesi aktif ke `/beranda`.
 
 ## 5. Alur Autentikasi
 
@@ -190,10 +208,20 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 
 ## 7. Fitur yang Sudah Berfungsi
 
+### Landing page
+
+- Route `/` menampilkan halaman publik LearnEase sebelum pengguna masuk; sesi yang sudah aktif diarahkan ke Beranda.
+- Menyediakan navigasi ke bagian fitur/cara masuk dan tombol menuju Login, termasuk menu seluler yang mendukung Escape dan fokus keyboard.
+- Menampilkan tiga tenggat terdekat dari data lokal, dengan hitung mundur langsung ke pukul 23.59 WIB dan tab yang bisa dipilih dengan klik atau tombol panah keyboard.
+- Menghitung status tenggat dari tanggal saat ini, rata-rata progres dan total SKS dari `courses.json`, serta menandai tanggal tugas di kalender bulan berjalan.
+- Menyajikan agenda kelas/tenggat pekan berjalan, tiga pengumuman, ringkasan mata kuliah untuk layar kecil, panduan masuk, dan FAQ.
+- Mendukung tema terang/gelap yang mengikuti preferensi perangkat dan dapat diubah manual; pilihan manual disimpan di `localStorage`.
+- Animasi kemunculan, count-up, transisi tab, dan gerak saat gulir menghormati preferensi `prefers-reduced-motion`.
+- Gambar pada landing page berupa fragmen antarmuka LearnEase berbasis HTML; tidak ada foto kampus atau video yang digunakan.
+
 ### Splash
 
-- Menampilkan logo, judul, subjudul, progress pemuatan, glow, mesh latar, dan ikon dekoratif beranimasi.
-- Setelah sekitar 1,2 detik mengarahkan pengguna ke Beranda jika sesi aktif, atau ke Login jika belum login.
+- Halaman Splash masih ada sebagai komponen terpisah, tetapi tidak lagi dipasang pada route `/` setelah landing page publik ditambahkan.
 
 ### Login
 
@@ -243,6 +271,8 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 - Tombol Unduh, Kirim Tugas, dan Mulai Kuis merupakan elemen antarmuka; belum terhubung ke file materi, pengumpulan tugas, atau sistem kuis.
 - Fitur pemulihan kata sandi, panduan penggunaan, dan pusat bantuan belum tersedia; kontrolnya ditandai nonaktif.
 - Pencarian Navbar hanya mencari mata kuliah melalui kode, nama, dan dosen; pencarian materi dan notifikasi belum tersedia.
+- Landing page menampilkan antarmuka dan data prototipe yang sama; tombol masuk mengarah ke form Login yang belum terhubung dengan autentikasi server.
+- Landing page belum memakai foto kampus atau video; pencarian aset berlisensi tidak menemukan foto POLSRI yang sesuai, dan foto landmark Palembang tidak digunakan agar tidak terkesan sebagai foto kampus.
 - Tenggat ditampilkan menggunakan data lokal dan label relatif tanggal dihitung dari tanggal/waktu perangkat.
 - Rute halaman 404 bersifat publik; tombol kembali mengarah ke Beranda saat login dan ke Login bila belum login.
 
