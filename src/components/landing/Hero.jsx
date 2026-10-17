@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowDownRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { formatDate, getDeadlineInfo } from '../../utils/formatDate';
+import { getDeadlineInfo } from '../../utils/formatDate';
 
 function getRemainingParts(dueAt, now) {
   const dueTime = new Date(dueAt).getTime();
@@ -14,7 +14,7 @@ function getRemainingParts(dueAt, now) {
   const seconds = remainingSeconds % 60;
 
   return {
-    days,
+    days: String(days).padStart(2, '0'),
     hours: String(hours).padStart(2, '0'),
     minutes: String(minutes).padStart(2, '0'),
     seconds: String(seconds).padStart(2, '0'),
@@ -104,20 +104,24 @@ function CountdownCard({ deadlines, courses }) {
             tabIndex={0}
           >
             <div className="redesign-countdown-text" key={activeDeadline.id}>
-              <h2>{activeDeadline.title}</h2>
-              <p className="redesign-next-material">
-                Materi berikutnya: {courseMap.get(activeDeadline.courseId)?.next ?? 'Materi belum tersedia'}
-              </p>
+              <h2>Tenggat terdekat: {activeDeadline.title}</h2>
+              {courseMap.get(activeDeadline.courseId)?.next ? (
+                <p className="redesign-next-material">
+                  Materi berikutnya: {courseMap.get(activeDeadline.courseId).next}
+                </p>
+              ) : null}
               <div
                 className="redesign-timer"
                 role="timer"
                 aria-label={countdown
-                  ? `${countdown.days ? `${countdown.days} hari, ` : ''}${countdown.hours} jam, ${countdown.minutes} menit, ${countdown.seconds} detik menuju pukul 23.59 WIB`
+                  ? `${countdown.days} hari, ${countdown.hours} jam, ${countdown.minutes} menit, ${countdown.seconds} detik menuju pukul 23.59 WIB`
                   : 'Tenggat sudah lewat'}
               >
                 {countdown ? (
                   <>
-                    {countdown.days > 0 ? <span className="redesign-timer-days">{countdown.days} hari</span> : null}
+                    <span className="redesign-time-group" key={`day-${countdown.days}`}>
+                      <strong className="redesign-digit">{countdown.days}</strong><small>hari</small>
+                    </span>
                     <span className="redesign-time-group" key={`hour-${countdown.hours}`}>
                       <strong className="redesign-digit">{countdown.hours}</strong><small>jam</small>
                     </span>
@@ -132,7 +136,7 @@ function CountdownCard({ deadlines, courses }) {
               </div>
               <div className="redesign-countdown-note">
                 <span className={`redesign-status-dot ${deadlineInfo?.status === 'Mendesak' ? 'is-urgent' : ''}`} />
-                <span>{deadlineInfo?.label ?? formatDate(activeDeadline.dueAt)} · batas 23.59 WIB</span>
+                <span>Batas pengumpulan pukul 23.59 WIB</span>
               </div>
             </div>
           </div>
@@ -140,7 +144,7 @@ function CountdownCard({ deadlines, courses }) {
       ) : (
         <div className="redesign-countdown-empty">
           <h2>Tidak ada tenggat mendatang.</h2>
-          <p>Daftar tugas belum memuat tenggat aktif.</p>
+          <p>Tidak ada tenggat untuk ditampilkan.</p>
         </div>
       )}
     </div>
@@ -170,7 +174,6 @@ function Hero({ deadlines, courses }) {
                 Lihat cara kerjanya
               </a>
             </div>
-            <p className="redesign-prototype-note">Prototipe: data masih contoh.</p>
           </div>
           <div className="redesign-hero-card" data-ui>
             <CountdownCard deadlines={deadlines.slice(0, 3)} courses={courses} />

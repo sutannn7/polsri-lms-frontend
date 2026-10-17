@@ -13,7 +13,7 @@ function LandingFooter() {
       </div>
       <div className="redesign-container redesign-footer-bottom">
         <span>© {new Date().getFullYear()} Politeknik Negeri Sriwijaya</span>
-        <span>Prototipe LearnEase LMS</span>
+        <span>Prototipe: data masih contoh.</span>
       </div>
     </footer>
   );

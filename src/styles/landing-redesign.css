@@ -1,4 +1,5 @@
 .landing-redesign {
+  --navbar-height: 82px;
   --ground: #F3F5F9;
   --surface: #E3E9F4;
   --ink: #0A1B38;
@@ -27,14 +28,6 @@
   word-spacing: normal;
   -webkit-font-smoothing: antialiased;
   isolation: isolate;
-}
-
-.redesign-step-card:nth-child(2) h3 {
-  font-size: clamp(1.8rem, 4.6vw, 4.8rem);
-}
-
-.redesign-step-card:nth-child(3) h3 {
-  font-size: clamp(1.65rem, 4.2vw, 4.2rem);
 }
 
 .landing-redesign[data-theme="dark"] {
@@ -104,8 +97,9 @@ body:has(.landing-redesign[data-theme="dark"]) {
 }
 
 .redesign-nav-wrap {
-  position: relative;
-  z-index: 20;
+  position: sticky;
+  z-index: 60;
+  top: 0;
   background: var(--ground);
   animation: redesign-nav-enter 700ms var(--ease-fluid) both;
 }
@@ -164,8 +158,17 @@ body:has(.landing-redesign[data-theme="dark"]) {
 }
 
 .redesign-desktop-links a:hover::after,
-.redesign-desktop-links a:focus-visible::after {
+.redesign-desktop-links a:focus-visible::after,
+.redesign-desktop-links a[aria-current="location"]::after {
   transform: scaleX(1);
+}
+
+.redesign-desktop-links a[aria-current="location"] {
+  color: var(--field);
+}
+
+.landing-redesign[data-theme="dark"] .redesign-desktop-links a[aria-current="location"] {
+  color: var(--accent);
 }
 
 .redesign-nav-actions {
@@ -227,7 +230,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
 
 .redesign-mobile-overlay {
   position: fixed;
-  z-index: 30;
+  z-index: 70;
   inset: 0;
   display: flex;
   align-items: center;
@@ -273,6 +276,11 @@ body:has(.landing-redesign[data-theme="dark"]) {
 
 .redesign-mobile-overlay a:hover {
   transform: translateX(7px);
+}
+
+.redesign-mobile-overlay a[aria-current="location"] {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .redesign-mobile-overlay a svg {
@@ -462,7 +470,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
   margin: 18px 0 12px;
   font-size: var(--type-lead);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   text-wrap: balance;
 }
@@ -493,7 +501,6 @@ body:has(.landing-redesign[data-theme="dark"]) {
   font-size: var(--type-heading);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
   line-height: 0.95;
 }
 
@@ -551,7 +558,10 @@ body:has(.landing-redesign[data-theme="dark"]) {
 
 .redesign-section {
   padding-block: clamp(112px, 12vw, 184px);
-  scroll-margin-top: 24px;
+}
+
+.landing-redesign section[id] {
+  scroll-margin-top: var(--navbar-height);
 }
 
 .redesign-section-heading {
@@ -565,7 +575,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
   margin: 0;
   font-size: var(--type-heading);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.03;
   text-wrap: balance;
 }
@@ -704,7 +714,6 @@ body:has(.landing-redesign[data-theme="dark"]) {
   font-size: var(--type-display);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.025em;
   line-height: 0.95;
 }
 
@@ -773,7 +782,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
 .redesign-week-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(350px, 0.95fr);
-  align-items: stretch;
+  align-items: start;
   gap: 8px;
 }
 
@@ -855,8 +864,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
   color: var(--on-accent);
 }
 
-.redesign-no-class,
-.redesign-schedule-note {
+.redesign-no-class {
   margin: 0;
   padding: 15px 20px;
   background: var(--surface);
@@ -919,12 +927,20 @@ body:has(.landing-redesign[data-theme="dark"]) {
 
 .redesign-calendar-dot {
   position: absolute;
-  right: 5px;
+  left: 50%;
   bottom: 5px;
   width: 8px;
   height: 8px;
-  background: var(--accent);
+  transform: translateX(-50%);
   animation: redesign-dot-pulse 1.6s var(--ease-fluid) 1 both;
+}
+
+.redesign-calendar-dot.is-upcoming {
+  background: var(--accent);
+}
+
+.redesign-calendar-dot.is-past {
+  background: var(--muted);
 }
 
 .redesign-calendar-day.is-today .redesign-calendar-dot {
@@ -1184,9 +1200,9 @@ body:has(.landing-redesign[data-theme="dark"]) {
 .redesign-steps-list::before {
   position: absolute;
   z-index: 0;
-  top: 44px;
-  left: 8%;
-  width: 84%;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 8px;
   transform: scaleX(0);
   transform-origin: left;
@@ -1202,23 +1218,11 @@ body:has(.landing-redesign[data-theme="dark"]) {
   position: relative;
   z-index: 1;
   min-height: 240px;
-  width: 92%;
-  padding: 86px clamp(22px, 3vw, 40px) 32px;
+  width: 100%;
+  padding: 32px clamp(22px, 3vw, 40px);
   background: var(--surface);
   animation: redesign-rise-in 750ms var(--ease-fluid) both;
   animation-delay: var(--reveal-delay, 0ms);
-}
-
-.redesign-step-card:nth-child(2) {
-  width: 82%;
-  justify-self: center;
-  margin-top: 50px;
-}
-
-.redesign-step-card:nth-child(3) {
-  width: 90%;
-  justify-self: end;
-  margin-top: 100px;
 }
 
 .redesign-step-card h3 {
@@ -1324,16 +1328,24 @@ body:has(.landing-redesign[data-theme="dark"]) {
 }
 
 .redesign-final-section {
+  --final-section-blue: #0056B3;
   padding-block: clamp(104px, 12vw, 172px);
-  background: var(--field);
+  background: var(--final-section-blue);
   color: var(--on-field);
 }
 
 .redesign-final {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-areas:
+    "copy image"
+    "action image";
   align-items: center;
-  justify-content: space-between;
-  gap: 36px;
+  gap: 28px clamp(28px, 4vw, 56px);
+}
+
+.redesign-final-copy {
+  grid-area: copy;
 }
 
 .redesign-final h2 {
@@ -1341,7 +1353,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
   margin: 0;
   font-size: var(--type-heading);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.03;
   text-wrap: balance;
 }
@@ -1354,11 +1366,33 @@ body:has(.landing-redesign[data-theme="dark"]) {
 }
 
 .redesign-final-link {
+  grid-area: action;
   min-width: 210px;
   min-height: 56px;
-  flex: none;
+  justify-self: start;
   padding: 12px 32px;
   font-size: 17px;
+}
+
+.redesign-final-image {
+  position: relative;
+  grid-area: image;
+  width: 100%;
+  max-width: 663px;
+  aspect-ratio: 663 / 461;
+  justify-self: end;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.32); /* taste-skill-ignore */
+  border-radius: 12px;
+}
+
+.redesign-final-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
 }
 
 .redesign-footer {
@@ -1384,7 +1418,7 @@ body:has(.landing-redesign[data-theme="dark"]) {
   margin-bottom: -0.18em;
   font-size: clamp(4rem, 17vw, 16rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   line-height: 0.9;
 }
 
@@ -1407,6 +1441,16 @@ body:has(.landing-redesign[data-theme="dark"]) {
   margin-top: 54px;
   color: var(--muted);
   font-size: var(--type-small);
+}
+
+.landing-redesign h1,
+.landing-redesign h2 {
+  letter-spacing: -0.02em;
+}
+
+.landing-redesign small {
+  letter-spacing: 0;
+  word-spacing: normal;
 }
 
 .redesign-phone-announcement {
@@ -1582,6 +1626,20 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .redesign-final {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "action"
+      "image";
+  }
+
+  .redesign-final-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    justify-self: start;
+  }
+
   .redesign-steps-list {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
@@ -1600,18 +1658,8 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
   }
 
   .redesign-step-card {
-    width: 92%;
-    justify-self: start;
-  }
-
-  .redesign-step-card:nth-child(2) {
-    width: 82%;
-    justify-self: center;
-  }
-
-  .redesign-step-card:nth-child(3) {
-    width: 90%;
-    justify-self: end;
+    width: 100%;
+    justify-self: stretch;
   }
 
   .redesign-step-card h3 {
@@ -1636,6 +1684,10 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
 }
 
 @media (max-width: 760px) {
+  .landing-redesign {
+    --navbar-height: 72px;
+  }
+
   .redesign-container,
   .redesign-nav {
     width: min(100% - 36px, 1440px);
@@ -1671,7 +1723,7 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
   .redesign-hero-title {
     margin-bottom: 44px;
     font-size: var(--type-display);
-    letter-spacing: 0;
+    letter-spacing: -0.02em;
     line-height: 1;
   }
 
@@ -1714,7 +1766,7 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
   .redesign-phone-copy h2,
   .redesign-final h2 {
     font-size: var(--type-heading);
-    letter-spacing: 0;
+    letter-spacing: -0.02em;
   }
 
   .redesign-due-layout,
@@ -1963,7 +2015,6 @@ html.js .landing-redesign [data-reveal][data-visible="true"] {
   }
 
   .redesign-calendar-dot {
-    right: 3px;
     bottom: 3px;
     width: 6px;
     height: 6px;

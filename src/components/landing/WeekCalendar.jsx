@@ -18,13 +18,18 @@ function WeekCalendar({ deadlines }) {
   while (dayCells.length % 7) dayCells.push(null);
   const weeks = Array.from({ length: dayCells.length / 7 }, (_, index) => dayCells.slice(index * 7, (index + 1) * 7));
   const markedDays = new Map();
+  const now = Date.now();
 
   deadlines.forEach((deadline) => {
+    if (deadline.status === 'Selesai' || deadline.completed || deadline.statusLabel === 'Terkirim') return;
     const due = jakartaParts(new Date(deadline.dueAt));
     if (due.year !== today.year || due.month !== today.month) return;
-    const names = markedDays.get(due.day) ?? [];
-    names.push(deadline.title);
-    markedDays.set(due.day, names);
+    const items = markedDays.get(due.day) ?? [];
+    items.push({
+      title: deadline.title,
+      isPast: new Date(deadline.dueAt).getTime() < now,
+    });
+    markedDays.set(due.day, items);
   });
 
   const monthLabel = new Intl.DateTimeFormat('id-ID', {
@@ -45,7 +50,8 @@ function WeekCalendar({ deadlines }) {
             <tr key={`week-${weekIndex}`}>
               {week.map((day, index) => {
                 if (!day) return <td className="redesign-calendar-blank" aria-hidden="true" key={`empty-${weekIndex}-${index}`} />;
-                const taskNames = markedDays.get(day) ?? [];
+                const dayDeadlines = markedDays.get(day) ?? [];
+                const taskNames = dayDeadlines.map(({ title }) => title);
                 const isToday = day === today.day;
                 const month = String(today.month).padStart(2, '0');
                 const dayNumber = String(day).padStart(2, '0');
@@ -72,7 +78,12 @@ function WeekCalendar({ deadlines }) {
                       style={{ '--cell-index': cellIndex }}
                     >
                       {day}
-                      {taskNames.length ? <span className="redesign-calendar-dot" aria-hidden="true" /> : null}
+                      {taskNames.length ? (
+                        <span
+                          className={`redesign-calendar-dot ${dayDeadlines.some(({ isPast }) => !isPast) ? 'is-upcoming' : 'is-past'}`}
+                          aria-hidden="true"
+                        />
+                      ) : null}
                     </time>
                   </td>
                 );
@@ -81,7 +92,7 @@ function WeekCalendar({ deadlines }) {
           ))}
         </tbody>
       </table>
-      <p className="redesign-calendar-note">Titik kuning menandai tenggat tugas.</p>
+      <p className="redesign-calendar-note">Titik kuning menandai tenggat mendatang, titik abu-abu tenggat yang lewat.</p>
     </div>
   );
 }

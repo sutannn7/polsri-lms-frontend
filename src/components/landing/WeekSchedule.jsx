@@ -12,8 +12,7 @@ function jakartaParts(value) {
   return Object.fromEntries(parts.map(({ type, value: partValue }) => [type, Number(partValue)]));
 }
 
-function getWeekDates() {
-  const today = jakartaParts(new Date());
+function getWeekDates(today) {
   const currentDate = new Date(Date.UTC(today.year, today.month - 1, today.day));
   const monday = new Date(currentDate);
   monday.setUTCDate(monday.getUTCDate() - ((monday.getUTCDay() + 6) % 7));
@@ -25,23 +24,59 @@ function getWeekDates() {
   });
 }
 
+function getNextClassDay(meetings, todayDate) {
+  if (!meetings.length) return null;
+
+  const currentWeekday = todayDate.getUTCDay();
+  const nextMeeting = meetings
+    .map((meeting) => {
+      const weekday = Number(meeting.dayOfWeek);
+      const daysUntil = (weekday - currentWeekday + 7) % 7 || 7;
+      return { meeting, daysUntil };
+    })
+    .sort((first, second) => (
+      first.daysUntil - second.daysUntil
+      || first.meeting.startTime.localeCompare(second.meeting.startTime)
+    ))[0];
+  const date = new Date(todayDate);
+  date.setUTCDate(date.getUTCDate() + nextMeeting.daysUntil);
+
+  return {
+    date,
+    label: `${weekdayNames[date.getUTCDay()]}, ${new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      timeZone: 'Asia/Jakarta',
+    }).format(date).replace(/\./g, '')}`,
+  };
+}
+
 function WeekSchedule({ deadlines, meetings }) {
-  const dates = getWeekDates();
   const today = jakartaParts(new Date());
+  const todayDate = new Date(Date.UTC(today.year, today.month - 1, today.day));
+  const dates = getWeekDates(today).filter((date) => date >= todayDate);
   const activeDays = dates.map((date) => {
     const dateParts = jakartaParts(date);
     const schedule = meetings
       .filter((meeting) => Number(meeting.dayOfWeek) === date.getUTCDay())
       .sort((first, second) => first.startTime.localeCompare(second.startTime));
     const dayDeadlines = deadlines.filter((deadline) => {
+      if (deadline.status === 'Selesai' || deadline.completed || deadline.statusLabel === 'Terkirim') {
+        return false;
+      }
       const due = jakartaParts(new Date(deadline.dueAt));
-      return due.year === dateParts.year && due.month === dateParts.month && due.day === dateParts.day;
+      return due.year === dateParts.year
+        && due.month === dateParts.month
+        && due.day === dateParts.day
+        && new Date(deadline.dueAt).getTime() >= Date.now();
     });
     return { date, dateParts, schedule, deadlines: dayDeadlines };
   });
   const busyDays = activeDays.filter((day) => day.schedule.length || day.deadlines.length);
-  const emptyDays = activeDays.filter((day) => !day.schedule.length && !day.deadlines.length);
-  const scheduleCourseCount = new Set(meetings.map((meeting) => meeting.courseId)).size;
+  const todaySchedule = activeDays.find((day) => day.dateParts.day === today.day);
+  const nextClassDay = todaySchedule?.schedule.length
+    ? null
+    : getNextClassDay(meetings, todayDate);
   const shortDate = new Intl.DateTimeFormat('id-ID', {
     day: 'numeric',
     month: 'short',
@@ -56,7 +91,13 @@ function WeekSchedule({ deadlines, meetings }) {
           <p>Jadwal kelas dan tenggat tugas untuk pekan yang sedang berjalan.</p>
         </header>
         <div className="redesign-week-layout">
-          <div className="redesign-agenda" data-ui aria-label="Jadwal dan tenggat pekan ini">
+          <div className="redesign-agenda" data-ui>
+            {!todaySchedule?.schedule.length ? (
+              <p className="redesign-no-class">
+                Tidak ada kelas hari ini.
+                {nextClassDay ? ` Kelas berikutnya: ${nextClassDay.label}.` : ' Jadwal kelas berikutnya belum tersedia.'}
+              </p>
+            ) : null}
             {busyDays.length ? busyDays.map(({ date, dateParts, schedule, deadlines: dayDeadlines }, index) => {
               const isToday = dateParts.year === today.year
                 && dateParts.month === today.month
@@ -91,14 +132,6 @@ function WeekSchedule({ deadlines, meetings }) {
                 </article>
               );
             }) : <p className="redesign-empty">Tidak ada jadwal atau tenggat pada pekan ini.</p>}
-            {emptyDays.length ? (
-              <p className="redesign-no-class">
-                Tidak ada kelas: {emptyDays.map(({ date }) => date.getUTCDate()).join(', ')} {shortDate.format(emptyDays[0].date).split(' ').slice(1).join(' ')}
-              </p>
-            ) : null}
-            <p className="redesign-schedule-note">
-              Data contoh memuat jadwal untuk {scheduleCourseCount} mata kuliah.
-            </p>
           </div>
           <WeekCalendar deadlines={deadlines} />
         </div>

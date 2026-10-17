@@ -1,11 +1,11 @@
 const questions = [
   {
     question: 'Siapa yang dapat masuk?',
-    answer: 'Gunakan NIP, NPM, atau NIK beserta kata sandi akun akademik. Pada prototipe ini, ID yang terisi dan kata sandi minimal enam karakter diterima.',
+    answer: 'Gunakan NIP, NPM, atau NIK beserta kata sandi akun akademik.',
   },
   {
     question: 'Apakah data yang ditampilkan data asli?',
-    answer: 'Tidak. LearnEase saat ini memakai data contoh dari file JSON lokal dan belum terhubung ke server kampus.',
+    answer: 'Belum. Informasi pada halaman ini belum terhubung ke sistem kampus.',
   },
   {
     question: 'Bisa dibuka di ponsel?',
@@ -23,7 +23,7 @@ function Questions() {
       <div className="redesign-container redesign-faq-layout">
         <header className="redesign-faq-intro" data-reveal>
           <h2 id="redesign-faq-title">Pertanyaan yang sering muncul.</h2>
-          <p>Jawaban tentang akun dan data pada prototipe LearnEase.</p>
+          <p>Jawaban tentang akun dan penggunaan LearnEase.</p>
         </header>
         <div className="redesign-faq-list">
           {questions.map(({ question, answer }, index) => (

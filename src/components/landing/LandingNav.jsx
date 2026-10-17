@@ -12,9 +12,30 @@ const sections = [
 
 function LandingNav({ isDark, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const previousOverflow = useRef('');
+
+  useEffect(() => {
+    const targets = sections
+      .map(({ id }) => document.getElementById(id))
+      .filter(Boolean);
+    if (!targets.length) return undefined;
+
+    const observer = new IntersectionObserver((entries) => {
+      const visibleSections = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top);
+      if (visibleSections.length) setActiveSection(visibleSections[0].target.id);
+    }, {
+      rootMargin: '-82px 0px -55% 0px',
+      threshold: 0,
+    });
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -83,7 +104,13 @@ function LandingNav({ isDark, onToggleTheme }) {
           </Link>
           <div className="redesign-desktop-links">
             {sections.map(({ label, id }) => (
-              <a href={`#${id}`} key={id}>{label}</a>
+              <a
+                href={`#${id}`}
+                key={id}
+                aria-current={activeSection === id ? 'location' : undefined}
+              >
+                {label}
+              </a>
             ))}
           </div>
           <div className="redesign-nav-actions">
@@ -132,6 +159,7 @@ function LandingNav({ isDark, onToggleTheme }) {
               key={id}
               style={{ '--menu-delay': `${index * 60}ms` }}
               onClick={(event) => followSection(event, id)}
+              aria-current={activeSection === id ? 'location' : undefined}
             >
               {label}<ArrowUpRight size={23} aria-hidden="true" />
             </a>

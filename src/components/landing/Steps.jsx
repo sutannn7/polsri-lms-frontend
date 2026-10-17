@@ -21,7 +21,7 @@ function Steps() {
       <div className="redesign-container">
         <header className="redesign-section-heading redesign-steps-heading" data-reveal>
           <h2 id="redesign-steps-title">Masuk dalam tiga langkah.</h2>
-          <p>Informasi pembelajaran tersusun dalam alur yang bisa langsung diperiksa.</p>
+          <p>Dari masuk sampai belajar, semuanya dalam satu alur.</p>
         </header>
         <ol className="redesign-steps-list" data-reveal>
           {steps.map(({ title, description }, index) => (

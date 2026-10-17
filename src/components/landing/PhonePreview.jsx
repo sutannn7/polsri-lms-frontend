@@ -1,10 +1,9 @@
-import { formatDate, getDeadlineInfo } from '../../utils/formatDate';
+import { formatDate } from '../../utils/formatDate';
 
 function PhonePreview({ deadlines, courses, announcements }) {
   const firstDeadline = deadlines[0];
   const nearestAnnouncement = [...announcements]
     .sort((first, second) => new Date(second.date) - new Date(first.date))[0];
-  const deadlineInfo = firstDeadline ? getDeadlineInfo(firstDeadline) : null;
   const previewCourses = courses.slice(0, 3);
 
   return (
@@ -27,7 +26,7 @@ function PhonePreview({ deadlines, courses, announcements }) {
           <h3>Ringkasan belajar</h3>
           {firstDeadline ? (
             <article className="redesign-phone-deadline">
-              <span>Tenggat terdekat · {deadlineInfo.label.toLowerCase()}</span>
+              <span>Tenggat terdekat</span>
               <strong>{firstDeadline.title}</strong>
               <p>{firstDeadline.courseName} · 23.59 WIB</p>
             </article>

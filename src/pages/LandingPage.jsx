@@ -120,7 +120,7 @@ function LandingPage() {
           </div>
         </section>
         <FeatureBento courses={sortedCourses} />
-        <WeekSchedule deadlines={upcomingDeadlines} meetings={meetings} />
+        <WeekSchedule deadlines={deadlines} meetings={meetings} />
         <CampusNews announcements={announcements} />
         <PhonePreview
           announcements={announcements}

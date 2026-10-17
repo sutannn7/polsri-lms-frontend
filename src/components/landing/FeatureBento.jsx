@@ -21,7 +21,7 @@ function FeatureBento({ courses }) {
       <div className="redesign-container">
         <header className="redesign-section-heading" data-reveal>
           <h2 id="redesign-features-title">Progres tiap mata kuliah.</h2>
-          <p>Ringkasan dihitung dari enam mata kuliah yang tersedia pada data contoh.</p>
+          <p>Ringkasan dihitung dari seluruh mata kuliah.</p>
         </header>
         <div className="redesign-progress-content" data-ui>
           <div className="redesign-stats" data-reveal style={{ '--reveal-delay': '70ms' }}>
