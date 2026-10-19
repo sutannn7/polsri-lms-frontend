@@ -37,7 +37,7 @@ Jangan mengubah teks atau menambah fitur yang tidak ada di desain.
 
 src/
 components/
-ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo
+ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo, FloatingPaths
 layout/ Navbar, Footer, Breadcrumb, MainLayout
 home/ WelcomeBanner, AnnouncementCard, CalendarWidget, DeadlineList, ContinueLearningCard
 course/ CourseCard, CourseFilterBar, CourseSummaryBar, CourseHeader, MeetingAccordion,

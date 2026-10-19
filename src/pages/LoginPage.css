@@ -67,6 +67,22 @@ body:has(.login-kosmik-theme) {
   background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
 }
 
+/* ---------- floating paths (desktop only) ---------- */
+
+.login-kosmik-theme .login-paths {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  color: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
+
+.login-kosmik-theme .login-paths svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 /* ---------- brand + back link ---------- */
 
 .login-kosmik-theme .scene-top {
@@ -591,22 +607,27 @@ body:has(.login-kosmik-theme) {
     text-transform: uppercase;
   }
 
-  /* Logo and tagline share one centered column (--frame), mirroring the
-     centered form on the right panel. */
+  /* Logo sits in the middle of the panel, the quote on the bottom edge. */
   .login-kosmik-theme .card {
     width: var(--frame);
-    margin: auto auto 26px;
+    margin: auto;
   }
 
   .login-kosmik-theme .card img {
-    height: clamp(190px, 30vh, 280px);
+    height: clamp(200px, 32vh, 300px);
   }
 
   .login-kosmik-theme .head {
+    position: relative;
+    z-index: 2;
     display: block;
     width: var(--frame);
-    margin: 0 auto auto;
+    margin: 0 auto;
     text-align: center;
+  }
+
+  .login-kosmik-theme .head-quote {
+    margin: 0;
     font-family: var(--font-display);
     font-size: clamp(23px, 2vw, 32px);
     font-weight: 700;
@@ -616,8 +637,25 @@ body:has(.login-kosmik-theme) {
     color: rgba(255, 255, 255, 0.9);
   }
 
-  .login-kosmik-theme .head span {
+  .login-kosmik-theme .head-quote span {
     display: block;
+    color: var(--accent);
+  }
+
+  .login-kosmik-theme .head-credit {
+    margin: 12px 0 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-transform: none;
+    color: rgba(200, 211, 234, 0.7);
+  }
+
+  .login-kosmik-theme .head-credit::before {
+    content: "—";
+    margin-right: 8px;
     color: var(--accent);
   }
 

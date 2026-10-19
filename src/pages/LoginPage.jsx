@@ -1,6 +1,7 @@
 // src/pages/LoginPage.jsx
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import FloatingPaths from "../components/ui/FloatingPaths";
 import useAuth from "../hooks/useAuth";
 import "./LoginPage.css";
 
@@ -92,7 +93,8 @@ export default function LoginPage() {
     <div className="login-kosmik-theme">
       <div className="wrap">
         {/* Kosmik Scene */}
-        <aside className="scene" aria-label="Ilustrasi kampus">
+        <aside className="scene" aria-label="Identitas Politeknik Negeri Sriwijaya">
+          <FloatingPaths />
           <div className="scene-top rv" style={{ "--i": 0 }}>
             <div className="brand">
               <img
@@ -119,9 +121,14 @@ export default function LoginPage() {
             />
           </div>
 
-          <h2 className="head rv" style={{ "--i": 2 }}>
-            Masuk ke perjalanan <span>belajarmu!</span>
-          </h2>
+          <div className="head rv" style={{ "--i": 2 }}>
+            <p className="head-quote">
+              Masuk ke perjalanan <span>belajarmu!</span>
+            </p>
+            <p className="head-credit">
+              Portal Akademik Politeknik Negeri Sriwijaya
+            </p>
+          </div>
         </aside>
 
         {/* Login Panel */}
