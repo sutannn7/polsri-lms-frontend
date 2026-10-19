@@ -9,6 +9,7 @@ Seluruh teks antarmuka WAJIB berbahasa Indonesia. Nama kode, variabel, dan kompo
 - Tailwind CSS (utility classes, tanpa CSS terpisah kecuali index.css)
 - React Router v6
 - lucide-react untuk ikon
+- motion untuk animasi pendukung (Notch, TracingBeam)
 - Font: Plus Jakarta Sans (Google Fonts), weight 400/500/600/700
 
 ## Referensi desain
@@ -35,26 +36,27 @@ Jangan mengubah teks atau menambah fitur yang tidak ada di desain.
 ## Struktur folder (sudah ada, ikuti persis)
 
 src/
-assets/{images,illustrations}
+assets/ gedung-polsri-hd.webp
 components/
-ui/ Button, Input, Card, Badge, ProgressBar, StatCard, Tabs, Accordion
-layout/ Navbar, Footer, Breadcrumb, MainLayout, AuthLayout
+ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo
+layout/ Navbar, Footer, Breadcrumb, MainLayout
 home/ WelcomeBanner, AnnouncementCard, CalendarWidget, DeadlineList, ContinueLearningCard
 course/ CourseCard, CourseFilterBar, CourseSummaryBar, CourseHeader, MeetingAccordion,
-ActivityItem, QuizCard, NextDeadlineCard, LecturerCard
-pages/ SplashPage, LoginPage, HomePage, DashboardPage, MyCoursesPage, CourseDetailPage, NotFoundPage
+ActivityItem, QuizCard, NextDeadlineCard, LecturerCard, MobileCourseTabs
+aceternity/ Notch, TracingBeam
+pages/ LoginPage, HomePage, DashboardPage, MyCoursesPage, CourseDetailPage, NotFoundPage
 routes/ AppRouter, ProtectedRoute
 context/ AuthContext
 data/ user.json, courses.json, meetings.json, announcements.json, deadlines.json
-services/ api.js, authService.js, courseService.js
-hooks/ useAuth.js, useCourses.js
+services/ authService.js, courseService.js, homeService.js
+hooks/ useAuth.js, useCourses.js, useHomeData.js
 utils/ formatDate.js, courseStatus.js
-styles/ index.css
+styles/ index.css, notch.css, tracing-beam.css
 
 ## Routing
 
-/ (Splash, lalu redirect ke /login atau /beranda jika sudah login)
-/login (AuthLayout)
+/ (redirect ke /login)
+/login (halaman Login)
 /beranda, /dasbor, /mata-kuliah, /mata-kuliah/:id (MainLayout, dilindungi ProtectedRoute)
 
 - (NotFoundPage)

@@ -13,6 +13,9 @@ function Accordion({
   const panelId = useId();
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const isOpen = open ?? internalOpen;
+  const panelInnerClasses = isOpen
+    ? 'min-h-0 overflow-hidden border-t border-border px-4 py-4' // taste-skill-ignore: structural divider between trigger and open panel
+    : 'min-h-0 overflow-hidden border-t-0 px-4 py-0';
 
   function toggle() {
     const nextOpen = !isOpen;
@@ -41,9 +44,10 @@ function Accordion({
       <div
         id={panelId}
         aria-hidden={!isOpen}
+        inert={isOpen ? undefined : ''}
         className={`grid transition-[grid-template-rows,opacity] duration-[400ms] ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'} ${contentClassName}`}
       >
-        <div className={`min-h-0 overflow-hidden ${isOpen ? 'border-t border-border px-4 py-4' : 'border-t-0 px-4 py-0'}`}>
+        <div className={panelInnerClasses}>
           {children}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   getCurrentUser,
   login as authenticate,
@@ -24,6 +24,18 @@ export function AuthProvider({ children }) {
   const refreshUser = useCallback(() => {
     setUser(getCurrentUser());
   }, []);
+
+  // Back / Forward can bring the page back from the browser cache with the
+  // state it had when it left, so the session marker is read again here: a
+  // signed-in visitor lands back inside the app, a signed-out one does not.
+  useEffect(() => {
+    function handlePageShow() {
+      refreshUser();
+    }
+
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, [refreshUser]);
 
   const contextValue = useMemo(
     () => ({

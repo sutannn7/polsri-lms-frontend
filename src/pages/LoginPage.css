@@ -1,0 +1,842 @@
+/* ============================================================
+   LoginPage — LearnEase POLSRI (scoped: .login-kosmik-theme)
+   Revisi visual 2026-10-19:
+   - body Plus Jakarta Sans, display Bricolage Grotesque
+   - field double-bezel + hairline emas saat fokus
+   - footer mobile 3 grup, bar tipis di desktop
+   - header mobile ramping, radial glow lembut
+   ============================================================ */
+
+/* Keeps the browser canvas and page background dark on this route only
+   (mobile overscroll, browser chrome) without restyling any other page. */
+html:has(.login-kosmik-theme),
+body:has(.login-kosmik-theme) {
+  background: #070d22;
+}
+
+.login-kosmik-theme {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: var(--panel);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color-scheme: dark;
+
+  --ink: #050b1a;
+  --panel: #070d22;
+  --core: #101a38;
+  --muted: #c8d3ea;
+  --faint: #93a2c4;
+  --accent: #ffc107;
+  --link: #6fb4f5;
+  --danger: #ff9ba0;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+.login-kosmik-theme *,
+.login-kosmik-theme *::before,
+.login-kosmik-theme *::after {
+  box-sizing: inherit;
+}
+
+.login-kosmik-theme [hidden] {
+  display: none !important;
+}
+
+/* ---------- scene (mobile: header ramping) ---------- */
+
+.login-kosmik-theme .wrap {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.login-kosmik-theme .scene {
+  /* Single glow, kept in a variable so the desktop panel can aim it at the
+     seam without introducing a second gradient. */
+  --glow: radial-gradient(58% 44% at 62% 32%, rgba(255, 193, 7, 0.13), transparent 70%); /* taste-skill-ignore */
+  position: relative;
+  overflow: hidden;
+  padding: 16px 20px 0;
+  background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
+}
+
+/* ---------- brand + back link ---------- */
+
+.login-kosmik-theme .scene-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.login-kosmik-theme .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.login-kosmik-theme .brand img {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+.login-kosmik-theme .brand b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.login-kosmik-theme .brand small {
+  display: none;
+}
+
+.login-kosmik-theme .panel-foot {
+  display: none;
+}
+
+/* ---------- photo frame ---------- */
+
+.login-kosmik-theme .card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 14px 0 0;
+}
+
+.login-kosmik-theme .card .shell {
+  position: relative;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* The photo has a bright sky, so the pale hairline alone would vanish against
+   it. This scrim draws the frame's inner edge in navy and darkens the bottom. */
+.login-kosmik-theme .card .shell::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 19px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(4, 12, 30, 0.32), rgba(4, 12, 30, 0) 36%); /* taste-skill-ignore */
+}
+
+.login-kosmik-theme .card img {
+  display: block;
+  width: 100%;
+  height: clamp(150px, 40vw, 176px);
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: 19px;
+}
+
+/* Tagline is desktop-only; mobile keeps the header slim. */
+.login-kosmik-theme .head {
+  display: none;
+}
+
+/* ---------- panel ---------- */
+
+.login-kosmik-theme .panel {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 24px 20px calc(32px + var(--safe-bottom));
+  background: var(--panel);
+}
+
+.login-kosmik-theme .box {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Eyebrow tag: microscopic pill, the only uppercase micro-label besides the
+   field labels. */
+.login-kosmik-theme .eb {
+  display: inline-flex;
+  margin: 0 0 14px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.login-kosmik-theme h1 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 11vw, 52px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.login-kosmik-theme .lead {
+  margin: 0 0 22px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-wrap: pretty;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ---------- fields: double-bezel ---------- */
+
+.login-kosmik-theme .field {
+  margin-bottom: 14px;
+}
+
+.login-kosmik-theme .lb {
+  display: block;
+  margin: 0 0 7px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: normal;
+  color: #d5deef;
+}
+
+.login-kosmik-theme .shell {
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: border-color 0.45s var(--ease), background-color 0.45s var(--ease);
+}
+
+.login-kosmik-theme .shell:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Gold hairline on focus, soft red on error. The input itself draws no ring,
+   so the shell is the single state indicator. */
+.login-kosmik-theme .shell:focus-within {
+  border-color: rgba(255, 193, 7, 0.85);
+  outline: 2px solid rgba(255, 193, 7, 0.35);
+  outline-offset: 2px;
+}
+
+.login-kosmik-theme .shell:has(input[aria-invalid="true"]) {
+  border-color: rgba(255, 155, 160, 0.75);
+}
+
+.login-kosmik-theme .shell:has(input[aria-invalid="true"]):focus-within {
+  outline-color: rgba(255, 155, 160, 0.4);
+}
+
+.login-kosmik-theme .core {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 8px 0 16px;
+  border-radius: 18px;
+  background: var(--core);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07); /* taste-skill-ignore */
+}
+
+.login-kosmik-theme .core svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: #9aa8c9;
+}
+
+.login-kosmik-theme input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* The app-wide blue focus ring is meant for flat inputs. The shell already
+   lights up on focus and error, so the input must not draw a second box. */
+.login-kosmik-theme input:focus-visible {
+  outline: 0;
+}
+
+.login-kosmik-theme input::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+  opacity: 1;
+}
+
+.login-kosmik-theme .eye {
+  width: 44px;
+  height: 44px;
+  margin-right: -4px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: #9aa8c9;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.45s var(--ease), color 0.45s var(--ease);
+}
+
+.login-kosmik-theme .eye svg {
+  width: 20px;
+  height: 20px;
+}
+
+.login-kosmik-theme .eye:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* ---------- errors ---------- */
+
+.login-kosmik-theme .er {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 8px 4px 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--danger);
+}
+
+.login-kosmik-theme .er svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 1px;
+}
+
+.login-kosmik-theme .al {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 155, 160, 0.3);
+  border-radius: 14px;
+  background: rgba(255, 155, 160, 0.08);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #ffdade;
+}
+
+/* ---------- CTA: pill kuning + button-in-button ---------- */
+
+.login-kosmik-theme .go {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  margin-top: 8px;
+  padding: 0 60px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #1a1300;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s var(--ease), background-color 0.45s var(--ease);
+}
+
+.login-kosmik-theme .go:active {
+  transform: scale(0.98);
+}
+
+.login-kosmik-theme .go:disabled {
+  cursor: progress;
+}
+
+.login-kosmik-theme .arr {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(26, 19, 0, 0.14);
+  display: grid;
+  place-items: center;
+  transition: transform 0.6s var(--ease);
+}
+
+.login-kosmik-theme .arr svg {
+  width: 19px;
+  height: 19px;
+}
+
+.login-kosmik-theme .go:hover .arr,
+.login-kosmik-theme .go:focus-visible .arr {
+  transform: translate(1px, -1px) scale(1.05);
+}
+
+/* The one place a linear curve is correct: a rotation with no start or end. */
+.login-kosmik-theme .sp {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(26, 19, 0, 0.3);
+  border-top-color: #1a1300;
+  border-radius: 50%;
+  animation: r 0.9s linear infinite;
+}
+
+/* ---------- help + legal ---------- */
+
+.login-kosmik-theme .help {
+  margin-top: 26px;
+}
+
+.login-kosmik-theme .sm {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.login-kosmik-theme .two {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.login-kosmik-theme .dot {
+  display: none;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.login-kosmik-theme .gb {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.22);
+  transition: color 0.45s var(--ease), text-decoration-color 0.45s var(--ease);
+}
+
+.login-kosmik-theme .gb svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--faint);
+  transition: color 0.45s var(--ease);
+}
+
+.login-kosmik-theme .gb:hover,
+.login-kosmik-theme .gb:focus-visible {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.48);
+}
+
+.login-kosmik-theme .gb:hover svg,
+.login-kosmik-theme .gb:focus-visible svg {
+  color: var(--accent);
+}
+
+.login-kosmik-theme .hp {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Hairline between the help group and the legal group (mobile). */
+.login-kosmik-theme .tm {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* taste-skill-ignore */
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-wrap: pretty;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.login-kosmik-theme .tm-l {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.login-kosmik-theme .legal-mobile {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+/* ---------- focus rings ---------- */
+
+.login-kosmik-theme button:focus-visible,
+.login-kosmik-theme a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.login-kosmik-theme .go:focus-visible {
+  outline-color: #fff;
+}
+
+/* ---------- reveal on load ---------- */
+
+/* The resting state is the FINISHED state (visible), and the hidden start
+   lives only inside the keyframe, so skipped animation still shows content.
+   Transform + opacity only. */
+.login-kosmik-theme .rv {
+  animation: up 0.75s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes r {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ---------- desktop composition ---------- */
+
+@media (min-width: 901px) {
+  .login-kosmik-theme .wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    overflow: hidden;
+  }
+
+  .login-kosmik-theme .scene {
+    /* Aimed at the panel seam and a touch stronger, so the two navy panels
+       read as one surface. Still the same single glow. */
+    --glow: radial-gradient(64% 50% at 76% 30%, rgba(255, 193, 7, 0.18), transparent 72%); /* taste-skill-ignore */
+    --frame: min(90%, 68vh);
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    padding: 36px 56px 44px;
+  }
+
+  .login-kosmik-theme .brand img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .login-kosmik-theme .brand b {
+    font-size: 20px;
+  }
+
+  .login-kosmik-theme .brand small {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--faint);
+    text-transform: uppercase;
+  }
+
+  /* Photo and tagline share one centered column (--frame), mirroring the
+     centered form on the right panel. */
+  .login-kosmik-theme .card {
+    width: var(--frame);
+    margin: auto auto 26px;
+  }
+
+  .login-kosmik-theme .card .shell {
+    padding: 6px;
+    border-radius: 28px;
+  }
+
+  .login-kosmik-theme .card .shell::after {
+    inset: 6px;
+    border-radius: 22px;
+  }
+
+  .login-kosmik-theme .card img {
+    height: auto;
+    aspect-ratio: 5 / 4;
+    border-radius: 22px;
+  }
+
+  .login-kosmik-theme .head {
+    display: block;
+    width: var(--frame);
+    margin: 0 auto;
+    font-family: var(--font-display);
+    font-size: clamp(23px, 2vw, 32px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .login-kosmik-theme .head span {
+    display: block;
+    color: var(--accent);
+  }
+
+  .login-kosmik-theme .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 4.2vh, 84px) 56px 128px;
+  }
+
+  .login-kosmik-theme h1 {
+    font-size: clamp(44px, 4.4vw, 64px);
+  }
+
+  .login-kosmik-theme .lead {
+    margin-bottom: 26px;
+    font-size: 15px;
+  }
+
+  .login-kosmik-theme .eb {
+    margin-bottom: 16px;
+  }
+
+  .login-kosmik-theme .go {
+    height: 58px;
+  }
+
+  .login-kosmik-theme .help {
+    margin-top: 30px;
+  }
+
+  .login-kosmik-theme .sm {
+    display: none;
+  }
+
+  .login-kosmik-theme .two {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .login-kosmik-theme .dot {
+    display: inline;
+  }
+
+  .login-kosmik-theme .tm {
+    margin-top: 20px;
+    padding-top: 0;
+    border-top: 0;
+    text-align: center;
+  }
+
+  .login-kosmik-theme .legal-mobile {
+    display: none;
+  }
+
+  /* Thin footer line pinned to the base of the right panel. */
+  .login-kosmik-theme .panel-foot {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 14px 56px 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* taste-skill-ignore */
+  }
+
+  .login-kosmik-theme .legal-desk {
+    margin: 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.48);
+  }
+}
+
+/* ---------- short desktop windows ---------- */
+
+@media (min-width: 901px) and (max-height: 820px) {
+  .login-kosmik-theme .scene {
+    --frame: min(84%, 62vh);
+    padding-top: 28px;
+    padding-bottom: 32px;
+  }
+
+  .login-kosmik-theme .card {
+    margin-bottom: 20px;
+  }
+
+  .login-kosmik-theme .head {
+    font-size: clamp(21px, 1.9vw, 28px);
+  }
+
+  .login-kosmik-theme .panel {
+    padding-top: 24px;
+    padding-bottom: 108px;
+  }
+
+  .login-kosmik-theme .lead {
+    margin-bottom: 18px;
+  }
+
+  .login-kosmik-theme .field {
+    margin-bottom: 11px;
+  }
+
+  .login-kosmik-theme .core {
+    height: 52px;
+  }
+
+  .login-kosmik-theme .go {
+    height: 52px;
+  }
+
+  .login-kosmik-theme .help {
+    margin-top: 20px;
+  }
+
+  .login-kosmik-theme .tm {
+    margin-top: 14px;
+  }
+
+  .login-kosmik-theme .panel-foot {
+    padding-bottom: 16px;
+  }
+}
+
+/* ---------- short phones: keep the CTA above the fold ---------- */
+
+@media (max-width: 900px) and (max-height: 700px) {
+  .login-kosmik-theme .scene {
+    padding-top: 12px;
+  }
+
+  .login-kosmik-theme .card {
+    margin-top: 10px;
+  }
+
+  .login-kosmik-theme .card img {
+    height: 128px;
+  }
+
+  .login-kosmik-theme .panel {
+    padding-top: 14px;
+  }
+
+  .login-kosmik-theme .eb {
+    margin-bottom: 8px;
+  }
+
+  .login-kosmik-theme h1 {
+    margin-bottom: 8px;
+    font-size: 36px;
+  }
+
+  .login-kosmik-theme .lead {
+    margin-bottom: 14px;
+  }
+
+  .login-kosmik-theme .field {
+    margin-bottom: 10px;
+  }
+
+  .login-kosmik-theme .core {
+    height: 52px;
+  }
+
+  .login-kosmik-theme .go {
+    height: 52px;
+  }
+
+  .login-kosmik-theme .help {
+    margin-top: 20px;
+  }
+
+  .login-kosmik-theme .tm {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .login-kosmik-theme .legal-mobile {
+    margin-top: 6px;
+  }
+}
+
+/* Validation messages add height; tighten the column instead of pushing the
+   CTA below the fold. Controls keep their size. */
+@media (max-width: 900px) and (max-height: 760px) {
+  .login-kosmik-theme .wrap:has(.er) .lead {
+    margin-bottom: 12px;
+  }
+
+  .login-kosmik-theme .wrap:has(.er) .field {
+    margin-bottom: 10px;
+  }
+
+  .login-kosmik-theme .wrap:has(.er) .help {
+    margin-top: 18px;
+  }
+
+  .login-kosmik-theme .wrap:has(.er) .er {
+    margin-top: 6px;
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-kosmik-theme .rv,
+  .login-kosmik-theme .sp {
+    animation: none;
+  }
+}

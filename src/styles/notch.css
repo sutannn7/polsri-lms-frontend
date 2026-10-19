@@ -1,0 +1,128 @@
+.aceternity-notch {
+  position: fixed;
+  inset-inline: 0;
+  z-index: 100;
+  display: flex;
+  padding-inline: 16px;
+  pointer-events: none;
+}
+
+.aceternity-notch.is-top {
+  top: 0;
+}
+
+.aceternity-notch.is-bottom {
+  bottom: 0;
+}
+
+.aceternity-notch.is-start {
+  justify-content: flex-start;
+}
+
+.aceternity-notch.is-center {
+  justify-content: center;
+}
+
+.aceternity-notch.is-end {
+  justify-content: flex-end;
+}
+
+.aceternity-notch-shell {
+  width: fit-content;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #0a1b38;
+  color: #fff;
+  box-shadow: 0 18px 42px -22px rgba(10, 27, 56, 0.65); /* taste-skill-ignore: floating overlay */
+  pointer-events: auto;
+}
+
+.aceternity-notch-triggers {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+}
+
+.aceternity-notch-trigger {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: #eaf0fa;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.aceternity-notch-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.aceternity-notch-trigger-label {
+  color: #fff;
+}
+
+.aceternity-notch-trigger-value {
+  color: #a9bbd4;
+  font-weight: 500;
+}
+
+.aceternity-notch-divider {
+  width: 4px;
+  height: 4px;
+  margin-inline: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.aceternity-notch-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+}
+
+.aceternity-notch-option {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #d7e2f2;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.aceternity-notch-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.aceternity-notch-option.is-active {
+  background: var(--notch-accent, #0056b3);
+  color: #fff;
+}
+
+.aceternity-notch-option-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aceternity-notch-option-icon {
+  display: flex;
+}
+
+.aceternity-notch-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fff;
+}

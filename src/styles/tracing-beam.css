@@ -1,0 +1,63 @@
+.tracing-beam {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+.tracing-beam-rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tracing-beam-dot {
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #edf5ff;
+}
+
+.tracing-beam-dot::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #0056b3;
+}
+
+.tracing-beam-svg {
+  display: block;
+  overflow: visible;
+}
+
+.tracing-beam-line {
+  stroke: #dbe7f7;
+  stroke-width: 1;
+}
+
+.tracing-beam-glow {
+  stroke-width: 1.6;
+}
+
+.tracing-beam-content {
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .tracing-beam {
+    padding-left: 2.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tracing-beam-glow {
+    display: none;
+  }
+}

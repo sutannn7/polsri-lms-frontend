@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { BookOpenText, MessagesSquare } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import Breadcrumb from '../components/layout/Breadcrumb';
+import TracingBeam from '../components/aceternity/TracingBeam';
 import ActivityItem from '../components/course/ActivityItem';
 import CourseHeader from '../components/course/CourseHeader';
 import LecturerCard from '../components/course/LecturerCard';
 import MeetingAccordion from '../components/course/MeetingAccordion';
+import MobileCourseTabs from '../components/course/MobileCourseTabs';
 import NextDeadlineCard from '../components/course/NextDeadlineCard';
 import Tabs from '../components/ui/Tabs';
 import Card from '../components/ui/Card';
@@ -99,10 +101,11 @@ function CourseDetailPage() {
             tabs={tabs}
             value={activeTab}
             onChange={setActiveTab}
-            className="border-b border-border pb-3"
+            className={'border-b border-border pb-3' /* taste-skill-ignore: underline tab bar */}
           />
 
-          {activeTab === 'materials' ? (
+          <TracingBeam>
+            {activeTab === 'materials' ? (
             meetings.length > 0 ? (
               <div className="space-y-3">
                 {meetings.map((meeting) => (
@@ -153,6 +156,7 @@ function CourseDetailPage() {
               </div>
             </Card>
           ) : null}
+          </TracingBeam>
         </section>
 
         <aside className="space-y-4" aria-label="Informasi pembelajaran">
@@ -190,6 +194,7 @@ function CourseDetailPage() {
           />
         </aside>
       </div>
+      <MobileCourseTabs activeTab={activeTab} onChange={setActiveTab} />
     </div>
   );
 }

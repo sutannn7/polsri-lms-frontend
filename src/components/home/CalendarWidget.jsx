@@ -92,7 +92,7 @@ function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
                 aria-current={isToday ? 'date' : undefined}
                 aria-label={`${day}${isToday ? ', hari ini' : ''}${hasEvents ? `, ${eventDescription}` : ''}`}
                 title={hasEvents ? eventDescription : undefined}
-                className={`relative flex h-9 w-9 items-center justify-center rounded-lg text-xs ${isToday ? 'bg-primary font-semibold text-white' : 'text-main hover:bg-gray-100'}`}
+                className={`relative flex h-9 w-9 items-center justify-center rounded-lg border text-xs ${isToday ? 'border-primary bg-primary font-semibold text-white' : 'border-border/70 text-main hover:bg-gray-100'}`}
               >
                 {day}
                 {hasEvents && !isToday ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
