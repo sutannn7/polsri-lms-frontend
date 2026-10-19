@@ -108,41 +108,21 @@ body:has(.login-kosmik-theme) {
   display: none;
 }
 
-/* ---------- photo frame ---------- */
+/* ---------- logo ---------- */
 
 .login-kosmik-theme .card {
   position: relative;
   z-index: 2;
   width: 100%;
   margin: 14px 0 0;
-}
-
-.login-kosmik-theme .card .shell {
-  position: relative;
-  padding: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* The photo has a bright sky, so the pale hairline alone would vanish against
-   it. This scrim draws the frame's inner edge in navy and darkens the bottom. */
-.login-kosmik-theme .card .shell::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 19px;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(4, 12, 30, 0.32), rgba(4, 12, 30, 0) 36%); /* taste-skill-ignore */
+  text-align: center;
 }
 
 .login-kosmik-theme .card img {
   display: block;
-  width: 100%;
-  height: clamp(150px, 40vw, 176px);
-  object-fit: cover;
-  object-position: center 40%;
-  border-radius: 19px;
+  width: auto;
+  height: clamp(104px, 32vw, 140px);
+  margin: 0 auto;
 }
 
 /* Tagline is desktop-only; mobile keeps the header slim. */
@@ -551,6 +531,28 @@ body:has(.login-kosmik-theme) {
   }
 }
 
+/* ---------- mobile: panel content is centered ---------- */
+
+@media (max-width: 900px) {
+  .login-kosmik-theme .box {
+    text-align: center;
+  }
+
+  /* Fields keep their icon-led left alignment. */
+  .login-kosmik-theme input {
+    text-align: left;
+  }
+
+  .login-kosmik-theme .two {
+    justify-content: center;
+  }
+
+  .login-kosmik-theme .er {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 /* ---------- desktop composition ---------- */
 
 @media (min-width: 901px) {
@@ -589,33 +591,22 @@ body:has(.login-kosmik-theme) {
     text-transform: uppercase;
   }
 
-  /* Photo and tagline share one centered column (--frame), mirroring the
+  /* Logo and tagline share one centered column (--frame), mirroring the
      centered form on the right panel. */
   .login-kosmik-theme .card {
     width: var(--frame);
     margin: auto auto 26px;
   }
 
-  .login-kosmik-theme .card .shell {
-    padding: 6px;
-    border-radius: 28px;
-  }
-
-  .login-kosmik-theme .card .shell::after {
-    inset: 6px;
-    border-radius: 22px;
-  }
-
   .login-kosmik-theme .card img {
-    height: auto;
-    aspect-ratio: 5 / 4;
-    border-radius: 22px;
+    height: clamp(190px, 30vh, 280px);
   }
 
   .login-kosmik-theme .head {
     display: block;
     width: var(--frame);
-    margin: 0 auto;
+    margin: 0 auto auto;
+    text-align: center;
     font-family: var(--font-display);
     font-size: clamp(23px, 2vw, 32px);
     font-weight: 700;
@@ -766,7 +757,7 @@ body:has(.login-kosmik-theme) {
   }
 
   .login-kosmik-theme .card img {
-    height: 128px;
+    height: 96px;
   }
 
   .login-kosmik-theme .panel {

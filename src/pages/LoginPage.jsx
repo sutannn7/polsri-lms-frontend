@@ -1,7 +1,6 @@
 // src/pages/LoginPage.jsx
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import gedungPolsri from "../assets/gedung-polsri-hd.webp";
 import useAuth from "../hooks/useAuth";
 import "./LoginPage.css";
 
@@ -110,16 +109,14 @@ export default function LoginPage() {
           </div>
 
           <div className="card rv" style={{ "--i": 1 }}>
-            <div className="shell">
-              <img
-                src={gedungPolsri}
-                alt="Gedung kampus Politeknik Negeri Sriwijaya"
-                width="512"
-                height="341"
-                loading="eager"
-                fetchpriority="high"
-              />
-            </div>
+            <img
+              src="/logo-polsri-transparan.png"
+              alt="Logo Politeknik Negeri Sriwijaya"
+              width="592"
+              height="592"
+              loading="eager"
+              fetchpriority="high"
+            />
           </div>
 
           <h2 className="head rv" style={{ "--i": 2 }}>

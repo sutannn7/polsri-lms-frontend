@@ -62,8 +62,6 @@ Pohon berikut berasal dari pemindaian file aktual di `src/`.
 src/
 ├── App.jsx
 ├── main.jsx
-├── assets/
-│   └── gedung-polsri-hd.webp
 ├── components/
 │   ├── aceternity/
 │   │   ├── Notch.jsx

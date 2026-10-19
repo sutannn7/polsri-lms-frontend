@@ -36,7 +36,6 @@ Jangan mengubah teks atau menambah fitur yang tidak ada di desain.
 ## Struktur folder (sudah ada, ikuti persis)
 
 src/
-assets/ gedung-polsri-hd.webp
 components/
 ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo
 layout/ Navbar, Footer, Breadcrumb, MainLayout
