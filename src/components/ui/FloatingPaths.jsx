@@ -1,12 +1,10 @@
 import { memo, useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 
 // Same breakpoint as the desktop composition in LoginPage.css.
 const DESKTOP = "(min-width: 901px)";
 
-// The flowing lines from the reference, cut to 20 per side. Width, opacity and
-// duration are derived from the index so nothing is random: the page re-renders
-// on every keystroke and the animation must not restart.
+// The flowing lines from the reference, cut to 20 per side. Width and opacity
+// come from the index so nothing is random.
 function buildPaths(position) {
   return Array.from({ length: 20 }, (_, i) => ({
     id: `${position}:${i}`,
@@ -17,17 +15,20 @@ function buildPaths(position) {
     } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
       684 - i * 5 * position
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-    width: 0.5 + i * 0.035,
-    opacity: (0.09 + i * 0.01) * (i % 7 === 0 ? 1.35 : 1),
+    width: 0.5 + i * 0.03,
+    opacity: (0.06 + i * 0.007) * (i % 7 === 0 ? 1.3 : 1),
     gold: i % 7 === 0,
-    duration: 22 + ((i * 3 + (position > 0 ? 0 : 2)) % 8) * 1.6,
   }));
 }
 
 const PATHS = [...buildPaths(1), ...buildPaths(-1)];
 
+// The lines stay still on purpose. Animating their dash pattern (pathLength
+// and pathOffset) repainted the whole SVG every frame and halved the frame
+// rate, and the pattern restarted every cycle so the lines blinked in and out.
+// The layer drifts as one composited transform instead — see .login-paths in
+// LoginPage.css — which the GPU can handle without repainting.
 function FloatingPaths() {
-  const reduceMotion = useReducedMotion();
   const [desktop, setDesktop] = useState(() =>
     window.matchMedia(DESKTOP).matches,
   );
@@ -44,37 +45,16 @@ function FloatingPaths() {
   return (
     <div className="login-paths" aria-hidden="true">
       <svg viewBox="0 0 696 316" fill="none" preserveAspectRatio="xMidYMin meet">
-        {PATHS.map((path) =>
-          reduceMotion ? (
-            <path
-              key={path.id}
-              d={path.d}
-              stroke={path.gold ? "#ffc107" : "currentColor"}
-              strokeWidth={path.width}
-              strokeOpacity={path.opacity}
-            />
-          ) : (
-            <motion.path
-              key={path.id}
-              d={path.d}
-              stroke={path.gold ? "#ffc107" : "currentColor"}
-              strokeWidth={path.width}
-              strokeOpacity={path.opacity}
-              strokeLinecap="round"
-              initial={{ pathLength: 0.3, opacity: 0.55 }}
-              animate={{
-                pathLength: 1,
-                pathOffset: [0, 1],
-                opacity: [0.55, 1, 0.55],
-              }}
-              transition={{
-                duration: path.duration,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ),
-        )}
+        {PATHS.map((path) => (
+          <path
+            key={path.id}
+            d={path.d}
+            stroke={path.gold ? "#ffc107" : "currentColor"}
+            strokeWidth={path.width}
+            strokeOpacity={path.opacity}
+            strokeLinecap="round"
+          />
+        ))}
       </svg>
     </div>
   );
