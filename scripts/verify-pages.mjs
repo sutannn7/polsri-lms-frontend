@@ -62,10 +62,12 @@ function parseArgs(argv) {
   }
   if (!args.routes) throw new Error('Wajib: --routes /beranda,/dasbor ...');
   args.routes = args.routes.split(',').map((r) => r.trim());
-  for (const t of args.theme.split(',')) {
+  // Trim dulu baru validasi, agar "light, dark" tidak ditolak
+  // dengan pesan "dapat:  dark".
+  args.themes = args.theme.split(',').map((t) => t.trim());
+  for (const t of args.themes) {
     if (t !== 'light' && t !== 'dark') throw new Error(`--theme hanya light/dark, dapat: ${t}`);
   }
-  args.themes = args.theme.split(',').map((t) => t.trim());
   args.width = Number(args.width);
   return args;
 }
@@ -150,9 +152,8 @@ async function connectCdp(port) {
 }
 
 async function launchChrome() {
-  const tempRoot = existsSync('C:\\Users\\lenovo\\AppData\\Local\\Temp\\opencode')
-    ? 'C:\\Users\\lenovo\\AppData\\Local\\Temp\\opencode'
-    : tmpdir();
+  // Profil browser ditempatkan di temp OS; jalur user tidak boleh dipatok.
+  const tempRoot = tmpdir();
   for (let attempt = 0; attempt < 5; attempt++) {
     const port = 9300 + Math.floor(Math.random() * 900);
     const profile = mkdtempSync(path.join(tempRoot, 'learnease-verify-'));
@@ -245,6 +246,9 @@ const FILL_LOGIN = `
 
 const PAGE_CHECKS = (theme) => `
   (() => {
+    // Classlist SEBELUM skrip memaksa tema: kalau aplikasi sudah
+    // mengatur light/dark sendiri, inilah bukti tema yang dipakai aplikasi.
+    const initialClasses = [...document.documentElement.classList];
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add('${theme}');
 
@@ -267,6 +271,7 @@ const PAGE_CHECKS = (theme) => `
     }
 
     return {
+      initialClasses,
       path: location.pathname,
       overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       brokenImages: [...document.images]
@@ -300,8 +305,9 @@ async function login(cdp, sessionId, base) {
 
 function summarize(checks) {
   const failed = [];
-  if (!checks.themeActive) failed.push("tema tidak aktif di documentElement.classList");
   if (checks.overflow > 1) failed.push(`overflow horizontal ${checks.overflow}px`);
+  if (checks.path !== checks.wantedRoute)
+    failed.push(`rute berakhir ${checks.path}, diminta ${checks.wantedRoute}`);
   if (checks.consoleErrors > 0) failed.push(`${checks.consoleErrors} error console`);
   if (checks.failedRequests > 0) failed.push(`${checks.failedRequests} request gagal`);
   if (checks.brokenImages.length > 0) failed.push(`img gagal dimuat: ${checks.brokenImages.join(', ')}`);
@@ -325,62 +331,89 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir) {
     if (msg.method === 'Runtime.consoleAPICalled' && msg.params.type === 'error')
       counters.consoleErrors++;
     if (msg.method === 'Runtime.exceptionThrown') counters.consoleErrors++;
-    if (msg.method === 'Network.loadingFailed') counters.failedRequests++;
+    // canceled / ERR_ABORTED adalah lihat-navigasi normal: jangan dihitung.
+    if (
+      msg.method === 'Network.loadingFailed' &&
+      !msg.params.canceled &&
+      !/ERR_ABORTED/.test(msg.params.errorText || '')
+    )
+      counters.failedRequests++;
+    if (msg.method === 'Network.responseReceived' && msg.params.response.status >= 400)
+      counters.failedRequests++;
   });
 
-  // Percobaan tunggal adalah jalur normal; bila load event tak datang,
-  // navigasi rute ini diulang sekali. Gagal dua kali: tandai rute gagal
-  // dan lanjut ke rute berikutnya agar ringkasan tetap tercetak.
   try {
-    await navigateLoad(cdp, sessionId, base + route);
-  } catch {
+    // Percobaan tunggal adalah jalur normal; bila load event tak datang,
+    // navigasi rute ini diulang sekali lalu dicatat gagal dan lanjut.
     try {
       await navigateLoad(cdp, sessionId, base + route);
     } catch {
-      offConsole();
-      if (savedSession !== null) {
+      try {
+        await navigateLoad(cdp, sessionId, base + route);
+      } catch {
+        throw new Error('navigation timeout after 1 retry');
+      }
+    }
+    await delay(400);
+
+    const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme));
+    checks.consoleErrors = counters.consoleErrors;
+    checks.failedRequests = counters.failedRequests;
+    checks.wantedRoute = route;
+
+    // Tema: hanya hitung saat aplikasi mengatur classList sendiri sebelum
+    // skrip memaksa. Selain itu skrip hanya memaksa tema untuk screenshot.
+    const opposite = theme === 'light' ? 'dark' : 'light';
+    let themeNote;
+    let themeMismatch = false;
+    if (checks.initialClasses.includes(theme)) {
+      themeNote = 'tema dari aplikasi (terverifikasi)';
+    } else if (checks.initialClasses.includes(opposite)) {
+      themeMismatch = true;
+      themeNote = 'tema aplikasi tidak cocok';
+    } else {
+      themeNote = 'tema dipaksa (aplikasi belum mengatur tema)';
+    }
+
+    const failed = summarize(checks);
+    if (themeMismatch) failed.unshift(`dokumen ber-theme ${opposite}, diminta ${theme}`);
+    const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
+    const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
+    writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
+
+    const status = failed.length === 0 ? 'LOLOS' : 'GAGAL';
+    console.log(
+      `[${status}] ${theme} ${route} (${checks.path}) — ${themeNote}` +
+        (failed.length ? ' | ' + failed.join(' | ') : '')
+    );
+    return { route, theme, ok: failed.length === 0 };
+  } catch (e) {
+    // Screenshot saat jalur bermasalah: justru saat paling dicari.
+    try {
+      const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
+      const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
+      writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
+    } catch {
+      /* screenshot gagal juga: abaikan, status rute sudah GAGAL */
+    }
+    console.log(`[GAGAL] ${theme} ${route} — ${e.message}`);
+    return { route, theme, ok: false };
+  } finally {
+    offConsole();
+    if (savedSession !== null) {
+      // Kembalikan sesi (sessionStorage bertahan lintas muatan di tab yang
+      // sama), supaya rute terlindungi setelah ini tetap terbuka.
+      try {
         await evaluateJson(
           cdp,
           sessionId,
           `sessionStorage.setItem('learnease_session', ${JSON.stringify(savedSession)})`
         );
+      } catch {
+        /* pemulihan sesi gagal: rute berikut akan lari ke /login */
       }
-      console.log(`[GAGAL] ${theme} ${route} — navigation timeout after 1 retry`);
-      return { route, theme, ok: false };
     }
   }
-  await delay(400);
-
-  const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme));
-  offConsole();
-  if (savedSession !== null) {
-    // Kembalikan sesi (sessionStorage bertahan lintas muatan di tab yang
-    // sama), supaya rute terlindungi setelah ini tetap terbuka.
-    await evaluateJson(
-      cdp,
-      sessionId,
-      `sessionStorage.setItem('learnease_session', ${JSON.stringify(savedSession)})`
-    );
-  }
-  checks.consoleErrors = counters.consoleErrors;
-  checks.failedRequests = counters.failedRequests;
-  checks.themeActive = await evaluateJson(
-    cdp,
-    sessionId,
-    `document.documentElement.classList.contains('${theme}')`
-  );
-
-  const failed = summarize(checks);
-  const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
-  const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
-  writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
-
-  const status = failed.length === 0 ? 'LOLOS' : 'GAGAL';
-  console.log(
-    `[${status}] ${theme} ${route} (${checks.path})` +
-      (failed.length ? ' — ' + failed.join(' | ') : '')
-  );
-  return { route, theme, ok: failed.length === 0 };
 }
 
 async function main() {

@@ -18,6 +18,15 @@ const TOKENS = [
   '--accent',
   '--danger',
   '--success',
+  // Token badge: latar (soft) dan teks kartu status, per varian tema.
+  '--success-soft',
+  '--success-text',
+  '--danger-soft',
+  '--danger-text',
+  '--warning-soft',
+  '--warning-text',
+  '--neutral-soft',
+  '--neutral-text',
 ];
 
 test('tokens.css defines every variable in :root', () => {

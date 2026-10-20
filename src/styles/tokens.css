@@ -27,6 +27,22 @@
   --danger: #D64545;
   /* success: status berhasil, terverifikasi */
   --success: #1F9D6B;
+  /* success-soft: latar badge status berhasil */
+  --success-soft: #DCFCE7;
+  /* success-text: teks badge status berhasil */
+  --success-text: #166534;
+  /* danger-soft: latar badge status gagal */
+  --danger-soft: #FEE2E2;
+  /* danger-text: teks badge status gagal */
+  --danger-text: #B91C1C;
+  /* warning-soft: latar badge status peringatan */
+  --warning-soft: #FFF8DF;
+  /* warning-text: teks badge status peringatan */
+  --warning-text: #8A6100;
+  /* neutral-soft: latar badge netral */
+  --neutral-soft: #F3F4F6;
+  /* neutral-text: teks badge netral */
+  --neutral-text: #4B5563;
 }
 
 .dark {
@@ -52,4 +68,20 @@
   --danger: #FF9BA0;
   /* success: hijau diterangkan agar terbaca di tema gelap */
   --success: #4ADE9B;
+  /* success-soft: latar badge status berhasil */
+  --success-soft: #123A2B;
+  /* success-text: teks badge status berhasil */
+  --success-text: #7EE2B8;
+  /* danger-soft: latar badge status gagal */
+  --danger-soft: #3A1D20;
+  /* danger-text: teks badge status gagal */
+  --danger-text: #FFB4B4;
+  /* warning-soft: latar badge status peringatan */
+  --warning-soft: #3B3218;
+  /* warning-text: teks badge status peringatan */
+  --warning-text: #F5D67A;
+  /* neutral-soft: latar badge netral */
+  --neutral-soft: #232B38;
+  /* neutral-text: teks badge netral */
+  --neutral-text: #C3CBD9;
 }

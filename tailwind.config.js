@@ -19,21 +19,21 @@ export default {
         border: 'var(--border)',
         success: {
           DEFAULT: 'var(--success)',
-          badge: '#DCFCE7',
-          text: '#166534',
+          badge: 'var(--success-soft)',
+          text: 'var(--success-text)',
         },
         danger: {
           DEFAULT: 'var(--danger)',
-          badge: '#FEE2E2',
-          text: '#B91C1C',
+          badge: 'var(--danger-soft)',
+          text: 'var(--danger-text)',
         },
         warning: {
-          badge: '#FFF8DF',
-          text: '#8A6100',
+          badge: 'var(--warning-soft)',
+          text: 'var(--warning-text)',
         },
         neutral: {
-          badge: '#F3F4F6',
-          text: '#4B5563',
+          badge: 'var(--neutral-soft)',
+          text: 'var(--neutral-text)',
         },
       },
       fontFamily: {
