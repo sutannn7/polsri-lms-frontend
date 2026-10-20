@@ -2,18 +2,18 @@ import { useMemo } from 'react';
 import { getAnnouncements, getDeadlines, getMeetings, getTodayAgenda } from '../services/homeService';
 
 function useHomeData() {
-  return useMemo(() => {
-    // "now" dipatok sekali per pemuatan data agar agenda stabil selama render.
-    const now = new Date();
-    const agenda = getTodayAgenda(now);
-    return {
+  const data = useMemo(
+    () => ({
       announcements: getAnnouncements(),
       deadlines: getDeadlines(),
       meetings: getMeetings(),
-      agenda,
-      nextMeeting: agenda.nextMeeting,
-    };
-  }, []);
+    }),
+    [],
+  );
+  // Agenda dihitung ulang tiap render (hanya 13 baris jadwal) agar status
+  // pertemuan bisa berganti Berlangsung/Selesai tanpa memuat ulang halaman.
+  const agenda = getTodayAgenda();
+  return { ...data, agenda, nextMeeting: agenda.nextMeeting };
 }
 
 export default useHomeData;

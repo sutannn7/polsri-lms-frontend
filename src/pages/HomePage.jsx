@@ -39,7 +39,7 @@ function HomePage() {
   return (
     <div className="space-y-8">
       <header className="space-y-1">
-        <h1 className="text-2xl font-bold text-main">Selamat datang, {user?.name ?? 'Mahasiswa'}!</h1>
+        <h1 className="font-display text-3xl font-semibold text-main">Selamat datang, {user?.name ?? 'Mahasiswa'}!</h1>
         <p className="text-sm text-secondary">
           {todayLabel.format(today)} · {jadwalSummary}
         </p>
