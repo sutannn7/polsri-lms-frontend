@@ -7,15 +7,16 @@ const STREAMS = 90;
 const PARTICLES_PER_STREAM = 14;
 const PARTICLE_SPEED = 0.0016;
 const PARTICLE_JITTER = 0.0012;
-const DOT_SIZE = 2;
+const DOT_SIZE = 2.5;
 const DPR_CAP = 1.5;
 
-// Three alpha buckets so the dots can be filled in three passes instead of
-// one fillRect per particle.
+// Four alpha buckets so the dots can be filled in a few passes instead of one
+// fillRect per particle.
 const DOT_BUCKETS = [
-  "rgba(255, 255, 255, 0.28)",
-  "rgba(255, 255, 255, 0.55)",
-  "rgba(255, 193, 7, 0.5)",
+  "rgba(255, 255, 255, 0.22)",
+  "rgba(255, 255, 255, 0.38)",
+  "rgba(255, 255, 255, 0.62)",
+  "rgba(255, 193, 7, 0.6)",
 ];
 
 function bezier(t, p0, p1, p2, p3) {
@@ -68,6 +69,7 @@ function FlowCanvas() {
     let width = 0;
     let height = 0;
     let streams = [];
+    const buckets = [[], [], [], []];
     let raf = 0;
     let last = performance.now();
 
@@ -80,14 +82,13 @@ function FlowCanvas() {
           p1: { x: fromLeft ? width * 0.25 : width * 0.75, y: startY },
           p2: { x: fromLeft ? width * 0.4 : width * 0.6, y: height / 2 },
           p3: { x: width / 2, y: height / 2 },
-          particles: Array.from({ length: PARTICLES_PER_STREAM }, () => {
-            const r = Math.random();
-            return {
-              t: Math.random(),
-              speed: PARTICLE_SPEED + Math.random() * PARTICLE_JITTER,
-              bucket: r < 0.12 ? 2 : r < 0.38 ? 1 : 0,
-            };
-          }),
+          // Every fifth stream is gold, the rest fade from white to gold.
+          gold: i % 5 === 0,
+          particles: Array.from({ length: PARTICLES_PER_STREAM }, () => ({
+            t: Math.random(),
+            speed: PARTICLE_SPEED + Math.random() * PARTICLE_JITTER,
+            gold: Math.random() < 0.12,
+          })),
         };
       });
     };
@@ -109,10 +110,27 @@ function FlowCanvas() {
       offCtx.fillStyle = glow;
       offCtx.fillRect(0, 0, width, height);
 
-      offCtx.lineWidth = 1;
-      offCtx.strokeStyle = "rgba(255, 255, 255, 0.12)";
-      offCtx.setLineDash([1, 5]);
+      offCtx.lineWidth = 1.4;
+      offCtx.setLineDash([2, 6]);
       for (const stream of streams) {
+        // Each stream fades from the edge towards the convergence point, so
+        // the light gathers in the middle. Every fifth stream is gold.
+        const gradient = offCtx.createLinearGradient(
+          stream.p0.x,
+          stream.p0.y,
+          stream.p3.x,
+          stream.p3.y,
+        );
+        if (stream.gold) {
+          gradient.addColorStop(0, "rgba(255, 193, 7, 0.05)");
+          gradient.addColorStop(0.55, "rgba(255, 193, 7, 0.17)");
+          gradient.addColorStop(1, "rgba(255, 226, 150, 0.4)");
+        } else {
+          gradient.addColorStop(0, "rgba(255, 255, 255, 0.05)");
+          gradient.addColorStop(0.55, "rgba(255, 255, 255, 0.16)");
+          gradient.addColorStop(1, "rgba(255, 193, 7, 0.32)");
+        }
+        offCtx.strokeStyle = gradient;
         offCtx.beginPath();
         offCtx.moveTo(stream.p0.x, stream.p0.y);
         offCtx.bezierCurveTo(
@@ -149,7 +167,7 @@ function FlowCanvas() {
       ctx.clearRect(0, 0, width, height);
       ctx.drawImage(off, 0, 0, off.width, off.height, 0, 0, width, height);
 
-      const buckets = [[], [], []];
+      for (const bucket of buckets) bucket.length = 0;
       for (const stream of streams) {
         for (const particle of stream.particles) {
           particle.t += particle.speed * dt;
@@ -161,7 +179,15 @@ function FlowCanvas() {
             stream.p2,
             stream.p3,
           );
-          buckets[particle.bucket].push(pos.x, pos.y);
+          // Brighter the closer a particle gets to the convergence point.
+          const bucket = particle.gold
+            ? 3
+            : particle.t > 0.8
+              ? 2
+              : particle.t > 0.5
+                ? 1
+                : 0;
+          buckets[bucket].push(pos.x, pos.y);
         }
       }
 
@@ -171,7 +197,12 @@ function FlowCanvas() {
         ctx.fillStyle = DOT_BUCKETS[i];
         ctx.beginPath();
         for (let j = 0; j < points.length; j += 2) {
-          ctx.rect(points[j] - 1, points[j + 1] - 1, DOT_SIZE, DOT_SIZE);
+          ctx.rect(
+            points[j] - DOT_SIZE / 2,
+            points[j + 1] - DOT_SIZE / 2,
+            DOT_SIZE,
+            DOT_SIZE,
+          );
         }
         ctx.fill();
       }
