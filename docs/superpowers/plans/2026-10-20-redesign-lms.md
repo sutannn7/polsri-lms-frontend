@@ -15,6 +15,7 @@
 - Halaman login **tidak dirombak**; yang berubah hanya teks label: "NIP / NPM / NIK" → "NIP / NPH / NPM" (label, placeholder, pesan validasi, teks bantuan, paragraf pengantar). `LoginPage.css` tetap scoped dan tetap gelap.
 - Dependency baru **hanya** `next-themes`. Tidak ada test runner, linter, atau browser-automation library yang ditambahkan.
 - Semua warna lewat token CSS. Di `src/components/**` dan `src/pages/**` tidak boleh ada kelas literal `bg-white`, `text-slate-*`, `border-slate-*`, `bg-gray-*`, dan sejenisnya — hanya kelas token.
+- Modifier opacity Tailwind (mis. `bg-accent/15`, `text-primary/70`) **tidak bekerja** dengan token berbentuk `var(--x)` — Tailwind tidak bisa mengabadikan raw CSS variable. Untuk warna transparan gunakan `color-mix(in srgb, var(--token) N%, transparent)`.
 - `defaultTheme="light"`, `enableSystem={false}` pada `ThemeProvider`. Ikon toggle: `SunMoon` dari `lucide-react` (bukan `Moon`/`Sun`).
 - Bahasa antarmuka Indonesia; tidak menambah copy baru berbahasa Inggris.
 - Aksesibilitas: fokus selalu terlihat (ring 2px, offset 2px), kontras teks ≥ 4,5:1 di kedua tema, ikon dekoratif `aria-hidden`, komponen interaktif berupa `<button>`/`<a>` asli.

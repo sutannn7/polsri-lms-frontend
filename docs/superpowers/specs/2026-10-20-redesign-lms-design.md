@@ -65,6 +65,7 @@ Semua warna aplikasi lewat variabel CSS; nilai gelap hanya menimpa variabelnya, 
 | `--text` | `#0F172A` | `#E9EFFA` | teks utama |
 | `--text-muted` | `#5A6782` | `#9FB0CC` | teks sekunder |
 | `--brand` | `#0B2A5B` (navy) | `#0B2A5B` | aksen utama: link, tombol utama |
+| `--on-primary` | `#FFFFFF` | `#0A1426` | teks dan ikon DI ATAS permukaan brand (tombol utama, tab aktif) - selalu kontras >= 4,5:1 terhadap `--brand` |
 | `--accent` | `#FFC107` (emas) | `#FFC107` | status berjalan, sorotan, logo |
 | `--danger` | `#D64545` | `#FF9BA0` | tenggat mendesak, error |
 | `--success` | `#1F9D6B` | `#4ADE9B` | selesai |
@@ -80,12 +81,14 @@ Badge status memakai pasangan warna sendiri (latar lembut + teks kuat), karena w
 
 Aturan warna yang dipaksakan: **warna selalu berarti sesuatu**. Hijau = selesai, emas = berjalan/mendesak, biru = progres, abu = belum. Tidak ada lagi bar progres hijau di satu kolom dan biru di kolom lain (kebocoran itu ada di Dasbor sekarang).
 
+Catatan teknis: modifier opacity Tailwind (`bg-accent/15`) tidak bisa dipakai dengan token berbentuk `var(--x)` — Tailwind tidak dapat mengabadikan raw CSS variable. Untuk warna transparan gunakan `color-mix(in srgb, var(--token) N%, transparent)`.
+
 ### 4.2 Tipografi
 
 | Peran | Family | Ukuran / weight | Catatan |
 |---|---|---|---|
 | Judul halaman (`h1`) | Bricolage Grotesque | 28–36px / 600 | Sentence case, tracking −0,02em |
-| Judul bagian | Plus Jakarta Sans | 15–16px / 700 | Sentence case |
+| Judul bagian | Plus Jakarta Sans | 16–20px / 700 | Sentence case |
 | Teks isi | Plus Jakarta Sans | 14–15px / 400 | |
 | Label & metadata | Plus Jakarta Sans | 13px / 500 | **tidak boleh di bawah 13px**, tidak kapital + letterspacing |
 | Angka besar | Plus Jakarta Sans | 22–28px / 700 | Hanya kalau angka itu punya aksi |
