@@ -49,7 +49,7 @@ function MobileCourseTabs({ activeTab, onChange }) {
           items={items}
           position="bottom"
           offset={14}
-          accentColor="#0056B3"
+          accentColor="var(--brand)"
           showDividers={false}
         />
       ) : null}

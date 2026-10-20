@@ -29,11 +29,11 @@ function Tabs({
           aria-selected={activeValue === tab.id}
           disabled={tab.disabled}
           onClick={() => selectTab(tab)}
-          className={`inline-flex min-h-10 items-center gap-2 rounded-lg border px-3.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${activeValue === tab.id ? 'border-primary bg-primary text-white' : 'border-border bg-white text-secondary hover:border-primary hover:text-primary'} ${tabClassName}`}
+          className={`inline-flex min-h-10 items-center gap-2 rounded-lg border px-3.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 ${activeValue === tab.id ? 'border-primary bg-primary text-on-primary' : 'border-border bg-background text-secondary hover:border-primary hover:text-primary'} ${tabClassName}`}
         >
           <span>{tab.label}</span>
           {tab.count !== undefined && tab.count !== null ? (
-            <span className={`text-xs ${activeValue === tab.id ? 'text-white/80' : 'text-secondary'}`}>{tab.count}</span>
+            <span className={`text-[13px] ${activeValue === tab.id ? 'text-on-primary' : 'text-secondary'}`}>{tab.count}</span>
           ) : null}
         </button>
       ))}

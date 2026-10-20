@@ -323,6 +323,43 @@ const BAWAH_BERANDA_CHECK = `
   })()
 `;
 
+// /mata-kuliah: 11 kartu (data-course-card), input pencarian dengan
+// placeholder "Cari mata kuliah atau dosen", dan tanpa kelas warna literal
+// (bg-white/text-white/slate-*/gray-*) di <main>.
+const MY_COURSES_CHECK = `
+  (() => {
+    const main = document.querySelector('main');
+    const searchInput = main ? main.querySelector('input[type="search"]') : null;
+    return {
+      courseCards: document.querySelectorAll('[data-course-card]').length,
+      searchPlaceholder: searchInput ? searchInput.placeholder : '',
+      literalColorClasses: main
+        ? [...main.querySelectorAll('[class*="bg-white"],[class*="text-white"],[class*="slate-"],[class*="gray-"]')]
+            .map((el) => el.tagName + ':' + String(el.className).slice(0, 80))
+            .slice(0, 3)
+        : [],
+    };
+  })()
+`;
+
+// /mata-kuliah/perbankan: heading "Perbankan" ada, blok "Kelas berikutnya"
+// ada, dan daftar unit (elemen dengan data-unit) terisi.
+const COURSE_DETAIL_CHECK = `
+  (() => {
+    const main = document.querySelector('main');
+    const headings = new Set(
+      [...(main ? main.querySelectorAll('h1') : [])].map(
+        (heading) => heading.textContent.trim(),
+      ),
+    );
+    return {
+      headingMataKuliah: headings.has('Perbankan'),
+      kelasBerikutnya: main ? main.textContent.includes('Kelas berikutnya') : false,
+      unitCount: document.querySelectorAll('[data-unit]').length,
+    };
+  })()
+`;
+
 const PAGE_CHECKS = (theme) => `
   (() => {
     // Classlist SEBELUM skrip memaksa tema: kalau aplikasi sudah
@@ -437,7 +474,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
   try {
     await navigateWithRetry(cdp, sessionId, base + route);
     await delay(400);
-    const agendaFailures = [];
+    const routeFailures = [];
 
     // Dengan --theme-switch, tiap iterasi dimulai dari tema ASLI aplikasi:
     // hapus tema tersimpan (kunci 'theme' milik next-themes), muat ulang,
@@ -458,21 +495,41 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     if (route === '/beranda') {
       const agenda = await evaluateJson(cdp, sessionId, AGENDA_HARI_INI_CHECK);
       if (!agenda.found) {
-        agendaFailures.push('section "Jadwal hari ini" tidak ditemukan');
+        routeFailures.push('section "Jadwal hari ini" tidak ditemukan');
       } else {
         const todayCount = meetingsData.schedule.filter(
           (meeting) => meeting.dayOfWeek === new Date().getDay()
         ).length;
         if (agenda.itemCount !== todayCount)
-          agendaFailures.push(`jadwal hari ini ${agenda.itemCount} item, diharapkan ${todayCount}`);
+          routeFailures.push(`jadwal hari ini ${agenda.itemCount} item, diharapkan ${todayCount}`);
         if (agenda.liWithoutLink > 0)
-          agendaFailures.push(`${agenda.liWithoutLink} li tanpa tautan /mata-kuliah/`);
+          routeFailures.push(`${agenda.liWithoutLink} li tanpa tautan /mata-kuliah/`);
       }
       const bawah = await evaluateJson(cdp, sessionId, BAWAH_BERANDA_CHECK);
-      if (!bawah.headingTenggat) agendaFailures.push('heading "Tenggat terdekat" tidak ada');
-      if (!bawah.headingPengumuman) agendaFailures.push('heading "Pengumuman Kampus" tidak ada');
+      if (!bawah.headingTenggat) routeFailures.push('heading "Tenggat terdekat" tidak ada');
+      if (!bawah.headingPengumuman) routeFailures.push('heading "Pengumuman Kampus" tidak ada');
       if (bawah.literalColorClasses.length > 0)
-        agendaFailures.push(`kelas warna literal: ${bawah.literalColorClasses.join(' | ')}`);
+        routeFailures.push(`kelas warna literal: ${bawah.literalColorClasses.join(' | ')}`);
+    }
+
+    if (route === '/mata-kuliah') {
+      const myCourses = await evaluateJson(cdp, sessionId, MY_COURSES_CHECK);
+      if (myCourses.courseCards !== 11)
+        routeFailures.push(`kartu mata kuliah ${myCourses.courseCards}, diharapkan 11`);
+      if (myCourses.searchPlaceholder !== 'Cari mata kuliah atau dosen')
+        routeFailures.push(
+          `placeholder pencarian '${myCourses.searchPlaceholder}', ` +
+            `diharapkan 'Cari mata kuliah atau dosen'`,
+        );
+      if (myCourses.literalColorClasses.length > 0)
+        routeFailures.push(`kelas warna literal: ${myCourses.literalColorClasses.join(' | ')}`);
+    }
+
+    if (route === '/mata-kuliah/perbankan') {
+      const detail = await evaluateJson(cdp, sessionId, COURSE_DETAIL_CHECK);
+      if (!detail.headingMataKuliah) routeFailures.push('heading "Perbankan" tidak ada');
+      if (!detail.kelasBerikutnya) routeFailures.push('blok "Kelas berikutnya" tidak ada');
+      if (detail.unitCount < 1) routeFailures.push('daftar unit tidak ditemukan');
     }
 
     // Tema: tema milik aplikasi (classList sebelum dipaksa) hanya
@@ -494,7 +551,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     }
 
     const failed = summarize(checks);
-    failed.push(...agendaFailures);
+    failed.push(...routeFailures);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));

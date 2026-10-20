@@ -3,10 +3,10 @@ import Accordion from '../ui/Accordion';
 import ActivityItem from './ActivityItem';
 import QuizCard from './QuizCard';
 
-function MeetingAccordion({ meeting, defaultOpen = false, onActivityAction }) {
-  const completedCount = meeting.activities.filter((activity) => activity.completed).length;
-  const activityCount = meeting.activities.length;
-  const isCompleted = meeting.status === 'completed';
+function MeetingAccordion({ unit, defaultOpen = false, onActivityAction }) {
+  const completedCount = unit.activities.filter((activity) => activity.completed).length;
+  const activityCount = unit.activities.length;
+  const isCompleted = unit.status === 'completed';
 
   return (
     <Accordion
@@ -15,37 +15,37 @@ function MeetingAccordion({ meeting, defaultOpen = false, onActivityAction }) {
       title={
         <span className="flex min-w-0 items-center gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary">
-            {String(meeting.number).padStart(2, '0')}
+            {String(unit.number).padStart(2, '0')}
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-main sm:text-base">
-              {meeting.title}
+              {unit.title}
             </span>
-            <span className="mt-1 block text-xs font-normal text-secondary">
+            <span className="mt-1 block text-[13px] font-normal text-secondary">
               {completedCount}/{activityCount} aktivitas
             </span>
           </span>
           {isCompleted ? (
             <CheckCircle2 className="shrink-0 text-success" size={20} aria-label="Pertemuan selesai" />
-          ) : meeting.status === 'active' ? (
+          ) : unit.status === 'active' ? (
             <PlayCircle className="shrink-0 text-primary" size={20} aria-label="Pertemuan aktif" />
           ) : (
-            <Circle className="shrink-0 text-secondary/50" size={20} aria-label="Belum dimulai" />
+            <Circle className="shrink-0 text-secondary" size={20} aria-label="Belum dimulai" />
           )}
         </span>
       }
     >
       <div className="space-y-3">
-        {meeting.activities.map((activity, index) =>
+        {unit.activities.map((activity, index) =>
           activity.type === 'quiz' ? (
             <QuizCard
-              key={`${meeting.number}-${activity.title}`}
+              key={`${unit.number}-${activity.title}`}
               activity={activity}
               onAction={onActivityAction}
             />
           ) : (
             <ActivityItem
-              key={`${meeting.number}-${activity.title}`}
+              key={`${unit.number}-${activity.title}`}
               activity={activity}
               index={index + 1}
               onAction={onActivityAction}

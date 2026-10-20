@@ -29,7 +29,7 @@ function ProgressBar({
           style={{ width: `${progress}%` }}
         />
       </div>
-      {showValue ? <span className="mt-1 block text-right text-xs font-semibold text-secondary">{progress}%</span> : null}
+      {showValue ? <span className="mt-1 block text-right text-[13px] font-semibold text-secondary">{progress}%</span> : null}
     </div>
   );
 }

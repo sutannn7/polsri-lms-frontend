@@ -52,7 +52,8 @@
   padding: 10px 14px;
   border-radius: 999px;
   color: #eaf0fa;
-  font-size: 12px;
+  /* Label dock minimal 13px — batas teks di seluruh halaman. */
+  font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
 }

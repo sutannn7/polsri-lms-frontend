@@ -17,7 +17,7 @@ function LecturerCard({ name, degree, onOpenForum }) {
       <button
         type="button"
         onClick={onOpenForum}
-        className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-md text-sm font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-lg text-sm font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         <MessageCircle size={16} aria-hidden="true" />
         Tanya melalui forum diskusi

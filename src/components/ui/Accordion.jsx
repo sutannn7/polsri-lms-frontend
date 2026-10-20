@@ -24,14 +24,14 @@ function Accordion({
   }
 
   return (
-    <section className={`overflow-hidden rounded-card border border-border bg-white ${className}`}>
+    <section className={`overflow-hidden rounded-card border border-border bg-background ${className}`}>
       <h3>
         <button
           type="button"
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={toggle}
-          className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left font-semibold text-main transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+          className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left font-semibold text-main transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <span>{title}</span>
           <ChevronDown
