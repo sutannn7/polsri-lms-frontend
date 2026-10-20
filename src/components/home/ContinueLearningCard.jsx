@@ -23,7 +23,7 @@ function ContinueLearningCard({ course, progress, nextSlot }) {
       </div>
       <ProgressBar
         className="mt-2"
-        color={progress >= 100 ? 'success' : 'primary'}
+        tone={progress >= 100 ? 'done' : 'progress'}
         label={`Progres ${course.name}`}
         value={progress}
       />

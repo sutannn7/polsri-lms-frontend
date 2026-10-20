@@ -31,7 +31,7 @@ function CourseHeader({ course }) {
         </div>
         <ProgressBar
           value={course.progress}
-          color="primary"
+          tone="progress"
           label={`Progres belajar ${course.name}`}
           className="mt-3"
         />

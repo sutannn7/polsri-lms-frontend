@@ -46,7 +46,7 @@ function CourseCard({
             </div>
             <ProgressBar
               className="mt-2"
-              color={isCompleted ? 'success' : 'primary'}
+              tone={isCompleted ? 'done' : 'progress'}
               label={`Progres ${course.name}`}
               value={progress}
             />

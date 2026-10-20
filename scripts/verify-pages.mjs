@@ -342,6 +342,23 @@ const MY_COURSES_CHECK = `
   })()
 `;
 
+// /dasbor: tepat 4 kartu statistik (data-stat-card), tanpa ikon (svg) di
+// dalamnya, dan semua pengisi bar progres memakai kelas tone bermakna
+// (bg-primary / bg-success / bg-surface-3) — bukan warna acak.
+const DASBOR_CHECK = `
+  (() => {
+    const stats = [...document.querySelectorAll('[data-stat-card]')];
+    return {
+      statCount: stats.length,
+      svgInStats: stats.filter((el) => el.querySelector('svg') !== null).length,
+      barOffenders: [...document.querySelectorAll('[role="progressbar"] > div')]
+        .filter((el) => !/(bg-primary|bg-success|bg-surface-3)(\\s|$)/.test(String(el.className)))
+        .map((el) => String(el.className).slice(0, 60))
+        .slice(0, 3),
+    };
+  })()
+`;
+
 // /mata-kuliah/perbankan: heading "Perbankan" ada, blok "Kelas berikutnya"
 // ada, dan daftar unit (elemen dengan data-unit) terisi.
 const COURSE_DETAIL_CHECK = `
@@ -525,6 +542,16 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
         routeFailures.push(`kelas warna literal: ${myCourses.literalColorClasses.join(' | ')}`);
     }
 
+    if (route === '/dasbor') {
+      const dasbor = await evaluateJson(cdp, sessionId, DASBOR_CHECK);
+      if (dasbor.statCount !== 4)
+        routeFailures.push(`kartu statistik ${dasbor.statCount}, diharapkan 4`);
+      if (dasbor.svgInStats > 0)
+        routeFailures.push(`${dasbor.svgInStats} kartu statistik masih memuat svg`);
+      if (dasbor.barOffenders.length > 0)
+        routeFailures.push(`bar progres tanpa tone: ${dasbor.barOffenders.join(' | ')}`);
+    }
+
     if (route === '/mata-kuliah/perbankan') {
       const detail = await evaluateJson(cdp, sessionId, COURSE_DETAIL_CHECK);
       if (!detail.headingMataKuliah) routeFailures.push('heading "Perbankan" tidak ada');
@@ -552,6 +579,10 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
 
     const failed = summarize(checks);
     failed.push(...routeFailures);
+    // Tunggu transisi warna (150ms) berakhir: tema dipaksa tepat sebelum cek,
+    // dan elemen dengan transition-colors tertangkap setengah jalan jika
+    // screenshot diambil segera.
+    await delay(300);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));

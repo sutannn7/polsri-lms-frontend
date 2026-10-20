@@ -1,13 +1,14 @@
-const colorClasses = {
-  primary: 'bg-primary',
-  success: 'bg-success',
-  warning: 'bg-accent',
-  danger: 'bg-danger',
+// Tone bermakna satu di seluruh aplikasi: biru = progres, hijau = selesai,
+// abu (surface-3) = belum. Jalur bar surface-2 agar tone idle tetap terlihat.
+const toneClasses = {
+  progress: 'bg-primary',
+  done: 'bg-success',
+  idle: 'bg-surface-3',
 };
 
 function ProgressBar({
   value,
-  color = 'primary',
+  tone = 'progress',
   label = 'Progres',
   showValue = false,
   className = '',
@@ -22,10 +23,10 @@ function ProgressBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={progress}
-        className="h-2 w-full overflow-hidden rounded-full bg-surface-3"
+        className="h-1.5 w-full overflow-hidden rounded-full bg-surface-2"
       >
         <div
-          className={`h-full rounded-full transition-[width] duration-300 ${colorClasses[color] ?? colorClasses.primary}`}
+          className={`h-full rounded-full transition-[width] duration-300 ${toneClasses[tone] ?? toneClasses.progress}`}
           style={{ width: `${progress}%` }}
         />
       </div>
