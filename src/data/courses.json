@@ -15,7 +15,7 @@
   {
     "id": "sistem-informasi-akuntansi",
     "name": "Sistem Informasi Akuntansi",
-    "nameRaw": "Sistem informasi akuntansi",
+    "nameRaw": "Sistem Informasi Akuntansi",
     "lecturer": "Dwi Hajriani Denta",
     "credits": 2,
     "program": "Manajemen Informatika",
@@ -41,7 +41,7 @@
   {
     "id": "praktikum-analisis-data",
     "name": "Praktikum Analisis Data",
-    "nameRaw": "Praktikum analisis data",
+    "nameRaw": "Praktikum Analisis Data",
     "lecturer": "Trizuarah Armiani",
     "credits": 2,
     "program": "Manajemen Informatika",
@@ -54,7 +54,7 @@
   {
     "id": "praktikum-rekayasa-web",
     "name": "Praktikum Rekayasa Web",
-    "nameRaw": "Praktikum rekayasa web",
+    "nameRaw": "Praktikum Rekayasa Web",
     "lecturer": "Surahmat",
     "credits": 2,
     "program": "Manajemen Informatika",
@@ -80,7 +80,7 @@
   {
     "id": "etika-profesi",
     "name": "Etika Profesi",
-    "nameRaw": "Etika profesi",
+    "nameRaw": "Etika Profesi",
     "lecturer": "Dr. Indri Ariyanti",
     "credits": 2,
     "program": "Manajemen Informatika",
@@ -93,7 +93,7 @@
   {
     "id": "sistem-informasi-industri",
     "name": "Sistem Informasi Industri",
-    "nameRaw": "Sistem informasi industri",
+    "nameRaw": "Sistem Informasi Industri",
     "lecturer": "Andry Meylani",
     "credits": 2,
     "program": "Manajemen Informatika",
@@ -106,7 +106,7 @@
   {
     "id": "metodologi-penetliaan",
     "name": "Metodologi Penelitian",
-    "nameRaw": "Metodologi penelitian",
+    "nameRaw": "Metodologi Penelitian",
     "lecturer": "Mardiana",
     "credits": 3,
     "program": "Manajemen Informatika",
@@ -119,7 +119,7 @@
   {
     "id": "manajemen-strategi",
     "name": "Manajemen Strategi",
-    "nameRaw": "Manajemen strategi",
+    "nameRaw": "Manajemen Strategi",
     "lecturer": "Putri Ramadhani",
     "credits": 3,
     "program": "Manajemen Informatika",
@@ -132,7 +132,7 @@
   {
     "id": "praktikum-pemrograman-visual",
     "name": "Praktikum Pemrograman Visual",
-    "nameRaw": "Praktikum pemrograman visual",
+    "nameRaw": "Praktikum Pemrograman Visual",
     "lecturer": "Dewi Irmawati Siregar",
     "credits": 1,
     "program": "Manajemen Informatika",
