@@ -1,373 +1,457 @@
 {
   "schedule": [
     {
-      "id": "mi2301-rabu",
-      "courseId": "MI2301",
-      "courseName": "Pemrograman Web",
-      "dayOfWeek": 3,
-      "startTime": "08.00",
-      "endTime": "09.40",
-      "room": "Lab Komputer 1"
+      "id": "praktikum-keamanan-komputer-senin",
+      "courseId": "praktikum-keamanan-komputer",
+      "courseName": "Prak. Keamanan Komputer",
+      "dayOfWeek": 1,
+      "startTime": "18.30",
+      "endTime": "20.20",
+      "room": "Lantai 3 - Lab 8 (Keamanan Komputer)"
     },
     {
-      "id": "mi2302-rabu",
-      "courseId": "MI2302",
-      "courseName": "Basis Data",
+      "id": "praktikum-rekayasa-web-senin",
+      "courseId": "praktikum-rekayasa-web",
+      "courseName": "Praktikum Rekayasa Web",
+      "dayOfWeek": 1,
+      "startTime": "20.30",
+      "endTime": "21.10",
+      "room": "Lantai 3 - Lab 8 (Keamanan Komputer)"
+    },
+    {
+      "id": "manajemen-proyek-sistem-informasi-selasa",
+      "courseId": "manajemen-proyek-sistem-informasi",
+      "courseName": "Manajemen Proyek Sistem Informasi",
+      "dayOfWeek": 2,
+      "startTime": "18.30",
+      "endTime": "20.30",
+      "room": "Lantai 3 - Lab 3 (Jaringan Komputer)"
+    },
+    {
+      "id": "praktikum-analisis-data-selasa",
+      "courseId": "praktikum-analisis-data",
+      "courseName": "Praktikum Analisis Data",
+      "dayOfWeek": 2,
+      "startTime": "20.30",
+      "endTime": "21.10",
+      "room": "Lantai 3 - Lab 3 (Jaringan Komputer)"
+    },
+    {
+      "id": "etika-profesi-rabu",
+      "courseId": "etika-profesi",
+      "courseName": "Etika Profesi",
       "dayOfWeek": 3,
-      "startTime": "10.00",
-      "endTime": "11.40",
-      "room": "Lab Basis Data"
+      "startTime": "18.30",
+      "endTime": "19.50",
+      "room": "Lantai 2 - Teori 4"
+    },
+    {
+      "id": "sistem-informasi-industri-rabu",
+      "courseId": "sistem-informasi-industri",
+      "courseName": "Sistem Informasi Industri",
+      "dayOfWeek": 3,
+      "startTime": "19.50",
+      "endTime": "21.10",
+      "room": "Lantai 2 - Teori 4"
+    },
+    {
+      "id": "praktikum-analisis-data-kamis",
+      "courseId": "praktikum-analisis-data",
+      "courseName": "Praktikum Analisis Data",
+      "dayOfWeek": 4,
+      "startTime": "18.30",
+      "endTime": "19.50",
+      "room": "Lantai 3 - Lab 5 (Pemrograman Web)"
+    },
+    {
+      "id": "praktikum-rekayasa-web-kamis",
+      "courseId": "praktikum-rekayasa-web",
+      "courseName": "Praktikum Rekayasa Web",
+      "dayOfWeek": 4,
+      "startTime": "19.50",
+      "endTime": "21.10",
+      "room": "Lantai 3 - Lab 5 (Pemrograman Web)"
+    },
+    {
+      "id": "perbankan-jumat",
+      "courseId": "perbankan",
+      "courseName": "Perbankan",
+      "dayOfWeek": 5,
+      "startTime": "18.10",
+      "endTime": "19.50",
+      "room": "Lantai 2 - Teori 5"
+    },
+    {
+      "id": "sistem-informasi-akuntansi-jumat",
+      "courseId": "sistem-informasi-akuntansi",
+      "courseName": "Sistem Informasi Akuntansi",
+      "dayOfWeek": 5,
+      "startTime": "19.50",
+      "endTime": "21.10",
+      "room": "Lantai 2 - Teori 5"
+    },
+    {
+      "id": "metodologi-penetliaan-sabtu",
+      "courseId": "metodologi-penetliaan",
+      "courseName": "Metodologi Penelitian",
+      "dayOfWeek": 6,
+      "startTime": "07.00",
+      "endTime": "09.00",
+      "room": "Lantai 2 - Teori 5"
+    },
+    {
+      "id": "manajemen-strategi-sabtu",
+      "courseId": "manajemen-strategi",
+      "courseName": "Manajemen Strategi",
+      "dayOfWeek": 6,
+      "startTime": "09.30",
+      "endTime": "11.30",
+      "room": "Lantai 2 - Teori 5"
+    },
+    {
+      "id": "praktikum-pemrograman-visual-sabtu",
+      "courseId": "praktikum-pemrograman-visual",
+      "courseName": "Praktikum Pemrograman Visual",
+      "dayOfWeek": 6,
+      "startTime": "12.00",
+      "endTime": "14.00",
+      "room": "Lantai 3 - Lab 6 (Desktop)"
     }
   ],
   "courses": {
-    "MI2301": [
+    "perbankan": [
       {
         "number": 1,
-        "title": "Pengenalan pengembangan web",
+        "title": "Konsep dasar perbankan dan lembaga keuangan",
         "status": "completed",
         "activities": [
-          { "title": "Konsep dasar website", "type": "material", "completed": true },
-          { "title": "Pengenalan browser dan server", "type": "material", "completed": true },
-          { "title": "Diskusi ruang lingkup web", "type": "discussion", "completed": true },
-          { "title": "Kuis pengenalan web", "type": "quiz", "completed": true }
+          { "title": "Materi - Konsep dasar perbankan", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Peran bank dalam perekonomian", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Peran bank dalam kehidupan sehari-hari", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Konsep dasar perbankan", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
         ]
       },
       {
         "number": 2,
-        "title": "Struktur halaman dengan HTML",
-        "status": "completed",
+        "title": "Produk dan layanan bank umum",
+        "status": "active",
         "activities": [
-          { "title": "Elemen dasar HTML", "type": "material", "completed": true },
-          { "title": "Struktur dokumen HTML", "type": "material", "completed": true },
-          { "title": "Latihan membuat halaman", "type": "material", "completed": true },
-          { "title": "Kuis HTML", "type": "quiz", "completed": true }
+          { "title": "Materi - Produk simpanan dan pembiayaan", "type": "material", "format": "PDF", "fileSize": "2,1 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Membandingkan produk simpanan", "type": "discussion", "format": "Forum", "fileSize": "1,5 MB", "action": "Masuk Diskusi", "completed": false },
+          { "title": "Kuis 2 - Produk dan layanan bank", "type": "quiz", "format": "Kuis", "fileSize": "15 soal", "action": "Mulai Kuis", "completed": false }
         ]
       },
       {
         "number": 3,
-        "title": "Tata letak responsif dengan CSS",
-        "status": "completed",
-        "activities": [
-          { "title": "Dasar CSS", "type": "material", "completed": true },
-          { "title": "Flexbox dan Grid", "type": "material", "completed": true },
-          { "title": "Latihan tata letak responsif", "type": "material", "completed": true },
-          { "title": "Kuis CSS responsif", "type": "quiz", "completed": true }
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Formulir dan validasi JavaScript",
-        "status": "active",
-        "activities": [
-          {
-            "title": "Slide Materi - Formulir dan Validasi JavaScript",
-            "type": "material",
-            "format": "PDF",
-            "fileSize": "2,4 MB",
-            "action": "Unduh",
-            "completed": true
-          },
-          {
-            "title": "Tugas 3 - Membuat formulir interaktif",
-            "type": "assignment",
-            "dueAt": "2026-10-15T23:59:00+07:00",
-            "statusLabel": "Belum Dikirim",
-            "action": "Kirim Tugas",
-            "completed": false
-          },
-          {
-            "title": "Kuis - Formulir dan Validasi JavaScript",
-            "type": "quiz",
-            "duration": "45 Menit",
-            "attempts": "2 kali",
-            "questionCount": 20,
-            "description": "Uji pemahaman elemen formulir HTML dan validasi input menggunakan JavaScript.",
-            "action": "Mulai Kuis",
-            "completed": false
-          }
-        ]
-      },
-      {
-        "number": 5,
-        "title": "Integrasi antarmuka dan API",
+        "title": "Perbankan elektronik dan pembayaran digital",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi integrasi antarmuka dan API", "type": "material", "completed": false },
-          { "title": "Latihan menghubungkan API", "type": "material", "completed": false }
-        ]
-      },
-      {
-        "number": 6,
-        "title": "Pengenalan pemrograman sisi server",
-        "status": "notStarted",
-        "activities": [
-          { "title": "Materi pemrograman sisi server", "type": "material", "completed": false }
-        ]
-      },
-      {
-        "number": 7,
-        "title": "Pengujian dan publikasi website",
-        "status": "notStarted",
-        "activities": [
-          { "title": "Materi pengujian dan publikasi", "type": "material", "completed": false }
-        ]
-      },
-      {
-        "number": 8,
-        "title": "Proyek akhir website",
-        "status": "notStarted",
-        "activities": [
-          { "title": "Panduan proyek akhir website", "type": "material", "completed": false }
+          { "title": "Materi - M-banking dan e-money", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Alur pembayaran digital", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Perbankan elektronik", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ],
-    "MI2302": [
+    "sistem-informasi-akuntansi": [
       {
         "number": 1,
-        "title": "Dasar dan model basis data",
+        "title": "Konsep sistem informasi akuntansi",
         "status": "completed",
         "activities": [
-          { "title": "Konsep basis data relasional", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Komponen sistem basis data", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 1 - Identifikasi entitas", "type": "assignment", "dueAt": "2026-10-12T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 1 - Konsep basis data", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Pilih jawaban berdasarkan konsep basis data relasional.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 2 - Diagram relasi sederhana", "type": "assignment", "dueAt": "2026-10-13T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - Konsep dan tujuan SIA", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Komponen sistem informasi akuntansi", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - SIA versus pencatatan manual", "type": "discussion", "format": "Forum", "fileSize": "1,1 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Konsep SIA", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
         ]
       },
       {
         "number": 2,
-        "title": "Relasi tabel dan normalisasi",
+        "title": "Siklus akuntansi dalam sistem ERP",
         "status": "active",
         "activities": [
-          { "title": "Materi relasi antar tabel", "type": "material", "format": "PDF", "fileSize": "2,1 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Contoh normalisasi hingga bentuk normal ketiga", "type": "material", "format": "Video", "fileSize": "18 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 3 - Normalisasi basis data perpustakaan", "type": "assignment", "dueAt": "2026-10-16T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 2 - Relasi dan normalisasi", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Tinjau ketergantungan fungsional sebelum menjawab.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Latihan normalisasi data transaksi", "type": "assignment", "dueAt": "2026-10-22T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Siklus transaksi ke dalam ERP", "type": "material", "format": "PDF", "fileSize": "2,0 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Alur siklus akuntansi", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Modul ERP untuk akuntansi", "type": "discussion", "format": "Forum", "fileSize": "1,3 MB", "action": "Masuk Diskusi", "completed": false }
         ]
       },
       {
         "number": 3,
-        "title": "Bahasa SQL untuk manipulasi data",
+        "title": "Laporan keuangan dan kontrol internal",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi perintah SELECT dan JOIN", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Praktik agregasi data dengan SQL", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 4 - Query laporan peminjaman", "type": "assignment", "dueAt": "2026-10-29T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 3 - Query dan fungsi agregat", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Gunakan sintaks SQL yang sesuai dengan kebutuhan query.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 5 - Subquery dan pengelompokan", "type": "assignment", "dueAt": "2026-11-05T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Perancangan basis data aplikasi",
-        "status": "notStarted",
-        "activities": [
-          { "title": "Materi indeks dan integritas data", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Studi kasus basis data inventaris", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 6 - Skema basis data inventaris", "type": "assignment", "dueAt": "2026-11-12T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 4 - Implementasi dan integritas", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Periksa konsistensi relasi dan aturan integritas.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 7 - Dokumentasi rancangan data", "type": "assignment", "dueAt": "2026-11-19T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Neraca dan laporan laba rugi", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Kontrol internal dalam ERP", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Laporan keuangan", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ],
-    "MI2303": [
+    "manajemen-proyek-sistem-informasi": [
       {
         "number": 1,
-        "title": "Konsep struktur data dan kompleksitas",
+        "title": "Konsep dasar manajemen proyek",
         "status": "completed",
         "activities": [
-          { "title": "Materi tipe data abstrak", "type": "material", "format": "PDF", "fileSize": "1,5 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Analisis kompleksitas algoritma", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 1 - Analisis kompleksitas", "type": "assignment", "dueAt": "2026-10-10T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 1 - Konsep struktur data", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Tentukan struktur data sesuai karakteristik operasi.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 2 - Perbandingan kompleksitas", "type": "assignment", "dueAt": "2026-10-11T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - Pengantar manajemen proyek", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Ruang lingkup proyek SI", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Kuis 1 - Konsep manajemen proyek", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
         ]
       },
       {
         "number": 2,
-        "title": "Array, linked list, dan stack",
-        "status": "completed",
+        "title": "Perencanaan lingkup dan jadwal proyek",
+        "status": "active",
         "activities": [
-          { "title": "Materi array dan linked list", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Simulasi operasi stack", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 3 - Implementasi stack", "type": "assignment", "dueAt": "2026-10-12T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 2 - Struktur linear", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Pelajari karakteristik operasi struktur data linear.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 4 - Implementasi linked list", "type": "assignment", "dueAt": "2026-10-13T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
-        ]
-      },
-      {
-        "number": 3,
-        "title": "Queue, tree, dan traversal",
-        "status": "completed",
-        "activities": [
-          { "title": "Materi queue dan binary tree", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Visualisasi traversal pohon", "type": "material", "format": "Video", "fileSize": "17 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 5 - Simulasi queue", "type": "assignment", "dueAt": "2026-10-14T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 3 - Tree dan traversal", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Telusuri urutan kunjungan node pada pohon.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 6 - Traversal binary tree", "type": "assignment", "dueAt": "2026-10-15T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Graf dan algoritma pengurutan",
-        "status": "completed",
-        "activities": [
-          { "title": "Materi representasi graf", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Perbandingan algoritma pengurutan", "type": "material", "format": "Video", "fileSize": "19 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 7 - Implementasi algoritma pengurutan", "type": "assignment", "dueAt": "2026-10-19T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 4 - Graf dan sorting", "type": "quiz", "duration": "30 Menit", "attempts": "2 kali", "questionCount": 15, "description": "Bandingkan kebutuhan memori dan waktu eksekusi algoritma.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 8 - Evaluasi kompleksitas sorting", "type": "assignment", "dueAt": "2026-10-20T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - WBS dan diagram Gantt", "type": "material", "format": "PDF", "fileSize": "2,2 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Studi kasus jadwal proyek kampus", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Estimasi durasi proyek", "type": "discussion", "format": "Forum", "fileSize": "1,3 MB", "action": "Masuk Diskusi", "completed": false },
+          { "title": "Kuis 2 - Perencanaan proyek", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ],
-    "MI2304": [
+    "praktikum-analisis-data": [
       {
         "number": 1,
-        "title": "Konsep sistem dan kebutuhan pengguna",
+        "title": "Pengenalan analisis data dengan Python",
         "status": "completed",
         "activities": [
-          { "title": "Materi pengantar analisis sistem", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Teknik pengumpulan kebutuhan", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 1 - Identifikasi pemangku kepentingan", "type": "assignment", "dueAt": "2026-10-13T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 1 - Ruang lingkup sistem", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Bedakan kebutuhan fungsional dan nonfungsional.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Pengumpulan proposal tugas akhir", "type": "assignment", "dueAt": "2026-10-20T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - Python untuk analisis data", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Instalasi dan Jupyter Notebook", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Kasus analisis data proyek", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Dasar Python", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
         ]
       },
       {
         "number": 2,
-        "title": "Pemodelan proses dengan UML",
+        "title": "Pembersihan dan transformasi data",
         "status": "active",
         "activities": [
-          { "title": "Materi use case dan aktor", "type": "material", "format": "PDF", "fileSize": "2,0 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Contoh activity diagram", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 3 - Diagram use case sistem perpustakaan", "type": "assignment", "dueAt": "2026-10-22T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 2 - Notasi UML", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Periksa fungsi setiap notasi sebelum memulai kuis.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 4 - Activity diagram proses bisnis", "type": "assignment", "dueAt": "2026-10-28T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Pembersihan data dengan Pandas", "type": "material", "format": "PDF", "fileSize": "2,1 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Transformasi data dengan Pandas", "type": "material", "format": "Video", "fileSize": "18 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Diskusi - Menangani dataset kotor", "type": "discussion", "format": "Forum", "fileSize": "1,4 MB", "action": "Masuk Diskusi", "completed": false },
+          { "title": "Kuis 2 - Pembersihan data", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": true }
         ]
       },
       {
         "number": 3,
-        "title": "Pemodelan data dan rancangan sistem",
+        "title": "Visualisasi data dengan dashboard",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi class diagram", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Studi kasus sequence diagram", "type": "material", "format": "Video", "fileSize": "18 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 5 - Class diagram sistem akademik", "type": "assignment", "dueAt": "2026-11-04T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 3 - Pemodelan data", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Tinjau hubungan antar kelas pada studi kasus.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 6 - Rancangan interaksi sistem", "type": "assignment", "dueAt": "2026-11-11T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Dokumentasi dan evaluasi rancangan",
-        "status": "notStarted",
-        "activities": [
-          { "title": "Materi dokumentasi rancangan", "type": "material", "format": "PDF", "fileSize": "1,4 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Teknik validasi rancangan bersama pengguna", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 7 - Dokumen spesifikasi sistem", "type": "assignment", "dueAt": "2026-11-18T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 4 - Evaluasi rancangan", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Evaluasi kesesuaian rancangan dengan kebutuhan yang disepakati.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 8 - Presentasi rancangan sistem", "type": "assignment", "dueAt": "2026-11-25T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Visualisasi dengan matplotlib", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Membangun dashboard sederhana", "type": "material", "format": "Video", "fileSize": "20 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Visualisasi data", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ],
-    "MI2305": [
+    "praktikum-rekayasa-web": [
       {
         "number": 1,
-        "title": "Model jaringan dan perangkat",
+        "title": "Desain antarmuka dengan HTML dan CSS",
         "status": "completed",
         "activities": [
-          { "title": "Materi model OSI dan TCP/IP", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Pengenalan perangkat jaringan", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 1 - Pemetaan lapisan jaringan", "type": "assignment", "dueAt": "2026-10-12T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 1 - Model jaringan", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Cocokkan fungsi protokol dengan lapisan jaringan.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 2 - Diagram topologi jaringan", "type": "assignment", "dueAt": "2026-10-14T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - Struktur HTML dan styling CSS", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Layout responsif", "type": "material", "format": "Video", "fileSize": "17 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Review tampilan web proyek", "type": "discussion", "format": "Forum", "fileSize": "1,3 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - HTML dan CSS", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Lihat Kuis", "completed": true }
         ]
       },
       {
         "number": 2,
-        "title": "Ethernet dan komunikasi lokal",
-        "status": "completed",
+        "title": "Logika frontend dengan JavaScript",
+        "status": "active",
         "activities": [
-          { "title": "Materi Ethernet dan switching", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Simulasi komunikasi dalam LAN", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 3 - Konfigurasi jaringan lokal", "type": "assignment", "dueAt": "2026-10-15T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true },
-          { "title": "Kuis 2 - Ethernet dan switching", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Periksa alur frame dan fungsi switch sebelum menjawab.", "action": "Lihat Kuis", "completed": true },
-          { "title": "Tugas 4 - Analisis lalu lintas LAN", "type": "assignment", "dueAt": "2026-10-18T23:59:00+07:00", "statusLabel": "Terkirim", "action": "Lihat Tugas", "completed": true }
+          { "title": "Materi - DOM dan event JavaScript", "type": "material", "format": "PDF", "fileSize": "2,0 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Manipulasi DOM", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Kendala latihan JavaScript", "type": "discussion", "format": "Forum", "fileSize": "1,1 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 2 - JavaScript dasar", "type": "quiz", "format": "Kuis", "fileSize": "15 soal", "action": "Mulai Kuis", "completed": false }
         ]
       },
       {
         "number": 3,
-        "title": "Pengalamatan IP dan subnetting",
-        "status": "active",
-        "activities": [
-          { "title": "Materi alamat IPv4 dan subnet mask", "type": "material", "format": "PDF", "fileSize": "2,2 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Latihan menghitung subnet", "type": "material", "format": "Video", "fileSize": "21 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 5 - Rencana subnet jaringan kampus", "type": "assignment", "dueAt": "2026-10-25T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 3 - IPv4 dan subnetting", "type": "quiz", "duration": "30 Menit", "attempts": "2 kali", "questionCount": 15, "description": "Siapkan perhitungan network ID dan rentang host.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 6 - Pembagian alamat IP", "type": "assignment", "dueAt": "2026-11-01T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Layanan jaringan dan keamanan dasar",
+        "title": "Integrasi API dan komunikasi data",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi DHCP dan DNS", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Konfigurasi layanan jaringan", "type": "material", "format": "Video", "fileSize": "18 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 7 - Konfigurasi DNS dan DHCP", "type": "assignment", "dueAt": "2026-11-08T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 4 - Layanan jaringan", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Tinjau fungsi layanan jaringan dan praktik pengamanan dasar.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 8 - Evaluasi keamanan LAN", "type": "assignment", "dueAt": "2026-11-15T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Konsumsi REST API", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Fetch dan JSON", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Diskusi - Perencanaan API proyek", "type": "discussion", "format": "Forum", "fileSize": "1,0 MB", "action": "Masuk Diskusi", "completed": false },
+          { "title": "Kuis 3 - Integrasi API", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ],
-    "MI2306": [
+    "praktikum-keamanan-komputer": [
       {
         "number": 1,
-        "title": "Pengumpulan dan penyajian data",
+        "title": "Praktik proteksi aset dan ancaman umum",
         "status": "active",
         "activities": [
-          { "title": "Materi jenis dan skala data", "type": "material", "format": "PDF", "fileSize": "1,4 MB", "action": "Buka Materi", "completed": true },
-          { "title": "Penyajian data dalam tabel dan diagram", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
-          { "title": "Tugas 1 - Tabel distribusi frekuensi", "type": "assignment", "dueAt": "2026-10-18T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 1 - Jenis dan penyajian data", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Kenali jenis data sebelum memilih bentuk penyajiannya.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 2 - Diagram data hasil pengamatan", "type": "assignment", "dueAt": "2026-10-25T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Ancaman keamanan komputer", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Praktik keamanan dasar", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Pengalaman menangani ancaman", "type": "discussion", "format": "Forum", "fileSize": "1,0 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Ancaman dan proteksi", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
         ]
       },
       {
         "number": 2,
-        "title": "Ukuran pemusatan data",
+        "title": "Penerapan firewall dan enkripsi dasar",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi mean, median, dan modus", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Contoh perhitungan ukuran pemusatan", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 3 - Ukuran pemusatan data kelompok", "type": "assignment", "dueAt": "2026-11-01T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 2 - Mean, median, dan modus", "type": "quiz", "duration": "20 Menit", "attempts": "2 kali", "questionCount": 10, "description": "Perhatikan karakteristik data saat memilih ukuran yang tepat.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 4 - Perbandingan ukuran pemusatan", "type": "assignment", "dueAt": "2026-11-08T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Konfigurasi firewall dasar", "type": "material", "format": "PDF", "fileSize": "2,1 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Enkripsi data praktik", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 2 - Firewall dan enkripsi", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      }
+    ],
+    "etika-profesi": [
+      {
+        "number": 1,
+        "title": "Profesi informatika dan kode etik",
+        "status": "completed",
+        "activities": [
+          { "title": "Materi - Profesi dan kode etik informatika", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Tanggung jawab profesional", "type": "material", "format": "Video", "fileSize": "11 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Kode etik dalam praktik", "type": "discussion", "format": "Forum", "fileSize": "1,0 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Kode etik profesi", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Studi kasus dilema etika keprofesian",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi - Studi kasus dilema etika", "type": "material", "format": "PDF", "fileSize": "1,5 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Diskusi - Kasus kebocoran data", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": false },
+          { "title": "Kuis 2 - Dilema etika", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      }
+    ],
+    "sistem-informasi-industri": [
+      {
+        "number": 1,
+        "title": "Peran SI dalam proses industri",
+        "status": "completed",
+        "activities": [
+          { "title": "Materi - SI di industri manufaktur", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Rantai pasok digital", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - SI proses industri lokal", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Peran SI industri", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Perancangan proses produksi terintegrasi",
+        "status": "active",
+        "activities": [
+          { "title": "Materi - Perancangan proses terintegrasi", "type": "material", "format": "PDF", "fileSize": "2,1 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Alur produksi terintegrasi", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Kendala integrasi proses", "type": "discussion", "format": "Forum", "fileSize": "1,1 MB", "action": "Masuk Diskusi", "completed": false }
         ]
       },
       {
         "number": 3,
-        "title": "Ukuran letak dan penyebaran",
+        "title": "Evaluasi kinerja dan mutu proses",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi kuartil dan persentil", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Varians dan simpangan baku", "type": "material", "format": "Video", "fileSize": "17 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 5 - Analisis ukuran penyebaran", "type": "assignment", "dueAt": "2026-11-15T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 3 - Kuartil dan simpangan baku", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Bandingkan ukuran penyebaran untuk membaca variasi data.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 6 - Interpretasi variasi data", "type": "assignment", "dueAt": "2026-11-22T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Ukuran kinerja proses", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Evaluasi mutu proses", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Evaluasi proses", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      }
+    ],
+    "metodologi-penetliaan": [
+      {
+        "number": 1,
+        "title": "Dasar-dasar penelitian informasi",
+        "status": "completed",
+        "activities": [
+          { "title": "Materi - Pengantar metodologi penelitian", "type": "material", "format": "PDF", "fileSize": "1,5 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Jenis-jenis penelitian", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Pemilihan topik penelitian", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Dasar metodologi", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Merumuskan masalah dan hipotesis penelitian",
+        "status": "active",
+        "activities": [
+          { "title": "Materi - Menyusun pernyataan masalah", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Latar belakang dan rumusan masalah", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Draft hipotesis teman", "type": "discussion", "format": "Forum", "fileSize": "1,1 MB", "action": "Masuk Diskusi", "completed": false }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Metode pengumpulan data",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi - Kuesioner dan wawancara", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Teknik sampling", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 2 - Pengumpulan data", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
         ]
       },
       {
         "number": 4,
-        "title": "Peluang dan pengantar statistika inferensial",
+        "title": "Teknik analisis data penelitian",
         "status": "notStarted",
         "activities": [
-          { "title": "Materi peluang kejadian", "type": "material", "format": "PDF", "fileSize": "1,5 MB", "action": "Buka Materi", "completed": false },
-          { "title": "Pengantar distribusi probabilitas", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": false },
-          { "title": "Tugas 7 - Penerapan peluang", "type": "assignment", "dueAt": "2026-11-29T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false },
-          { "title": "Kuis 4 - Peluang dasar", "type": "quiz", "duration": "25 Menit", "attempts": "2 kali", "questionCount": 12, "description": "Tentukan ruang sampel dan peluang setiap kejadian.", "action": "Mulai Kuis", "completed": false },
-          { "title": "Tugas 8 - Ringkasan analisis data", "type": "assignment", "dueAt": "2026-12-06T23:59:00+07:00", "statusLabel": "Belum Dikirim", "action": "Kirim Tugas", "completed": false }
+          { "title": "Materi - Statistik deskriptif untuk penelitian", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Analisis kuantitatif dasar", "type": "material", "format": "Video", "fileSize": "17 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Analisis data", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      }
+    ],
+    "manajemen-strategi": [
+      {
+        "number": 1,
+        "title": "Konsep manajemen strategi",
+        "status": "completed",
+        "activities": [
+          { "title": "Materi - Pengantar manajemen strategi", "type": "material", "format": "PDF", "fileSize": "1,8 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Tingkatan strategi organisasi", "type": "material", "format": "Video", "fileSize": "13 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - Strategi organisasi di sekitar kita", "type": "discussion", "format": "Forum", "fileSize": "1,2 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 1 - Konsep strategi", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Analisis lingkungan dengan SWOT dan Porter",
+        "status": "active",
+        "activities": [
+          { "title": "Materi - Analisis SWOT", "type": "material", "format": "PDF", "fileSize": "2,0 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Lima kekuatan Porter", "type": "material", "format": "Video", "fileSize": "16 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Diskusi - SWOT perusahaan lokal", "type": "discussion", "format": "Forum", "fileSize": "1,3 MB", "action": "Masuk Diskusi", "completed": true },
+          { "title": "Kuis 2 - Analisis lingkungan", "type": "quiz", "format": "Kuis", "fileSize": "15 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Perumusan dan implementasi strategi",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi - Formulasi strategi", "type": "material", "format": "PDF", "fileSize": "1,9 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Implementasi strategi organisasi", "type": "material", "format": "Video", "fileSize": "15 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 3 - Perumusan strategi", "type": "quiz", "format": "Kuis", "fileSize": "12 soal", "action": "Mulai Kuis", "completed": false }
+        ]
+      }
+    ],
+    "praktikum-pemrograman-visual": [
+      {
+        "number": 1,
+        "title": "Dasar antarmuka visual",
+        "status": "completed",
+        "activities": [
+          { "title": "Materi - Dasar desain antarmuka visual", "type": "material", "format": "PDF", "fileSize": "1,6 MB", "action": "Buka Materi", "completed": true },
+          { "title": "Video - Komponen antarmuka visual", "type": "material", "format": "Video", "fileSize": "12 Menit", "action": "Buka Materi", "completed": true },
+          { "title": "Kuis 1 - Dasar antarmuka visual", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Lihat Kuis", "completed": true }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Event handling dan kontrol alur aplikasi",
+        "status": "notStarted",
+        "activities": [
+          { "title": "Materi - Dasar event handling", "type": "material", "format": "PDF", "fileSize": "1,7 MB", "action": "Buka Materi", "completed": false },
+          { "title": "Video - Alur aplikasi dengan percabangan", "type": "material", "format": "Video", "fileSize": "14 Menit", "action": "Buka Materi", "completed": false },
+          { "title": "Kuis 2 - Event handling", "type": "quiz", "format": "Kuis", "fileSize": "10 soal", "action": "Mulai Kuis", "completed": false }
         ]
       }
     ]

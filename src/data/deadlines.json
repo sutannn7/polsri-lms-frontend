@@ -1,33 +1,33 @@
 [
   {
-    "id": "form-interaktif",
-    "title": "Membuat formulir interaktif",
-    "courseId": "MI2301",
-    "courseName": "Pemrograman Web",
+    "id": "tugas-produk-simpanan",
+    "title": "Tugas komparasi produk simpanan",
+    "courseId": "perbankan",
+    "courseName": "Perbankan",
     "dueInDays": 1,
     "status": "Mendesak"
   },
   {
-    "id": "normalisasi-perpustakaan",
-    "title": "Normalisasi basis data perpustakaan",
-    "courseId": "MI2302",
-    "courseName": "Basis Data",
+    "id": "tugas-siklus-erp",
+    "title": "Pencatatan siklus akuntansi dalam ERP",
+    "courseId": "sistem-informasi-akuntansi",
+    "courseName": "Sistem Informasi Akuntansi",
     "dueInDays": 3,
     "status": "Akan Datang"
   },
   {
-    "id": "algoritma-pengurutan",
-    "title": "Implementasi algoritma pengurutan",
-    "courseId": "MI2303",
-    "courseName": "Struktur Data",
+    "id": "laporan-lingkup-proyek",
+    "title": "Laporan lingkup dan jadwal proyek",
+    "courseId": "manajemen-proyek-sistem-informasi",
+    "courseName": "Manajemen Proyek Sistem Informasi",
     "dueInDays": 6,
     "status": "Akan Datang"
   },
   {
-    "id": "proposal-tugas-akhir",
-    "title": "Pengumpulan proposal tugas akhir",
-    "courseId": "MI2304",
-    "courseName": "Analisis dan Perancangan Sistem Informasi",
+    "id": "refleksi-kode-etik",
+    "title": "Refleksi kode etik profesi",
+    "courseId": "etika-profesi",
+    "courseName": "Etika Profesi",
     "dueInDays": -2,
     "status": "Selesai"
   }
