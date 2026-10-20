@@ -64,7 +64,9 @@ body:has(.login-kosmik-theme) {
   position: relative;
   overflow: hidden;
   padding: 16px 20px 0;
-  background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
+  /* Mobile: the banner fades into the panel colour so the two do not meet
+     at a hard seam. The desktop panel keeps the gradient all the way. */
+  background: var(--glow), linear-gradient(to bottom, transparent 38%, var(--panel) 97%), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
 }
 
 /* ---------- particle flow (desktop only) ---------- */
@@ -579,6 +581,7 @@ body:has(.login-kosmik-theme) {
        read as one surface. Still the same single glow. */
     --glow: radial-gradient(64% 50% at 76% 30%, rgba(255, 193, 7, 0.18), transparent 72%); /* taste-skill-ignore */
     --frame: min(90%, 68vh);
+    background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
     display: flex;
     flex-direction: column;
     min-height: 100dvh;

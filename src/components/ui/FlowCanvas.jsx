@@ -3,8 +3,11 @@ import { memo, useEffect, useRef, useState } from "react";
 // The left panel only exists on desktop widths (see LoginPage.css).
 const DESKTOP = "(min-width: 901px)";
 
-const STREAMS = 90;
-const PARTICLES_PER_STREAM = 14;
+const STREAMS_DESKTOP = 90;
+const PARTICLES_DESKTOP = 14;
+// The mobile panel is a short banner, so it gets a quarter of the particles.
+const STREAMS_MOBILE = 48;
+const PARTICLES_MOBILE = 6;
 const PARTICLE_SPEED = 0.0016;
 const PARTICLE_JITTER = 0.0012;
 const DOT_SIZE = 2.5;
@@ -51,7 +54,6 @@ function FlowCanvas() {
   }, []);
 
   useEffect(() => {
-    if (!desktop) return undefined;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return undefined;
@@ -74,9 +76,11 @@ function FlowCanvas() {
     let last = performance.now();
 
     const build = () => {
-      streams = Array.from({ length: STREAMS }, (_, i) => {
+      const count = desktop ? STREAMS_DESKTOP : STREAMS_MOBILE;
+      const perStream = desktop ? PARTICLES_DESKTOP : PARTICLES_MOBILE;
+      streams = Array.from({ length: count }, (_, i) => {
         const fromLeft = i % 2 === 0;
-        const startY = (i / STREAMS) * height * 1.5 - height * 0.25;
+        const startY = (i / count) * height * 1.5 - height * 0.25;
         return {
           p0: { x: fromLeft ? 0 : width, y: startY },
           p1: { x: fromLeft ? width * 0.25 : width * 0.75, y: startY },
@@ -84,7 +88,7 @@ function FlowCanvas() {
           p3: { x: width / 2, y: height / 2 },
           // Every fifth stream is gold, the rest fade from white to gold.
           gold: i % 5 === 0,
-          particles: Array.from({ length: PARTICLES_PER_STREAM }, () => ({
+          particles: Array.from({ length: perStream }, () => ({
             t: Math.random(),
             speed: PARTICLE_SPEED + Math.random() * PARTICLE_JITTER,
             gold: Math.random() < 0.12,
@@ -237,8 +241,6 @@ function FlowCanvas() {
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [desktop]);
-
-  if (!desktop) return null;
 
   return <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />;
 }
