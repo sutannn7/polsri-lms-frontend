@@ -1,3 +1,5 @@
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,8 +20,8 @@
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background-color: #F8F9FA;
-    color: #1F2937;
+    background-color: var(--surface);
+    color: var(--text);
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: normal;
     word-spacing: normal;
