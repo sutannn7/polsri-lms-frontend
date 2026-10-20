@@ -69,6 +69,15 @@ Semua warna aplikasi lewat variabel CSS; nilai gelap hanya menimpa variabelnya, 
 | `--danger` | `#D64545` | `#FF9BA0` | tenggat mendesak, error |
 | `--success` | `#1F9D6B` | `#4ADE9B` | selesai |
 
+Badge status memakai pasangan warna sendiri (latar lembut + teks kuat), karena warna status utama tidak cukup kontras di atas kartu. Semuanya juga berupa token agar ikut berubah di mode gelap:
+
+| Token | Terang | Gelap | Dipakai untuk |
+|---|---|---|---|
+| `--success-soft` / `--success-text` | `#DCFCE7` / `#166534` | `#123A2B` / `#7EE2B8` | badge "Selesai" |
+| `--danger-soft` / `--danger-text` | `#FEE2E2` / `#B91C1C` | `#3A1D20` / `#FFB4B4` | badge "Mendesak", error |
+| `--warning-soft` / `--warning-text` | `#FFF8DF` / `#8A6100` | `#3B3218` / `#F5D67A` | badge peringatan |
+| `--neutral-soft` / `--neutral-text` | `#F3F4F6` / `#4B5563` | `#232B38` / `#C3CBD9` | badge netral |
+
 Aturan warna yang dipaksakan: **warna selalu berarti sesuatu**. Hijau = selesai, emas = berjalan/mendesak, biru = progres, abu = belum. Tidak ada lagi bar progres hijau di satu kolom dan biru di kolom lain (kebocoran itu ada di Dasbor sekarang).
 
 ### 4.2 Tipografi

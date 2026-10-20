@@ -26,7 +26,6 @@
 - Data mock wajib persis mengikuti §5 dokumen spec: 13 baris jadwal (Senin–Sabtu), 11 mata kuliah, 21 SKS, kelas `DIPLOMA IV - 5MIM` / Manajemen Informatika.
 - Angka (progres, jumlah tugas) dihitung dari data, tidak disimpan terpisah, supaya tidak bisa berbeda antar halaman.
 - Node.js ≥ 18 diperlukan untuk `npm test` (`node --test`).
-
 ## Review Focus
 
 1. **Hari tanpa kelas** (Minggu, atau hari yang tidak ada di jadwal) → blok agenda harus menampilkan kondisi kosong yang informatif ("Tidak ada kelas hari ini" + kelas berikutnya), bukan daftar kosong.Diuji di Task 3 (`buildAgenda` untuk hari Minggu → `kind: 'empty'`) dan Task 4 (verify).
@@ -50,9 +49,9 @@
 **Interfaces:**
 - Consumes: — (fondasi)
 - Produces:
-  - CSS variable yang tersedia di `:root` dan `.dark`: `--surface`, `--surface-2`, `--surface-3`, `--border`, `--text`, `--text-muted`, `--brand`, `--brand-soft`, `--accent`, `--danger`, `--success`.
+  - CSS variable yang tersedia di `:root` dan `.dark`: `--surface`, `--surface-2`, `--surface-3`, `--border`, `--text`, `--text-muted`, `--brand`, `--brand-soft`, `--accent`, `--danger`, `--success`, plus pasangan badge: `--success-soft`, `--success-text`, `--danger-soft`, `--danger-text`, `--warning-soft`, `--warning-text`, `--neutral-soft`, `--neutral-text` (nilai persis di spec §4.1).
   - Kelas Tailwind yang memetakan ke variable itu: `bg-background` (surface), `bg-surface-2`, `bg-surface-3`, `text-main` (text), `text-secondary` (text-muted), `border-border`, `bg-primary` (brand), `bg-primary-soft` (brand-soft), `text-primary`, `text-accent`, `bg-accent`, `text-danger`, `text-success`, `border-danger`, `border-success`.
-  - `npm test` → menjalankan `node --test tests/`.
+  - `npm test` → menjalankan `node --test "tests/**/*.test.js"` (bentuk glob; `node --test tests/` gagal di Node 22 Windows).
   - `npm run verify -- --routes /beranda,/dasbor --theme light,dark --out <folder>` → memeriksa tiap rute: tanpa overflow horizontal, tanpa error console, tanpa request gagal, tema yang diminta aktif di `document.documentElement.classList`, dan menulis screenshot ke `<folder>/<theme>-<rute>.png`. Exit 0 bila semua lolos.
 
 - [ ] **Step 1: Tulis test yang gagal**
@@ -66,11 +65,11 @@ Expected: FAIL — `ENOENT` untuk `src/styles/tokens.css` (file belum ada).
 
 - [ ] **Step 3: Buat `src/styles/tokens.css`**
 
-Isi: blok `:root` dengan nilai terang dari §4.1 spec (`--surface: #FFFFFF`, `--surface-2: #F5F7FB`, `--surface-3: #EDF1F8`, `--border: #E2E8F2`, `--text: #0F172A`, `--text-muted: #5A6782`, `--brand: #0B2A5B`, `--brand-soft: #E8EEF9`, `--accent: #FFC107`, `--danger: #D64545`, `--success: #1F9D6B`) dan blok `.dark` dengan nilai gelap (`--surface: #0A1426`, `--surface-2: #101C33`, `--surface-3: #16233D`, `--border: #1E2C48`, `--text: #E9EFFA`, `--text-muted: #9FB0CC`, `--brand: #4C8DF6`, `--brand-soft: #16233D`, `--accent: #FFC107`, `--danger: #FF9BA0`, `--success: #4ADE9B`). Tambahkan komentar singkat per token.
+Isi: blok `:root` dengan nilai terang dari §4.1 spec (`--surface: #FFFFFF`, `--surface-2: #F5F7FB`, `--surface-3: #EDF1F8`, `--border: #E2E8F2`, `--text: #0F172A`, `--text-muted: #5A6782`, `--brand: #0B2A5B`, `--brand-soft: #E8EEF9`, `--accent: #FFC107`, `--danger: #D64545`, `--success: #1F9D6B`, `--success-soft: #DCFCE7`, `--success-text: #166534`, `--danger-soft: #FEE2E2`, `--danger-text: #B91C1C`, `--warning-soft: #FFF8DF`, `--warning-text: #8A6100`, `--neutral-soft: #F3F4F6`, `--neutral-text: #4B5563`) dan blok `.dark` dengan nilai gelap (`--surface: #0A1426`, `--surface-2: #101C33`, `--surface-3: #16233D`, `--border: #1E2C48`, `--text: #E9EFFA`, `--text-muted: #9FB0CC`, `--brand: #4C8DF6`, `--brand-soft: #16233D`, `--accent: #FFC107`, `--danger: #FF9BA0`, `--success: #4ADE9B`, `--success-soft: #123A2B`, `--success-text: #7EE2B8`, `--danger-soft: #3A1D20`, `--danger-text: #FFB4B4`, `--warning-soft: #3B3218`, `--warning-text: #F5D67A`, `--neutral-soft: #232B38`, `--neutral-text: #C3CBD9`). Tambahkan komentar singkat per token.
 
 - [ ] **Step 4: Arahkan Tailwind ke variable**
 
-Di `tailwind.config.js`, set `darkMode: 'class'` di dalam `theme`, dan ganti nilai warna semantik menjadi `var(--...)`: `background` → `var(--surface)`, `main` → `var(--text)`, `secondary` → `var(--text-muted)`, `border` → `var(--border)`, `primary` → `var(--brand)`, `primary-dark` → `var(--brand)`, `primary-soft` → `var(--brand-soft)`, `accent` → `var(--accent)`, `danger` → `var(--danger)`, `success` → `var(--success)`. Tambahkan key baru `surface-2` → `var(--surface-2)` dan `surface-3` → `var(--surface-3)`. Ganti `fontFamily.display` dari Plus Jakarta Sans menjadi `'Bricolage Grotesque'`.
+Di `tailwind.config.js`, set `darkMode: 'class'` **di level atas config** (bukan di dalam `theme` — Tailwind 3 mengabaikannya di sana), dan ganti nilai warna semantik menjadi `var(--...)`: `background` → `var(--surface)`, `main` → `var(--text)`, `secondary` → `var(--text-muted)`, `border` → `var(--border)`, `primary` → `var(--brand)`, `primary-dark` → `var(--brand)`, `primary-soft` → `var(--brand-soft)`, `accent` → `var(--accent)`, `danger` → `var(--danger)`, `success` → `var(--success)`. Tambahkan key baru `surface-2` → `var(--surface-2)` dan `surface-3` → `var(--surface-3)`. Ganti `fontFamily.display` dari Plus Jakarta Sans menjadi `'Bricolage Grotesque'`.
 
 - [ ] **Step 5: Hubungkan token ke halaman**
 
