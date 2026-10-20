@@ -84,6 +84,9 @@ function FlowCanvas() {
       // edges of the canvas, so they are exact mirror images and the visible
       // hot spot lands on the centre line.
       const focus = width / 2;
+      // On mobile the canvas is only as tall as the header band, and the logo
+      // sits below its middle, so the hot spot follows the logo instead.
+      const focusY = desktop ? height / 2 : height * 0.66;
       // The two fans are mirror images of each other, so they have the same
       // size and shape. The left one starts off-screen, like the reference.
       const span = width - focus;
@@ -100,9 +103,9 @@ function FlowCanvas() {
           p1: { x: fromLeft ? p1Left : p1Right, y: startY },
           p2: {
             x: fromLeft ? p2Left : p2Right,
-            y: height / 2,
+            y: focusY,
           },
-          p3: { x: focus, y: height / 2 },
+          p3: { x: focus, y: focusY },
           // Every fifth stream is gold, the rest fade from white to gold.
           gold: i % 5 === 0,
           particles: Array.from({ length: perStream }, () => ({
@@ -118,12 +121,13 @@ function FlowCanvas() {
       offCtx.clearRect(0, 0, width, height);
 
       const focus = width / 2;
+      const focusY = desktop ? height / 2 : height * 0.66;
       const glow = offCtx.createRadialGradient(
         focus,
-        height / 2,
+        focusY,
         0,
         focus,
-        height / 2,
+        focusY,
         Math.min(width, height) * 0.5,
       );
       glow.addColorStop(0, "rgba(255, 193, 7, 0.10)");
