@@ -718,10 +718,6 @@ body:has(.login-kosmik-theme) {
     padding-bottom: 32px;
   }
 
-  .login-kosmik-theme .card {
-    margin-bottom: 20px;
-  }
-
   .login-kosmik-theme .head {
     font-size: clamp(21px, 1.9vw, 28px);
   }
