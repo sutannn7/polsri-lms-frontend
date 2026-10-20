@@ -92,8 +92,7 @@ src/
 │   │   ├── AnnouncementCard.jsx
 │   │   ├── CalendarWidget.jsx
 │   │   ├── ContinueLearningCard.jsx
-│   │   ├── DeadlineList.jsx
-│   │   └── ContinueLearningCard.jsx
+│   │   └── DeadlineList.jsx
 │   ├── layout/
 │   │   ├── Breadcrumb.jsx
 │   │   ├── Footer.jsx

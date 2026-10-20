@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F3F5F9" />
     <script>
-      // Warnai chrome peramban seluler sesuai tema tersimpan, atau preferensi sistem.
+      // Warnai chrome peramban seluler sesuai tema tersimpan; default terang
+      // (sama dengan defaultTheme="light"), lalu ikuti toggle tema pengguna.
       (function () {
+        var meta = document.querySelector('meta[name="theme-color"]');
+        function syncThemeColor() {
+          var dark = document.documentElement.classList.contains('dark');
+          meta.setAttribute('content', dark ? '#0A1426' : '#F3F5F9');
+          styled = true;
+        }
         var stored = localStorage.getItem('theme');
-        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0A1426' : '#F3F5F9');
+        if (stored) {
+          syncThemeColor();
+        } else {
+          meta.setAttribute('content', '#F3F5F9');
+        }
+        // next-themes mengganti kelas <html>; ikuti agar meta tetap sinkron.
+        new MutationObserver(syncThemeColor).observe(document.documentElement, { attributeFilter: ['class'] });
       })();
     </script>
     <link rel="icon" type="image/png" href="/logo-polsri.png" />

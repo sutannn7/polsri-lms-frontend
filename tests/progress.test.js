@@ -66,13 +66,13 @@ describe('averageProgress', () => {
 });
 
 describe('mata kuliah dari service (units terlampir)', () => {
-  test('getCourses/getCourseById melampirkan units sehingga progres tidak dianggap kosong', async () => {
-    const { getCourses, getCourseById } = await import('../src/services/courseService.js');
+  test('getCourses melampirkan units sehingga progres tidak dianggap kosong', async () => {
+    const { getCourses } = await import('../src/services/courseService.js');
     const courses = getCourses();
     assert.equal(courses.length, 11);
     assert.ok(courses.every((course) => course.units.length >= 2), 'units harus terlampir dari meetings.json');
     assert.ok(courses.every((course) => computeCourseProgress(course) >= 40), 'progres harus 40-70, bukan 0');
-    assert.ok(getCourseById('perbankan').units.length >= 2);
+    assert.ok(courses.find((course) => course.id === 'perbankan').units.length >= 2);
     // Kontrak halaman daftar/detail: progress & nextSlot terlampir di tiap kursus.
     assert.ok(courses.every((course) => typeof course.progress === 'number'), 'progress harus angka, bukan undefined');
     assert.ok(

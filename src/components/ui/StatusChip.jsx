@@ -20,7 +20,7 @@ const defaultLabels = {
 function StatusChip({ status, children, className = '' }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[13px] font-medium ${variantClasses[status] ?? variantClasses.upcoming} ${className}`}
+      className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-border px-2.5 py-1 text-[13px] font-medium ${variantClasses[status] ?? variantClasses.upcoming} ${className}`}
     >
       {children ?? defaultLabels[status] ?? defaultLabels.upcoming}
     </span>

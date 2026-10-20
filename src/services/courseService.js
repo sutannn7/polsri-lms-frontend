@@ -25,10 +25,6 @@ export function getCourses() {
   });
 }
 
-export function getCourseById(id) {
-  return getCourses().find((course) => course.id === id) ?? null;
-}
-
 export function setLastOpenedCourseId(courseId) {
   if (typeof window !== 'undefined') {
     window.sessionStorage.setItem('learnease:last-opened-course', courseId);

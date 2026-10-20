@@ -43,7 +43,7 @@ function DashboardPage() {
         <StatCard
           href="/mata-kuliah"
           label="Rata-rata Progres"
-          value={`${courseStats.averageProgress}%`}
+          value={`${courseStats.averageProgress.toLocaleString('id-ID')}%`}
         />
         <StatCard
           href="/mata-kuliah"

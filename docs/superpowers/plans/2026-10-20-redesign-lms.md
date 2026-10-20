@@ -376,7 +376,7 @@ git commit -m "feat: rapikan bagian bawah beranda dan kartu mata kuliah"
 **Interfaces:**
 - Consumes: `computeCourseProgress`, `getNextSlot`, `getCourseMeetings` (Task 3).
 - Produces:
-  - `useCourses()` → `{ courses, getCourseMeetings }` dengan `courses` sudah membawa `progress` (hasil `computeCourseProgress`) dan `nextSlot` (hasil `getNextSlot`).
+  - `useCourses()` → `{ courses }` dengan `courses` sudah membawa `progress` (hasil `computeCourseProgress`) dan `nextSlot` (hasil `getNextSlot`).
   - `courseService.getCourses()` mengembalikan objek `{ ...course, progress, nextSlot }`.
   - `MyCoursesPage` — konteks satu baris (program · kelas · total SKS · jumlah mk), filter bar (pencarian, status, urutan, toggle grid/list), lalu grid kartu (`CourseCard variant="grid"`) atau daftar (`variant="list"`). Placeholder pencarian: "Cari mata kuliah atau dosen".
   - `CourseDetailPage` — breadcrumb, nama mk, SKS, dosen, program/kelas; blok "Kelas berikutnya" (hari, jam, ruang singkat); bar progres + persen + jumlah unit selesai; daftar unit `MeetingAccordion` (nomor, judul, status) berisi `ActivityItem` (materi/diskusi/kuis: judul, format, ukuran berkas, aksi) dan `QuizCard`.

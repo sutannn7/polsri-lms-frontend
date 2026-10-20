@@ -49,21 +49,23 @@ function ActivityItem({ activity, index }) {
           )}
         </div>
       </div>
-      <Button
-        type="button"
-        size="sm"
-        variant={isAssignment
-          ? (deadlineInfo.status === 'Selesai' ? 'outline' : 'primary')
-          : 'outline'}
-        className="shrink-0 self-start sm:self-center"
-        icon={!isAssignment && !isDiscussion ? <Download size={15} /> : undefined}
-        disabled
-        aria-disabled="true"
-        title="Belum tersedia"
-      >
-        {actionLabel}
-        <span className="sr-only"> (belum tersedia)</span>
-      </Button>
+      <div className="flex shrink-0 flex-col items-end gap-1 self-start sm:self-center">
+        <Button
+          type="button"
+          size="sm"
+          variant={isAssignment
+            ? (deadlineInfo.status === 'Selesai' ? 'outline' : 'primary')
+            : 'outline'}
+          className="shrink-0"
+          icon={!isAssignment && !isDiscussion ? <Download size={15} /> : undefined}
+          disabled
+          aria-disabled="true"
+          title="Belum tersedia"
+        >
+          {actionLabel}
+        </Button>
+        <span className="text-[13px] text-secondary">Belum tersedia</span>
+      </div>
       {index ? <span className="sr-only">Aktivitas {index}</span> : null}
     </Card>
   );

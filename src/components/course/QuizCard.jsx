@@ -30,8 +30,8 @@ function QuizCard({ activity }) {
             title="Belum tersedia"
           >
             {activity.action}
-            <span className="sr-only"> (belum tersedia)</span>
           </Button>
+          <span className="text-[13px] text-secondary">Belum tersedia</span>
         </div>
       </div>
     </Card>
