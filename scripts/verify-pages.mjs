@@ -7,7 +7,9 @@
  *  - tanpa overflow horizontal (scrollWidth - clientWidth <= 1)
  *  - tanpa error console (Runtime.consoleAPICalled type "error" + exceptionThrown)
  *  - tanpa request gagal (Network.loadingFailed)
- *  - tema aktif di document.documentElement.classList
+ *  - tema dipaksa untuk screenshot, dan kekeluarannya di-assert: bila
+ *    aplikasi menimpa kelas paksaan itu, rute gagal "tema paksa tidak
+ *    berlaku". Tema milik aplikasi sendiri dilaporkan, tidak dikejar.
  *  - semua <img> complete && naturalWidth > 0
  *  - tidak ada elemen di <main> dengan computed font-size < 13px
  *  - tidak ada elemen fokus-able ber-class outline-none tanpa focus-visible:ring
@@ -16,7 +18,6 @@
  * tema diklik, dan di-assert classList <html> berubah, localStorage 'theme'
  * berubah ke tema lawan, dan latar <body> benar-benar berganti warna.
  * Setelah itu tema diminta dipaksa untuk screenshot dan cek lainnya.
- * Screenshot tiap rute ditulis ke <out>/<theme>-<rute>.png.
  * Screenshot tiap rute ditulis ke <out>/<theme>-<rute>.png.
  *
  * Pemakaian:
@@ -409,28 +410,38 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     checks.failedRequests = counters.failedRequests;
     checks.wantedRoute = route;
 
-    // Tema: hanya hitung saat aplikasi mengatur classList sendiri sebelum
-    // skrip memaksa. Saat mode theme-switch, tema pasti dipaksa (toggle
-    // sudah mengubah tema aplikasi untuk pengujian) — laporkan apa adanya.
-    const opposite = theme === 'light' ? 'dark' : 'light';
+    // Tema: tema milik aplikasi (classList sebelum dipaksa) hanya
+    // DILAPORKAN, bukan ditekan — aplikasi boleh saja sedang memakai tema
+    // default-nya saat alat mengambil screenshot tema lain. Yang gagal
+    // hanyalah bila tema paksaan tidak bertahan di classList.
     let themeNote;
-    let themeMismatch = false;
     if (themeSwitch) {
       themeNote = 'tema dipaksa untuk verifikasi (toggle diuji sebelum dipaksa)';
     } else if (checks.initialClasses.includes(theme)) {
       themeNote = 'tema dari aplikasi (terverifikasi)';
-    } else if (checks.initialClasses.includes(opposite)) {
-      themeMismatch = true;
-      themeNote = 'tema aplikasi tidak cocok';
     } else {
-      themeNote = 'tema dipaksa (aplikasi belum mengatur tema)';
+      const appTheme = checks.initialClasses.includes('dark')
+        ? 'dark'
+        : checks.initialClasses.includes('light')
+          ? 'light'
+          : 'tidak diatur';
+      themeNote = `tema dipaksa (aplikasi memakai tema ${appTheme})`;
     }
 
     const failed = summarize(checks);
-    if (themeMismatch) failed.unshift(`dokumen ber-theme ${opposite}, diminta ${theme}`);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
+
+    // Screenshot hanya valid bila tema paksaan masih bertahan di classList
+    // (aplikasi tidak menimpanya setelah skrip memaksa). Cek setelah semua
+    // evaluasi lain, saat aplikasi sudah sempat berjalan.
+    const themeStuck = await evaluateJson(
+      cdp,
+      sessionId,
+      `document.documentElement.classList.contains('${theme}')`
+    );
+    if (!themeStuck) failed.push('tema paksa tidak berlaku');
 
     // Hasil toggel diukur dari keadaan asli aplikasi (sebelum dipaksa),
     // jadi perubahan classList, localStorage, dan latar benar-benar
@@ -445,6 +456,8 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
           failed.push(`classList <html> tidak berubah saat klik toggel: ${switchCheck.classesBefore}`);
         if (!switchCheck.classesAfter.includes(expectedAfter))
           failed.push(`classList <html> tidak memuat '${expectedAfter}' setelah klik: ${switchCheck.classesAfter}`);
+        if (switchCheck.storedAfter === switchCheck.storedBefore)
+          failed.push(`localStorage theme tidak berubah saat klik toggel ('${switchCheck.storedAfter}')`);
         if (switchCheck.storedAfter !== expectedAfter)
           failed.push(`localStorage theme '${switchCheck.storedAfter}', diharapkan '${expectedAfter}'`);
         if (!switchCheck.bgChanged) failed.push('latar <body> tidak berubah antar tema');
