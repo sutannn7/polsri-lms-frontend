@@ -98,7 +98,7 @@ export default function LoginPage() {
           <div className="scene-top rv" style={{ "--i": 0 }}>
             <div className="brand">
               <img
-                src="/logo-polsri-transparan.png"
+                src="/logo-polsri.png"
                 alt="Logo Politeknik Negeri Sriwijaya"
                 width="44"
                 height="44"
@@ -112,7 +112,7 @@ export default function LoginPage() {
 
           <div className="card rv" style={{ "--i": 1 }}>
             <img
-              src="/logo-polsri-transparan.png"
+              src="/logo-polsri.png"
               alt="Logo Politeknik Negeri Sriwijaya"
               width="592"
               height="592"

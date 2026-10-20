@@ -32,6 +32,7 @@ Versi di bawah mengikuti rentang versi yang tercantum di `package.json`. Tanda `
 |---|---:|---|
 | Tailwind CSS | `^3.4.17` | Menyusun tampilan dengan kelas utility CSS. |
 | Plus Jakarta Sans | Tidak tercantum sebagai paket | Satu keluarga font untuk antarmuka dan halaman login; dimuat dari Google Fonts dengan `display=swap`. |
+| Bricolage Grotesque | Tidak tercantum sebagai paket | Font display untuk judul dan kutipan pada halaman login; dimuat dari Google Fonts dengan `display=swap`. |
 
 ### Routing
 
@@ -44,6 +45,12 @@ Versi di bawah mengikuti rentang versi yang tercantum di `package.json`. Tanda `
 | Teknologi | Versi di `package.json` | Fungsi |
 |---|---:|---|
 | `lucide-react` | `^0.468.0` | Menyediakan ikon SVG sebagai komponen React. |
+
+### Animasi
+
+| Teknologi | Versi di `package.json` | Fungsi |
+|---|---:|---|
+| `motion` | `^14.4.0` | Menggerakkan komponen `Notch` (navigasi seluler) dan `TracingBeam` (detail mata kuliah). |
 
 ### Tools pengembangan
 
@@ -139,6 +146,7 @@ Fungsi folder utama:
 | Folder | Fungsi |
 |---|---|
 | `components/ui/` | Komponen antarmuka umum seperti tombol, kartu, badge, tab, progress bar, dan latar partikel animasi halaman login. |
+| `public/` | Aset statis yang disajikan apa adanya: logo resmi Polsri untuk navbar, halaman login, dan ikon situs. |
 | `components/layout/` | Kerangka dan navigasi halaman aplikasi yang memerlukan login. |
 | `components/home/` | Komponen khusus Beranda, seperti kartu pengumuman, kalender, dan daftar tenggat. |
 | `components/course/` | Komponen daftar mata kuliah dan detail aktivitas/pertemuan pembelajaran. |
@@ -201,6 +209,10 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 - Menyediakan toggle tampil/sembunyikan kata sandi.
 - Menampilkan status proses saat login dan pesan validasi dalam bahasa Indonesia.
 - Panel bantuan dapat dibuka dan ditutup.
+- Latar halaman memakai satu permukaan penuh: gradien navy–emas digabung dengan lapisan partikel animasi (`FlowCanvas`) yang mengalir dari tepi kiri dan kanan menuju titik tengah halaman, tepat di belakang logo.
+- Lapisan partikel digambar di atas `<canvas>` 2D tanpa library tambahan; kurvanya digambar sekali ke kanvas luar lalu ditampilkan ulang tiap frame, sehingga tidak menggambar ulang jalur tiap frame.
+- Di layar lebar, identitas kampus berada di kolom kiri dan form di kolom kanan; di bawah 901 px keduanya ditumpuk dan band atas menyatu dengan halaman form.
+- Animasi partikel berhenti saat tab tidak terlihat, dan `prefers-reduced-motion: reduce` menampilkan satu bingkai statis.
 
 ### Beranda
 
