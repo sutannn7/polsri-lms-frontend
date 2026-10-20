@@ -342,6 +342,38 @@ const MY_COURSES_CHECK = `
   })()
 `;
 
+// /panduan: <h1> memuat "Panduan Penggunaan", tepat 6 <h2> dengan urutan teks
+// yang ditetapkan brief, dan tanpa kelas warna literal di dalam <main>.
+const GUIDE_CHECK = `
+  (() => {
+    const main = document.querySelector('main');
+    const h1 = main ? main.querySelector('h1') : null;
+    const h2s = [...(main ? main.querySelectorAll('h2') : [])].map(
+      (heading) => heading.textContent.trim(),
+    );
+    const expectedH2s = [
+      'Cara masuk',
+      'Lupa kata sandi',
+      'Memahami Beranda',
+      'Mengikuti kelas',
+      'Enrollment key',
+      'Kontak bantuan',
+    ];
+    return {
+      h1Panduan: h1 ? h1.textContent.includes('Panduan Penggunaan') : false,
+      h2s,
+      h2OrderOk:
+        h2s.length === expectedH2s.length &&
+        expectedH2s.every((text, i) => h2s[i] === text),
+      literalColorClasses: main
+        ? [...main.querySelectorAll('[class*="bg-white"],[class*="text-white"],[class*="slate-"],[class*="gray-"]')]
+            .map((el) => el.tagName + ':' + String(el.className).slice(0, 80))
+            .slice(0, 3)
+        : [],
+    };
+  })()
+`;
+
 // /dasbor: tepat 4 kartu statistik (data-stat-card), tanpa ikon (svg) di
 // dalamnya, dan semua pengisi bar progres memakai kelas tone bermakna
 // (bg-primary / bg-success / bg-surface-3) — bukan warna acak.
@@ -540,6 +572,18 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
         );
       if (myCourses.literalColorClasses.length > 0)
         routeFailures.push(`kelas warna literal: ${myCourses.literalColorClasses.join(' | ')}`);
+    }
+
+    if (route === '/panduan') {
+      const guide = await evaluateJson(cdp, sessionId, GUIDE_CHECK);
+      if (!guide.h1Panduan) routeFailures.push('<h1> tidak memuat "Panduan Penggunaan"');
+      if (!guide.h2OrderOk)
+        routeFailures.push(
+          `urutan <h2> salah: [${guide.h2s.join(' ; ')}], ` +
+            'diharapkan 6 heading berurutan sesuai brief',
+        );
+      if (guide.literalColorClasses.length > 0)
+        routeFailures.push(`kelas warna literal: ${guide.literalColorClasses.join(' | ')}`);
     }
 
     if (route === '/dasbor') {

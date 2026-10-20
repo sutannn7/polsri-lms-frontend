@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Footer({ year = new Date().getFullYear() }) {
   return (
     <footer className="border-t border-border bg-white">
@@ -6,9 +8,12 @@ function Footer({ year = new Date().getFullYear() }) {
           © {year} Politeknik Negeri Sriwijaya
         </p>
         <nav aria-label="Tautan bantuan" className="flex items-center gap-6">
-          <span aria-disabled="true" title="Panduan penggunaan belum tersedia" className="cursor-not-allowed text-secondary/70">
-            Panduan penggunaan
-          </span>
+          <Link
+            to="/panduan"
+            className="transition-colors hover:text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            Panduan Penggunaan
+          </Link>
           <span aria-disabled="true" title="Pusat bantuan belum tersedia" className="cursor-not-allowed text-secondary/70">
             Pusat bantuan
           </span>

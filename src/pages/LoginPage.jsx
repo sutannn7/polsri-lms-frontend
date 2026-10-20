@@ -1,6 +1,6 @@
 // src/pages/LoginPage.jsx
 import { useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import FlowCanvas from "../components/ui/FlowCanvas";
 import useAuth from "../hooks/useAuth";
 import "./LoginPage.css";
@@ -36,7 +36,6 @@ export default function LoginPage() {
   const [errPass, setErrPass] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
 
   const identifierRef = useRef(null);
   const passwordRef = useRef(null);
@@ -309,13 +308,7 @@ export default function LoginPage() {
                 <span className="dot" aria-hidden="true">
                   ·
                 </span>
-                <button
-                  className="gb"
-                  type="button"
-                  onClick={() => setShowHelp(!showHelp)}
-                  aria-expanded={showHelp}
-                  aria-controls="hp"
-                >
+                <Link to="/panduan" className="gb">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -329,16 +322,8 @@ export default function LoginPage() {
                     <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01" />
                   </svg>
                   Bantuan login
-                </button>
+                </Link>
               </div>
-
-              {showHelp && (
-                <div className="hp" id="hp">
-                  Pastikan Anda memakai NIP, NPM, atau NIK akun akademik. Jika
-                  lupa kata sandi, hubungi admin akademik atau layanan TI
-                  kampus.
-                </div>
-              )}
 
               <p className="tm">
                 Dengan masuk, Anda menyetujui{" "}
