@@ -279,10 +279,15 @@ const PAGE_CHECKS = (theme) => `
   })()
 `;
 
-async function login(cdp, sessionId, base) {
-  const loaded = waitForEvent(cdp, sessionId, 'Page.loadEventFired');
-  await cdp.send('Page.navigate', { url: base + '/login' }, sessionId);
+// Satu percobaan navigasi + tunggu loadevent, dengan timeout eksplisit.
+async function navigateLoad(cdp, sessionId, url) {
+  const loaded = waitForEvent(cdp, sessionId, 'Page.loadEventFired', 15000);
+  await cdp.send('Page.navigate', { url }, sessionId);
   await loaded;
+}
+
+async function login(cdp, sessionId, base) {
+  await navigateLoad(cdp, sessionId, base + '/login');
   await delay(300);
   await evaluateJson(cdp, sessionId, FILL_LOGIN);
   const deadline = Date.now() + 10000;
@@ -323,9 +328,27 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir) {
     if (msg.method === 'Network.loadingFailed') counters.failedRequests++;
   });
 
-  const loaded = waitForEvent(cdp, sessionId, 'Page.loadEventFired');
-  await cdp.send('Page.navigate', { url: base + route }, sessionId);
-  await loaded;
+  // Percobaan tunggal adalah jalur normal; bila load event tak datang,
+  // navigasi rute ini diulang sekali. Gagal dua kali: tandai rute gagal
+  // dan lanjut ke rute berikutnya agar ringkasan tetap tercetak.
+  try {
+    await navigateLoad(cdp, sessionId, base + route);
+  } catch {
+    try {
+      await navigateLoad(cdp, sessionId, base + route);
+    } catch {
+      offConsole();
+      if (savedSession !== null) {
+        await evaluateJson(
+          cdp,
+          sessionId,
+          `sessionStorage.setItem('learnease_session', ${JSON.stringify(savedSession)})`
+        );
+      }
+      console.log(`[GAGAL] ${theme} ${route} — navigation timeout after 1 retry`);
+      return { route, theme, ok: false };
+    }
+  }
   await delay(400);
 
   const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme));
