@@ -140,7 +140,9 @@ Total 21 SKS (cocok dengan footer "Total Kredit: 21 SKS").
 - Kelas berlangsung **malam (18.10–21.10)** dan Sabtu pagi → "hari ini" sering kosong di pagi; agenda harus menaruh kelas berikutnya, bukan layar kosong.
 - **Nama ruangan panjang** → baris agenda memakai versi singkat ("L3 · Lab 8"), versi lengkap di detail.
 - **Nama mata kuliah campur kapital** → UI menormalkan kapitalisasi tampilan, data mentah tetap apa adanya.
+- `name` = bentuk ternormalisasi (title case) untuk tampilan, `nameRaw` = string asli dari jadwal kampus. Hanya satu mata kuliah yang sumbernya tidak title case: "Manajemen proyek sistem informasi".
 - **11 mata kuliah, 21 SKS** → daftar mata kuliah padat; urutan & filter jadi penting. 2 mata kuliah muncul di dua hari berbeda (Praktikum Analisis Data, Praktikum Rekayasa Web) → kartu harus menampilkan jadwal berikutnya, bukan satu slot.
+- `credits` per mata kuliah = total SKS dari seluruh slot jadwalnya (dua lab dua-slot masing-masing 2 SKS), sehingga totalnya 21 SKS.
 - Data diperluas: tiap mata kuliah punya progres, materi berikutnya, dan daftar pertemuan/aktivitas (2–4 pertemuan, materi/-diskusi/kuis) supaya Detail MK tidak kosong.
 
 ## 6. Halaman
