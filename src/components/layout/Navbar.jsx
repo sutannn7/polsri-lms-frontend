@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react';
 import PolsriLogo from '../ui/PolsriLogo';
+import ThemeToggle from '../ui/ThemeToggle';
 import useAuth from '../../hooks/useAuth';
 
 const navigationItems = [
@@ -67,7 +68,7 @@ function Navbar({
       <form
         role="search"
         onSubmit={handleSearch}
-        className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-white px-3 text-secondary transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 lg:w-64"
+        className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-background px-3 text-secondary transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 lg:w-64"
       >
         <Search size={18} aria-hidden="true" className="shrink-0" />
         <input
@@ -76,7 +77,7 @@ function Navbar({
           type="search"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus:ring-0"
+          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
         />
         <button
           type="submit"
@@ -90,7 +91,7 @@ function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-white">
+    <header className="sticky top-0 z-40 border-b border-border bg-background">
       <div className="mx-auto flex min-h-[72px] max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-0">
         <Link
           to="/beranda"
@@ -121,6 +122,7 @@ function Navbar({
 
         <div className="hidden min-w-0 flex-1 items-center justify-end gap-6 lg:flex">
           {renderSearch()}
+          <ThemeToggle />
           <div className="relative">
             <button
               type="button"
@@ -128,7 +130,7 @@ function Navbar({
               aria-expanded={isProfileMenuOpen}
               aria-haspopup="menu"
               onClick={() => setIsProfileMenuOpen((open) => !open)}
-              className="inline-flex max-w-52 shrink-0 items-center gap-2 rounded-lg py-1.5 pl-1.5 pr-2 text-left transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex max-w-52 shrink-0 items-center gap-2 rounded-lg py-1.5 pl-1.5 pr-2 text-left transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
                 {initials || '?'}
@@ -137,7 +139,7 @@ function Navbar({
               <ChevronDown size={16} aria-hidden="true" className={`shrink-0 text-secondary transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             {isProfileMenuOpen ? (
-              <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-white p-2 shadow-card">
+              <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-background p-2 shadow-card">
                 {renderLogoutButton()}
               </div>
             ) : null}
@@ -150,14 +152,14 @@ function Navbar({
           aria-expanded={isMenuOpen}
           aria-controls="navigasi-seluler"
           onClick={() => setIsMenuOpen((open) => !open)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-main transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-main transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
         >
           {isMenuOpen ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
         </button>
       </div>
 
       {isMenuOpen ? (
-        <div id="navigasi-seluler" className="border-t border-border bg-white px-5 pb-4 pt-3 sm:px-8 lg:hidden">
+        <div id="navigasi-seluler" className="border-t border-border bg-background px-5 pb-4 pt-3 sm:px-8 lg:hidden">
           <nav aria-label="Navigasi seluler" className="mb-3 flex flex-col">
             {navigationItems.map(({ label, to, Icon }) => (
               <NavLink
@@ -172,7 +174,7 @@ function Navbar({
             ))}
           </nav>
           {renderSearch()}
-          <div className="mt-3 flex items-center border-t border-border pt-3">
+          <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
             <div className="relative min-w-0">
               <button
                 type="button"
@@ -180,7 +182,7 @@ function Navbar({
                 aria-expanded={isProfileMenuOpen}
                 aria-haspopup="menu"
                 onClick={() => setIsProfileMenuOpen((open) => !open)}
-                className="inline-flex min-w-0 items-center gap-2 rounded-lg py-1 pr-2 text-left transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="inline-flex min-w-0 items-center gap-2 rounded-lg py-1 pr-2 text-left transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
                   {initials || '?'}
@@ -189,11 +191,12 @@ function Navbar({
                 <ChevronDown size={16} aria-hidden="true" className={`shrink-0 text-secondary transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
               </button>
               {isProfileMenuOpen ? (
-                <div role="menu" className="absolute left-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-white p-2 shadow-card">
+                <div role="menu" className="absolute left-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-background p-2 shadow-card">
                   {renderLogoutButton()}
                 </div>
               ) : null}
             </div>
+            <ThemeToggle />
           </div>
         </div>
       ) : null}

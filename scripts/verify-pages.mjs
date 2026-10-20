@@ -11,11 +11,15 @@
  *  - semua <img> complete && naturalWidth > 0
  *  - tidak ada elemen di <main> dengan computed font-size < 13px
  *  - tidak ada elemen fokus-able ber-class outline-none tanpa focus-visible:ring
+ * Dengan --theme-switch: klik tombol tema, lalu assert classList <html>
+ * berubah, localStorage 'theme' sama dengan tema setelah klik, dan latar
+ * <body> benar-benar berganti warna antar tema.
  * Screenshot tiap rute ditulis ke <out>/<theme>-<rute>.png.
  *
  * Pemakaian:
  *   node scripts/verify-pages.mjs --routes /beranda,/dasbor --theme light,dark \
- *     --out screenshots --base http://localhost:4173 --width 1440 [--reduced-motion]
+ *     --out screenshots --base http://localhost:4173 --width 1440 \
+ *     [--reduced-motion] [--theme-switch]
  */
 
 import { spawn, execSync } from 'node:child_process';
@@ -54,6 +58,10 @@ function parseArgs(argv) {
     const key = argv[i].replace(/^--/, '');
     if (key === 'reduced-motion') {
       args.reducedMotion = true;
+      continue;
+    }
+    if (key === 'theme-switch') {
+      args.themeSwitch = true;
       continue;
     }
     const value = argv[++i];
@@ -212,10 +220,10 @@ async function waitForEvent(cdp, sessionId, method, ms = 15000) {
   });
 }
 
-async function evaluateJson(cdp, sessionId, expression) {
+async function evaluateJson(cdp, sessionId, expression, opts = {}) {
   const { result, exceptionDetails } = await cdp.send(
     'Runtime.evaluate',
-    { expression, returnByValue: true },
+    { expression, returnByValue: true, awaitPromise: Boolean(opts.awaitPromise) },
     sessionId
   );
   if (exceptionDetails) {
@@ -241,6 +249,27 @@ const FILL_LOGIN = `
     if (!btn) throw new Error('Tombol submit tidak ditemukan');
     btn.click();
     return okU && okP;
+  })()
+`;
+
+// Klik tombol tema dan ukur efeknya: classList <html>, localStorage 'theme',
+// dan latar computed <body> sebelum vs sesudah klik.
+const THEME_SWITCH = `
+  (async () => {
+    const btn = document.querySelector('button[aria-label^="Ganti ke mode"]');
+    if (!btn) return { found: false };
+    const classesBefore = [...document.documentElement.classList];
+    const bgBefore = getComputedStyle(document.body).backgroundColor;
+    btn.click();
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    return {
+      found: true,
+      classesBefore,
+      classesAfter: [...document.documentElement.classList],
+      isDark: document.documentElement.classList.contains('dark'),
+      storedTheme: localStorage.getItem('theme'),
+      bgChanged: getComputedStyle(document.body).backgroundColor !== bgBefore,
+    };
   })()
 `;
 
@@ -317,7 +346,7 @@ function summarize(checks) {
   return failed;
 }
 
-async function verifyRoute(cdp, sessionId, base, route, theme, outDir) {
+async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwitch) {
   // /login mengalihkan pengguna yang sudah masuk ke /beranda, jadi sesi
   // disingkirkan sementara agar laman login benar-benar bisa diperiksa.
   let savedSession = null;
@@ -380,6 +409,22 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir) {
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
+
+    // Toggle tema diuji SETELAH screenshot: klik mengubah tema milik
+    // aplikasi, dan screenshot harus memakai tema yang diminta rute ini.
+    if (themeSwitch) {
+      const sw = await evaluateJson(cdp, sessionId, THEME_SWITCH, { awaitPromise: true });
+      if (!sw.found) {
+        failed.push('tombol tema tidak ditemukan');
+      } else {
+        const themeAfterClick = sw.isDark ? 'dark' : 'light';
+        if (sw.classesBefore.join(',') === sw.classesAfter.join(','))
+          failed.push(`classList <html> tidak berubah: ${sw.classesBefore} -> ${sw.classesAfter}`);
+        if (sw.storedTheme !== themeAfterClick)
+          failed.push(`localStorage theme '${sw.storedTheme}', tema setelah klik '${themeAfterClick}'`);
+        if (!sw.bgChanged) failed.push('latar <body> tidak berubah antar tema');
+      }
+    }
 
     const status = failed.length === 0 ? 'LOLOS' : 'GAGAL';
     console.log(
@@ -448,7 +493,7 @@ async function main() {
       const results = [];
       for (const theme of args.themes) {
         for (const route of args.routes) {
-          results.push(await verifyRoute(cdp, sessionId, args.base, route, theme, outDir));
+          results.push(await verifyRoute(cdp, sessionId, args.base, route, theme, outDir, args.themeSwitch));
         }
       }
       const passed = results.filter((r) => r.ok).length;
