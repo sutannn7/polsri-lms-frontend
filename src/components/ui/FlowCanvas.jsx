@@ -80,9 +80,10 @@ function FlowCanvas() {
     const build = () => {
       const count = desktop ? STREAMS_DESKTOP : STREAMS_MOBILE;
       const perStream = desktop ? PARTICLES_DESKTOP : PARTICLES_MOBILE;
-      // On desktop the light gathers just left of the middle, in the gap
-      // between the logo and the form, so it never runs into the fields.
-      const focus = desktop ? width * 0.45 : width / 2;
+      // The light gathers in the middle of the page. Both fans start at the
+      // edges of the canvas, so they are exact mirror images and the visible
+      // hot spot lands on the centre line.
+      const focus = width / 2;
       // The two fans are mirror images of each other, so they have the same
       // size and shape. The left one starts off-screen, like the reference.
       const span = width - focus;
@@ -116,7 +117,7 @@ function FlowCanvas() {
     const paintStreams = () => {
       offCtx.clearRect(0, 0, width, height);
 
-      const focus = desktop ? width * 0.45 : width / 2;
+      const focus = width / 2;
       const glow = offCtx.createRadialGradient(
         focus,
         height / 2,
