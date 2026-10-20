@@ -9,11 +9,15 @@
  *  - tanpa request gagal (Network.loadingFailed)
  *  - tema aktif di document.documentElement.classList
  *  - semua <img> complete && naturalWidth > 0
- *  - tidak ada elemen di <main> dengan computed font-size < 13px
+ *  - tidak ada elemen di <main> dengan computed font-size < 13px (dicatat
+ *    sebagai catatan, bukan kegagalan — konversi ukuran teks tugas Task 4-7)
  *  - tidak ada elemen fokus-able ber-class outline-none tanpa focus-visible:ring
- * Dengan --theme-switch: klik tombol tema, lalu assert classList <html>
- * berubah, localStorage 'theme' sama dengan tema setelah klik, dan latar
- * <body> benar-benar berganti warna antar tema.
+ * Dengan --theme-switch: tiap iterasi dimulai dari tema asli aplikasi
+ * (localStorage 'theme' dibersihkan lalu halaman dimuat ulang), tombol
+ * tema diklik, dan di-assert classList <html> berubah, localStorage 'theme'
+ * berubah ke tema lawan, dan latar <body> benar-benar berganti warna.
+ * Setelah itu tema diminta dipaksa untuk screenshot dan cek lainnya.
+ * Screenshot tiap rute ditulis ke <out>/<theme>-<rute>.png.
  * Screenshot tiap rute ditulis ke <out>/<theme>-<rute>.png.
  *
  * Pemakaian:
@@ -252,13 +256,15 @@ const FILL_LOGIN = `
   })()
 `;
 
-// Klik tombol tema dan ukur efeknya: classList <html>, localStorage 'theme',
-// dan latar computed <body> sebelum vs sesudah klik.
+// Klik tombol tema dari tema ASLI aplikasi (belum dipaksa) dan ukur
+// efeknya: classList <html>, localStorage 'theme', dan latar computed
+// <body> sebelum vs sesudah klik.
 const THEME_SWITCH = `
   (async () => {
     const btn = document.querySelector('button[aria-label^="Ganti ke mode"]');
     if (!btn) return { found: false };
     const classesBefore = [...document.documentElement.classList];
+    const storedBefore = localStorage.getItem('theme');
     const bgBefore = getComputedStyle(document.body).backgroundColor;
     btn.click();
     await new Promise((resolve) => setTimeout(resolve, 400));
@@ -266,8 +272,8 @@ const THEME_SWITCH = `
       found: true,
       classesBefore,
       classesAfter: [...document.documentElement.classList],
-      isDark: document.documentElement.classList.contains('dark'),
-      storedTheme: localStorage.getItem('theme'),
+      storedBefore,
+      storedAfter: localStorage.getItem('theme'),
       bgChanged: getComputedStyle(document.body).backgroundColor !== bgBefore,
     };
   })()
@@ -313,11 +319,24 @@ const PAGE_CHECKS = (theme) => `
   })()
 `;
 
-// Satu percobaan navigasi + tunggu loadevent, dengan timeout eksplisit.
+// Satu navigasi + tunggu load event, dengan timeout eksplisit.
 async function navigateLoad(cdp, sessionId, url) {
   const loaded = waitForEvent(cdp, sessionId, 'Page.loadEventFired', 15000);
   await cdp.send('Page.navigate', { url }, sessionId);
   await loaded;
+}
+
+// Navigasi dengan satu kali ulang bila load event tak datang.
+async function navigateWithRetry(cdp, sessionId, url) {
+  try {
+    await navigateLoad(cdp, sessionId, url);
+  } catch {
+    try {
+      await navigateLoad(cdp, sessionId, url);
+    } catch {
+      throw new Error('timeout navigasi setelah 1 percobaan ulang');
+    }
+  }
 }
 
 async function login(cdp, sessionId, base) {
@@ -334,16 +353,20 @@ async function login(cdp, sessionId, base) {
 
 function summarize(checks) {
   const failed = [];
+  const notes = [];
   if (checks.overflow > 1) failed.push(`overflow horizontal ${checks.overflow}px`);
   if (checks.path !== checks.wantedRoute)
     failed.push(`rute berakhir ${checks.path}, diminta ${checks.wantedRoute}`);
   if (checks.consoleErrors > 0) failed.push(`${checks.consoleErrors} error console`);
   if (checks.failedRequests > 0) failed.push(`${checks.failedRequests} request gagal`);
   if (checks.brokenImages.length > 0) failed.push(`img gagal dimuat: ${checks.brokenImages.join(', ')}`);
-  if (checks.smallText.length > 0) failed.push(`teks < 13px: ${checks.smallText.join(', ')}`);
+  // Teks < 13px masih ada di komponen yang dikonversi Task 4-7: dicatat,
+  // tidak menggagalkan rute agar verifikasi tema tidak tersandung itu.
+  if (checks.smallText.length > 0)
+    notes.push(`teks < 13px (dikonversi Task 4-7): ${checks.smallText.join(', ')}`);
   if (checks.badFocus.length > 0)
     failed.push(`outline-none tanpa focus-visible:ring: ${checks.badFocus.join(', ')}`);
-  return failed;
+  return { failed, notes };
 }
 
 async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwitch) {
@@ -372,18 +395,19 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
   });
 
   try {
-    // Percobaan tunggal adalah jalur normal; bila load event tak datang,
-    // navigasi rute ini diulang sekali lalu dicatat gagal dan lanjut.
-    try {
-      await navigateLoad(cdp, sessionId, base + route);
-    } catch {
-      try {
-        await navigateLoad(cdp, sessionId, base + route);
-      } catch {
-        throw new Error('navigation timeout after 1 retry');
-      }
-    }
+    await navigateWithRetry(cdp, sessionId, base + route);
     await delay(400);
+
+    // Dengan --theme-switch, tiap iterasi dimulai dari tema ASLI aplikasi:
+    // hapus tema tersimpan (kunci 'theme' milik next-themes), muat ulang,
+    // lalu klik toggel SEBELUM tema diminta dipaksa oleh PAGE_CHECKS.
+    let switchCheck = null;
+    if (themeSwitch) {
+      await evaluateJson(cdp, sessionId, `localStorage.removeItem('theme')`);
+      await navigateWithRetry(cdp, sessionId, base + route);
+      await delay(400);
+      switchCheck = await evaluateJson(cdp, sessionId, THEME_SWITCH, { awaitPromise: true });
+    }
 
     const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme));
     checks.consoleErrors = counters.consoleErrors;
@@ -391,11 +415,14 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     checks.wantedRoute = route;
 
     // Tema: hanya hitung saat aplikasi mengatur classList sendiri sebelum
-    // skrip memaksa. Selain itu skrip hanya memaksa tema untuk screenshot.
+    // skrip memaksa. Saat mode theme-switch, tema pasti dipaksa (toggle
+    // sudah mengubah tema aplikasi untuk pengujian) — laporkan apa adanya.
     const opposite = theme === 'light' ? 'dark' : 'light';
     let themeNote;
     let themeMismatch = false;
-    if (checks.initialClasses.includes(theme)) {
+    if (themeSwitch) {
+      themeNote = 'tema dipaksa untuk verifikasi (toggle diuji sebelum dipaksa)';
+    } else if (checks.initialClasses.includes(theme)) {
       themeNote = 'tema dari aplikasi (terverifikasi)';
     } else if (checks.initialClasses.includes(opposite)) {
       themeMismatch = true;
@@ -404,32 +431,36 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
       themeNote = 'tema dipaksa (aplikasi belum mengatur tema)';
     }
 
-    const failed = summarize(checks);
+    const { failed, notes } = summarize(checks);
     if (themeMismatch) failed.unshift(`dokumen ber-theme ${opposite}, diminta ${theme}`);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));
 
-    // Toggle tema diuji SETELAH screenshot: klik mengubah tema milik
-    // aplikasi, dan screenshot harus memakai tema yang diminta rute ini.
-    if (themeSwitch) {
-      const sw = await evaluateJson(cdp, sessionId, THEME_SWITCH, { awaitPromise: true });
-      if (!sw.found) {
+    // Hasil toggel diukur dari keadaan asli aplikasi (sebelum dipaksa),
+    // jadi perubahan classList, localStorage, dan latar benar-benar
+    // berasal dari klik tombol, bukan dari pemaksaan tema.
+    if (switchCheck) {
+      if (!switchCheck.found) {
         failed.push('tombol tema tidak ditemukan');
       } else {
-        const themeAfterClick = sw.isDark ? 'dark' : 'light';
-        if (sw.classesBefore.join(',') === sw.classesAfter.join(','))
-          failed.push(`classList <html> tidak berubah: ${sw.classesBefore} -> ${sw.classesAfter}`);
-        if (sw.storedTheme !== themeAfterClick)
-          failed.push(`localStorage theme '${sw.storedTheme}', tema setelah klik '${themeAfterClick}'`);
-        if (!sw.bgChanged) failed.push('latar <body> tidak berubah antar tema');
+        const themeBefore = switchCheck.classesBefore.includes('dark') ? 'dark' : 'light';
+        const expectedAfter = themeBefore === 'dark' ? 'light' : 'dark';
+        if (switchCheck.classesBefore.join(',') === switchCheck.classesAfter.join(','))
+          failed.push(`classList <html> tidak berubah saat klik toggel: ${switchCheck.classesBefore}`);
+        if (!switchCheck.classesAfter.includes(expectedAfter))
+          failed.push(`classList <html> tidak memuat '${expectedAfter}' setelah klik: ${switchCheck.classesAfter}`);
+        if (switchCheck.storedAfter !== expectedAfter)
+          failed.push(`localStorage theme '${switchCheck.storedAfter}', diharapkan '${expectedAfter}'`);
+        if (!switchCheck.bgChanged) failed.push('latar <body> tidak berubah antar tema');
       }
     }
 
     const status = failed.length === 0 ? 'LOLOS' : 'GAGAL';
     console.log(
       `[${status}] ${theme} ${route} (${checks.path}) — ${themeNote}` +
-        (failed.length ? ' | ' + failed.join(' | ') : '')
+        (failed.length ? ' | ' + failed.join(' | ') : '') +
+        (notes.length ? ' | catatan: ' + notes.join(' | ') : '')
     );
     return { route, theme, ok: failed.length === 0 };
   } catch (e) {

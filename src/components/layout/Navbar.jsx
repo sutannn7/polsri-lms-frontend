@@ -68,7 +68,7 @@ function Navbar({
       <form
         role="search"
         onSubmit={handleSearch}
-        className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-background px-3 text-secondary transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 lg:w-64"
+        className="flex h-11 w-full items-center gap-3 rounded-lg border border-border bg-background px-3 text-secondary transition-colors focus-within:border-primary lg:w-64"
       >
         <Search size={18} aria-hidden="true" className="shrink-0" />
         <input
@@ -77,7 +77,7 @@ function Navbar({
           type="search"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary focus-visible:ring-offset-background"
         />
         <button
           type="submit"
@@ -146,6 +146,10 @@ function Navbar({
           </div>
         </div>
 
+        <div className="lg:hidden">
+          <ThemeToggle />
+        </div>
+
         <button
           type="button"
           aria-label={isMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
@@ -174,7 +178,7 @@ function Navbar({
             ))}
           </nav>
           {renderSearch()}
-          <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+          <div className="mt-3 flex items-center border-t border-border pt-3">
             <div className="relative min-w-0">
               <button
                 type="button"
@@ -196,7 +200,6 @@ function Navbar({
                 </div>
               ) : null}
             </div>
-            <ThemeToggle />
           </div>
         </div>
       ) : null}
