@@ -10,7 +10,6 @@ function ProgressBar({
   value,
   tone = 'progress',
   label = 'Progres',
-  showValue = false,
   className = '',
 }) {
   const progress = Math.min(100, Math.max(0, Number.isFinite(Number(value)) ? Number(value) : 0));
@@ -30,7 +29,6 @@ function ProgressBar({
           style={{ width: `${progress}%` }}
         />
       </div>
-      {showValue ? <span className="mt-1 block text-right text-[13px] font-semibold text-secondary">{progress}%</span> : null}
     </div>
   );
 }

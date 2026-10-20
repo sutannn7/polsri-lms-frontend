@@ -16,7 +16,7 @@ function chipStatus(deadline, now) {
 }
 
 function DashboardPage() {
-  const { courses, getCourseMeetings } = useCourses();
+  const { courses } = useCourses();
   const { deadlines } = useHomeData();
   const now = new Date();
 
@@ -26,7 +26,10 @@ function DashboardPage() {
     .filter((deadline) => deadline.status !== 'Selesai' && !isOverdue(deadline.dueAt, now))
     .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
 
-  const courseMeetings = getCourseMeetings('MI2301');
+  // Blok pertemuan memakai mata kuliah Perbankan: data pertemuannya paling
+  // lengkap di meeting dan detail laman perbankan ikut diverifikasi.
+  const meetingCourse = courses.find((course) => course.id === 'perbankan');
+  const courseMeetings = meetingCourse ? meetingCourse.units : [];
   const completedMeetings = courseMeetings.filter(
     (meeting) => meeting.status === 'completed',
   ).length;
@@ -60,7 +63,7 @@ function DashboardPage() {
           value={`${courseStats.completedCourses} dari ${courseStats.totalCourses}`}
         />
         <StatCard
-          href={{ pathname: '/dasbor', hash: '#tugas-belum-selesai' }}
+          href="#tugas-belum-selesai"
           label="Tugas Belum Selesai"
           value={`${unfinishedDeadlines.length} Tugas`}
         />
@@ -105,28 +108,36 @@ function DashboardPage() {
               </p>
             </div>
             <ul className="mt-3 divide-y divide-border">
-              {unfinishedDeadlines.map((deadline) => (
-                <li key={deadline.id} className="flex items-start justify-between gap-3 py-4 first:pt-4 last:pb-0">
-                  <div className="min-w-0">
-                    <Link
-                      to={`/mata-kuliah/${deadline.courseId}`}
-                      className="rounded-sm font-semibold text-main transition-colors duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    >
-                      {deadline.title}
-                    </Link>
-                    <p className="mt-1 truncate text-[13px] text-secondary">{deadline.courseName}</p>
-                    <ProgressBar
-                      className="mt-2"
-                      value={0}
-                      tone="idle"
-                      label={`Tugas ${deadline.title} belum mulai`}
-                    />
-                  </div>
-                  <StatusChip status={chipStatus(deadline, now)}>
-                    {dueLabel(deadline.dueAt, now)}
-                  </StatusChip>
-                </li>
-              ))}
+              {unfinishedDeadlines.length === 0 ? (
+                <li className="py-4 text-[13px] text-secondary">Semua tugas sudah selesai.</li>
+              ) : (
+                unfinishedDeadlines.map((deadline) => (
+                  <li key={deadline.id} className="flex items-start justify-between gap-3 py-4 first:pt-4 last:pb-0">
+                    <div className="min-w-0">
+                      <Link
+                        to={`/mata-kuliah/${deadline.courseId}`}
+                        className="rounded-sm font-semibold text-main transition-colors duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      >
+                        {deadline.title}
+                      </Link>
+                      <p className="mt-1 truncate text-[13px] text-secondary">{deadline.courseName}</p>
+                      <div className="mt-2 flex items-center gap-3">
+                        <ProgressBar
+                          value={0}
+                          tone="idle"
+                          label={`Tugas ${deadline.title} belum mulai`}
+                        />
+                        <span className="w-10 shrink-0 text-right text-sm font-semibold text-secondary">
+                          0%
+                        </span>
+                      </div>
+                    </div>
+                    <StatusChip status={chipStatus(deadline, now)}>
+                      {dueLabel(deadline.dueAt, now)}
+                    </StatusChip>
+                  </li>
+                ))
+              )}
             </ul>
           </Card>
         </section>
@@ -137,7 +148,7 @@ function DashboardPage() {
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               <h2 id="pertemuan-heading" className="text-lg font-bold text-main">
-                Progres Pertemuan MI2301
+                Progres Pertemuan {meetingCourse?.name ?? 'Mata Kuliah'}
               </h2>
               <p className="mt-2 text-sm text-secondary">
                 {completedMeetings} dari {courseMeetings.length} pertemuan selesai
@@ -146,7 +157,7 @@ function DashboardPage() {
                 <ProgressBar
                   value={meetingPercent}
                   tone="done"
-                  label="Progres pertemuan Pemrograman Web"
+                  label={`Progres pertemuan ${meetingCourse?.name ?? 'Mata Kuliah'}`}
                 />
                 <span className="w-10 shrink-0 text-right text-sm font-semibold text-success">
                   {meetingPercent}%
@@ -154,7 +165,7 @@ function DashboardPage() {
               </div>
             </div>
             <Link
-              to="/mata-kuliah/MI2301"
+              to="/mata-kuliah/perbankan"
               className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-on-primary transition-colors duration-150 hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Lihat Detail Pertemuan

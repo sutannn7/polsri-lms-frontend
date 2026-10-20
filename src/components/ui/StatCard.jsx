@@ -27,8 +27,7 @@ function StatCard({ label, value, detail, href, className = '' }) {
   return (
     <Card
       as={isAnchor ? 'a' : Link}
-      to={isAnchor ? undefined : href}
-      href={isAnchor ? href : undefined}
+      {...(isAnchor ? { href } : { to: href })}
       data-stat-card
       className={`block p-5 transition-colors duration-150 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
     >
