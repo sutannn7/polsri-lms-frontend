@@ -83,14 +83,22 @@ function FlowCanvas() {
       // On desktop the light gathers just left of the middle, in the gap
       // between the logo and the form, so it never runs into the fields.
       const focus = desktop ? width * 0.45 : width / 2;
+      // The two fans are mirror images of each other, so they have the same
+      // size and shape. The left one starts off-screen, like the reference.
+      const span = width - focus;
+      const p1Left = focus - 0.444 * span;
+      const p2Left = focus - 0.2 * span;
+      const p1Right = focus + 0.444 * span;
+      const p2Right = focus + 0.2 * span;
+      const startLeft = 2 * focus - width;
       streams = Array.from({ length: count }, (_, i) => {
         const fromLeft = i % 2 === 0;
         const startY = (i / count) * height * 1.5 - height * 0.25;
         return {
-          p0: { x: fromLeft ? 0 : width, y: startY },
-          p1: { x: fromLeft ? width * 0.25 : width * 0.75, y: startY },
+          p0: { x: fromLeft ? startLeft : width, y: startY },
+          p1: { x: fromLeft ? p1Left : p1Right, y: startY },
           p2: {
-            x: fromLeft ? focus * 0.8 : focus + (width - focus) * 0.3,
+            x: fromLeft ? p2Left : p2Right,
             y: height / 2,
           },
           p3: { x: focus, y: height / 2 },
