@@ -129,3 +129,11 @@ export function slotLabel(nextSlot) {
     .filter(Boolean)
     .join(' · ');
 }
+
+// Kalimat slot tanpa tanda kurung, hari digabung dengan jam
+// ("Kamis 18.30–19.50 · L3 · Lab 8") — untuk baris "Kelas berikutnya:",
+// yang tak boleh menyarangkan kurung di dalam kurung.
+export function slotSentence(nextSlot) {
+  const label = slotLabel(nextSlot);
+  return label ? label.replace(' · ', ' ') : null;
+}

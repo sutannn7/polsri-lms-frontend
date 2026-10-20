@@ -5,8 +5,6 @@ import { dueLabel, isOverdue } from '../../utils/due';
 
 // Warna chip mengikuti satu bahasa status aplikasi:
 // emas = mendesak/terlambat, netral (abu) = selesai/akan datang.
-// Warna chip mengikuti satu bahasa status aplikasi:
-// emas = mendesak/terlambat, netral (abu) = selesai/akan datang.
 function chipStatus(deadline, now) {
   if (deadline.status === 'Selesai') return 'done';
   if (deadline.status === 'Mendesak' || isOverdue(deadline.dueAt, now)) return 'urgent';
