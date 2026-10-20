@@ -474,7 +474,58 @@ git commit -m "feat: dasbor dengan angka yang bisa diklik dan warna progres berm
 
 ---
 
-### Task 8: Rapor akhir — dua tema, semua breakpoint, dokumentasi
+### Task 8: Halaman Panduan Pengguna
+
+**Files:**
+- Create: `src/pages/GuidePage.jsx`
+- Modify: `src/routes/AppRouter.jsx`
+- Modify: `src/pages/LoginPage.jsx` (tombol "Bantuan login" menjadi tautan ke `/panduan`)
+- Modify: `src/components/layout/Footer.jsx` (tambah tautan "Panduan Penggunaan")
+- Modify: `scripts/verify-pages.mjs`
+
+**Interfaces:**
+- Consumes: kelas token (Task 1), `Link` dari `react-router-dom`.
+- Produces:
+  - Rute publik `/panduan` → `<GuidePage />`, didaftarkan **sebelum** blok rute terlindungi.
+  - `GuidePage` merender `<h1>Panduan Penggunaan LearnEase</h1>` lalu enam `<section aria-labelledby="…-heading">` dengan `<h2>` berurutan: "Cara masuk", "Lupa kata sandi", "Memahami Beranda", "Mengikuti kelas", "Enrollment key", "Kontak bantuan". Tiap section memuat 1–3 paragraf berbahasa Indonesia yang merujuk fitur yang benar-benar ada di LearnEase (jadwal hari ini, tenggat, pengumuman, lanjutkan belajar, materi per pertemuan) dan menyatakan dengan jujur bahwa pemulihan kata sandi otomatis belum tersedia.
+  - Tombol "Bantuan login" di `src/pages/LoginPage.jsx` (kontrol mati) menjadi `<Link to="/panduan">Bantuan login</Link>`; `src/components/layout/Footer.jsx` mendapat tautan "Panduan Penggunaan".
+
+- [ ] **Step 1: Tambahkan cek verify yang gagal**
+
+Di `scripts/verify-pages.mjs`, untuk rute `/panduan`: assert ada `<h1>` yang teksnya memuat "Panduan Penggunaan", ada 6 `<h2>` dengan urutan teks "Cara masuk", "Lupa kata sandi", "Memahami Beranda", "Mengikuti kelas", "Enrollment key", "Kontak bantuan", dan tidak ada kelas literal di dalam `<main>`.
+
+- [ ] **Step 2: Jalankan, pastikan gagal**
+
+Run: `npm run verify -- --routes /panduan`
+Expected: FAIL — rute belum ada (halaman 404).
+
+- [ ] **Step 3: Buat `src/pages/GuidePage.jsx`**
+
+Render `<main>` berisi `<h1>` + enam `<section>` di atas. Gunakan kelas token (`text-main`, `text-secondary`, `bg-background`, `border-border`), ukuran teks ≥ 13px, tanpa kelas literal.
+
+- [ ] **Step 4: Daftarkan rute**
+
+Di `src/routes/AppRouter.jsx`, tambahkan `<Route path="/panduan" element={<GuidePage />} />` **sebelum** `<Route element={<ProtectedRoute />}>` (rute publik).
+
+- [ ] **Step 5: Hubungkan dari login & footer**
+
+Di `src/pages/LoginPage.jsx`, ganti kontrol tombol "Bantuan login" menjadi `<Link to="/panduan">` dengan gaya tautan yang sama seperti "Lupa kata sandi?". Di `src/components/layout/Footer.jsx`, tambahkan tautan "Panduan Penggunaan" ke `/panduan`.
+
+- [ ] **Step 6: Jalankan verify + build, pastikan lulus**
+
+Run: `npm run verify -- --routes /panduan,/login --theme light,dark --out screenshots` → Expected: PASS.
+Run: `npm run build` → Expected: sukses.
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add src/pages/GuidePage.jsx src/routes/AppRouter.jsx src/pages/LoginPage.jsx src/components/layout/Footer.jsx scripts/verify-pages.mjs
+git commit -m "feat: halaman panduan pengguna publik"
+```
+
+---
+
+### Task 9: Rapor akhir — dua tema, semua breakpoint, dokumentasi
 
 **Files:**
 - Modify: `DOKUMENTASI.md`
@@ -499,7 +550,7 @@ Ganti kelas literal dengan token.
 
 Run: `npm run build` → Expected: sukses.
 Run: `npm run preview -- --port 4173 --strictPort` di terminal terpisah.
-Run: `npm run verify -- --routes /login,/beranda,/dasbor,/mata-kuliah,/mata-kuliah/perbankan --theme light,dark --out screenshots` → Expected: PASS untuk semua rute di kedua tema; tidak ada overflow horizontal di 390 (device emulation dikembalikan oleh skrip) maupun 1440.
+Run: `npm run verify -- --routes /login,/beranda,/dasbor,/mata-kuliah,/mata-kuliah/perbankan,/panduan --theme light,dark --out screenshots` → Expected: PASS untuk semua rute di kedua tema; tidak ada overflow horizontal di 390 (device emulation dikembalikan oleh skrip) maupun 1440.
 
 - [ ] **Step 4: Uji checklist §10**
 
@@ -525,4 +576,5 @@ git commit -m "docs: perbarui dokumentasi untuk redesign dan mode terang/gelap"
 - Task 2 menghasilkan `ThemeProvider` + `ThemeToggle` → dipakai Task 4–8.
 - Task 3 menghasilkan data + utilitas murni → dipakai Task 4–7.
 - Task 4 (agenda) memakai utilitas Task 3; Task 5–7 memakai komponen yang dirapikan di Task 5.
-- Task 8 bergantung pada semua task sebelumnya.
+- Task 8 (panduan pengguna) memakai kelas token + `Link`; tidak butuh utilitas baru.
+- Task 9 bergantung pada semua task sebelumnya.

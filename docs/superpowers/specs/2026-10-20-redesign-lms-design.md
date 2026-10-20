@@ -182,7 +182,14 @@ Yang dihapus: hero gradien, 3 kartu statistik, blok cover kosong.
 - **Daftar pertemuan**: accordion per pertemuan (nomor, judul, status) berisi aktivitas (materi/diskusi/kuis) dengan format, ukuran berkas, dan aksi.
 - Status pertemuan memakai chip yang bermakna (Selesai / Berjalan / Belum).
 
-### 6.5 Navbar & chrome
+### 6.5 Halaman Panduan Pengguna (`/panduan`)
+
+- Rute publik (bisa dibaca sebelum login), tautan dari tombol "Bantuan login" di halaman login dan dari footer.
+- `<h1>Panduan Penggunaan LearnEase</h1>` lalu enam bagian ber-`<section aria-labelledby>` dengan `<h2>`: Cara masuk · Lupa kata sandi · Memahami Beranda · Mengikuti kelas · Enrollment key · Kontak bantuan.
+- Isi diambil dari panduan Moodle yang dipakai POLSRI, ditulis ulang untuk LearnEase (bukan disalin): cara masuk memakai NIP/NPH/NPM, sesi tersimpan di perangkat; lupa kata sandi menjelaskan alur ke admin/SIAKAD dan menyatakan dengan jujur bahwa pemulihan otomatis belum tersedia; bagian lain menjelaskan fitur yang benar-benar ada (jadwal hari ini, tenggat, pengumuman, lanjutkan belajar, materi per pertemuan).
+- Gaya: kelas token, tanpa kelas literal, ukuran teks ≥ 13px.
+
+### 6.6 Navbar & chrome
 
 - Navbar: logo, 3 item navigasi, pencarian, **tombol tema `SunMoon`**, menu pengguna. Di mobile: logo + tombol tema + menu (Notch) yang sudah ada.
 - Letak tombol tema: sebelum menu pengguna, dengan `aria-label` yang menyebut aksi ("Ganti ke mode gelap").
@@ -248,6 +255,10 @@ Target: tidak ada overflow horizontal di 360, 390, 768, 1024, 1366, 1440, 1920.
 Setiap langkah = satu commit, diverifikasi dengan §10 sebelum lanjut.
 
 ## 12. Yang sudah diputuskan saat review
+
+- **Halaman Panduan Pengguna** (`/panduan`) dibuat sebagai rute publik, menggantikan tombol "Bantuan login" yang selama ini mati. Isinya mengikuti panduan Moodle POLSRI, ditulis ulang untuk LearnEase.
+- **Enrollment key tidak dibuat** di tahap ini: itu fitur dosen/admin (membuat kunci self-enrollment) dan LearnEase belum punya pembuatan mk, enrollment, maupun peran dosen. Masuk daftar pekerjaan lanjutan bersama area Dosen/Admin.
+- **Pohon course categories tidak dibuat**: di Moodle itu katalog seluruh mk di situs (ratusan, lintas program). Untuk portal mahasiswa cukup daftar 11 mk + filter. Kalau nanti melayani beberapa kelas/program, padanannya filter "Kelas/Program" di halaman Mata Kuliah — field `class` dan `program` sudah ada di data.
 
 - **Nama menu**: "Mata Kuliah Saya" tetap (bahasa yang sudah dipakai mahasiswa).
 - **Kalender di Beranda**: tetap ada di kolom kanan, dibangun ulang dengan token baru (ia satu-satunya cara melihat bulan penuh + tandai hari ini).
