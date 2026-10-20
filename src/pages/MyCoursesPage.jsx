@@ -8,11 +8,16 @@ import CourseSummaryBar from '../components/course/CourseSummaryBar';
 import Tabs from '../components/ui/Tabs';
 import useAuth from '../hooks/useAuth';
 import useCourses from '../hooks/useCourses';
+import { getMeetings } from '../services/homeService';
 import { getCourseStats } from '../utils/courseStatus';
+import { computeCourseProgress } from '../utils/progress';
+import { getNextSlot } from '../utils/schedule';
 
 function MyCoursesPage() {
   const { user } = useAuth();
   const { courses } = useCourses();
+  const schedule = getMeetings();
+  const now = new Date();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') ?? '';
   const [search, setSearch] = useState(query);
@@ -123,9 +128,9 @@ function MyCoursesPage() {
             <CourseCard
               key={course.id}
               course={course}
-              view={view}
-              contextSemester={user?.semester ?? courses[0]?.semester}
-              contextProgram={user?.program ?? courses[0]?.program}
+              progress={computeCourseProgress(course)}
+              nextSlot={getNextSlot(course.id, schedule, now)}
+              variant={view}
             />
           ))}
         </div>

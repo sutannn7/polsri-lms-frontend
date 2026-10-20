@@ -285,7 +285,9 @@ const THEME_SWITCH = `
 
 // Khusus /beranda: blok "Jadwal hari ini" harus ada, jumlah <li>-nya sama
 // dengan jumlah pertemuan hari ini (dihitung lokal dari meetings.json),
-// dan tiap <li> memuat tautan ke /mata-kuliah/.
+// dan tiap <li> memuat tautan ke /mata-kuliah/; bagian bawah harus memuat
+// heading "Tenggat terdekat" dan "Pengumuman Kampus", tanpa kelas warna
+// literal (bg-white/slate-*) di <main>.
 const AGENDA_HARI_INI_CHECK = `
   (() => {
     const section = document.querySelector('section[aria-label="Jadwal hari ini"]');
@@ -297,6 +299,26 @@ const AGENDA_HARI_INI_CHECK = `
       liWithoutLink: items.filter(
         (li) => li.querySelector('a[href^="/mata-kuliah/"]') === null
       ).length,
+    };
+  })()
+`;
+
+const BAWAH_BERANDA_CHECK = `
+  (() => {
+    const main = document.querySelector('main');
+    const headings = new Set(
+      [...(main ? main.querySelectorAll('h2') : [])].map(
+        (heading) => heading.textContent.trim(),
+      ),
+    );
+    return {
+      headingTenggat: headings.has('Tenggat terdekat'),
+      headingPengumuman: headings.has('Pengumuman Kampus'),
+      literalColorClasses: main
+        ? [...main.querySelectorAll('[class*="bg-white"],[class*="slate-"]')]
+            .map((el) => el.tagName + ':' + String(el.className).slice(0, 80))
+            .slice(0, 3)
+        : [],
     };
   })()
 `;
@@ -446,6 +468,11 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
         if (agenda.liWithoutLink > 0)
           agendaFailures.push(`${agenda.liWithoutLink} li tanpa tautan /mata-kuliah/`);
       }
+      const bawah = await evaluateJson(cdp, sessionId, BAWAH_BERANDA_CHECK);
+      if (!bawah.headingTenggat) agendaFailures.push('heading "Tenggat terdekat" tidak ada');
+      if (!bawah.headingPengumuman) agendaFailures.push('heading "Pengumuman Kampus" tidak ada');
+      if (bawah.literalColorClasses.length > 0)
+        agendaFailures.push(`kelas warna literal: ${bawah.literalColorClasses.join(' | ')}`);
     }
 
     // Tema: tema milik aplikasi (classList sebelum dipaksa) hanya

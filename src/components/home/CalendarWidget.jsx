@@ -4,9 +4,9 @@ import Card from '../ui/Card';
 
 const weekdayLabels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
-function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
+function CalendarWidget({ meetings = [], deadlines = [], now = new Date() }) {
   const [visibleMonth, setVisibleMonth] = useState(
-    () => new Date(today.getFullYear(), today.getMonth(), 1),
+    () => new Date(now.getFullYear(), now.getMonth(), 1),
   );
   const monthLabel = new Intl.DateTimeFormat('id-ID', {
     month: 'long',
@@ -18,8 +18,9 @@ function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
     ...Array(firstWeekday).fill(null),
     ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
   ];
-  const isCurrentMonth = visibleMonth.getFullYear() === today.getFullYear()
-    && visibleMonth.getMonth() === today.getMonth();
+  const isCurrentMonth = visibleMonth.getFullYear() === now.getFullYear()
+    && visibleMonth.getMonth() === now.getMonth();
+  // Titik emas = hari itu ada agenda (kelas atau tenggat) pada bulan terlihat.
   const markedDays = new Map();
 
   function addDayLabel(day, label) {
@@ -60,29 +61,28 @@ function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
             type="button"
             aria-label="Bulan sebelumnya"
             onClick={() => changeMonth(-1)}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-gray-100 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-3 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={18} aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Bulan berikutnya"
             onClick={() => changeMonth(1)}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-gray-100 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-secondary transition-colors hover:bg-surface-3 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={18} aria-hidden="true" />
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-7 gap-y-1 text-center">
         {weekdayLabels.map((day) => (
-          <span key={day} className="pb-2 text-xs font-medium text-secondary">{day}</span>
+          <span key={day} className="pb-2 text-[13px] font-medium text-secondary">{day}</span>
         ))}
         {cells.map((day, index) => {
           if (!day) return <span key={`empty-${index}`} aria-hidden="true" />;
-          const weekday = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), day).getDay();
-          const isToday = isCurrentMonth && day === today.getDate();
+          const isToday = isCurrentMonth && day === now.getDate();
           const dayLabels = markedDays.get(day) ?? [];
           const hasEvents = dayLabels.length > 0;
           const eventDescription = dayLabels.join('; ');
@@ -92,7 +92,11 @@ function CalendarWidget({ meetings = [], deadlines = [], today = new Date() }) {
                 aria-current={isToday ? 'date' : undefined}
                 aria-label={`${day}${isToday ? ', hari ini' : ''}${hasEvents ? `, ${eventDescription}` : ''}`}
                 title={hasEvents ? eventDescription : undefined}
-                className={`relative flex h-9 w-9 items-center justify-center rounded-lg border text-xs ${isToday ? 'border-primary bg-primary font-semibold text-white' : 'border-border/70 text-main hover:bg-gray-100'}`}
+                className={`relative flex h-9 w-9 items-center justify-center rounded-lg border text-[13px] transition-colors ${
+                  isToday
+                    ? 'border-accent font-semibold text-main ring-2 ring-accent'
+                    : 'border-border text-main hover:bg-surface-2'
+                }`}
               >
                 {day}
                 {hasEvents && !isToday ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}

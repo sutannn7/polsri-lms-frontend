@@ -2,11 +2,11 @@ import { ArrowRight } from 'lucide-react';
 
 const variantClasses = {
   primary:
-    'border-transparent bg-primary text-white hover:bg-primary-dark disabled:bg-primary/50',
+    'border-transparent bg-primary text-white hover:bg-primary-dark disabled:opacity-60',
   outline:
-    'border-border bg-white text-main hover:border-primary hover:bg-primary-soft hover:text-primary disabled:bg-gray-100',
+    'border-border bg-background text-main hover:border-primary hover:bg-primary-soft hover:text-primary disabled:bg-surface-3 disabled:opacity-60',
   success:
-    'border-transparent bg-success text-white hover:bg-green-700 disabled:bg-success/50',
+    'border-transparent bg-success text-white hover:opacity-90 disabled:opacity-60',
   ghost:
     'border-transparent bg-transparent text-primary hover:bg-primary-soft disabled:text-secondary',
 };
@@ -31,7 +31,7 @@ function Button({
   return (
     <Component
       {...(Component === 'button' ? { type, disabled } : {})}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg border font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed ${variantClasses[variant] ?? variantClasses.primary} ${sizeClasses[size] ?? sizeClasses.md} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg border font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed ${variantClasses[variant] ?? variantClasses.primary} ${sizeClasses[size] ?? sizeClasses.md} ${className}`}
       {...props}
     >
       {icon ? <span aria-hidden="true" className="inline-flex">{icon}</span> : null}

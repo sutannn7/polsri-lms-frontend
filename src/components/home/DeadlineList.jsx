@@ -1,44 +1,40 @@
-import { ClipboardPenLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Badge from '../ui/Badge';
 import Card from '../ui/Card';
-import { formatDate, getDeadlineInfo } from '../../utils/formatDate';
+import StatusChip from '../ui/StatusChip';
+import { dueLabel, isOverdue } from '../../utils/due';
 
-const statusVariants = {
-  Mendesak: 'warning',
-  'Akan Datang': 'info',
-  Terlambat: 'danger',
-  Selesai: 'success',
-};
+// Warna chip mengikuti satu bahasa status aplikasi:
+// emas = mendesak/terlambat, netral (abu) = selesai/akan datang.
+function chipStatus(deadline, now) {
+  if (deadline.status === 'Selesai') return 'done';
+  if (deadline.status === 'Mendesak' || isOverdue(deadline.dueAt, now)) return 'urgent';
+  return 'upcoming';
+}
 
 function DeadlineList({ deadlines = [], now = new Date() }) {
+  const sorted = [...deadlines].sort(
+    (a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime(),
+  );
+
   return (
     <Card className="p-5">
-      <h2 className="mb-2 text-lg font-bold text-main">Deadlines</h2>
       <ul className="divide-y divide-border">
-        {deadlines.map((deadline) => {
-          const deadlineInfo = getDeadlineInfo(deadline, now);
-          return (
-            <li key={deadline.id} className="flex items-start gap-3 py-4 first:pt-3 last:pb-0">
-            <span aria-hidden="true" className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-background text-primary">
-              <ClipboardPenLine size={19} />
-            </span>
-            <div className="min-w-0 flex-1">
-              <Link to={`/mata-kuliah/${deadline.courseId}`} className="text-sm font-semibold text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        {sorted.map((deadline) => (
+          <li key={deadline.id} className="flex items-start justify-between gap-3 py-3 first:pt-0 last:pb-0">
+            <div className="min-w-0">
+              <Link
+                to={`/mata-kuliah/${deadline.courseId}`}
+                className="line-clamp-2 text-sm font-semibold text-main hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
                 {deadline.title}
               </Link>
-              <p className="mt-1 text-xs leading-5 text-secondary">
-                {deadline.courseName} • {formatDate(deadline.dueAt, { includeTime: true })}
-              </p>
+              <p className="mt-1 truncate text-[13px] text-secondary">{deadline.courseName}</p>
             </div>
-            <Badge variant={statusVariants[deadlineInfo.status] ?? 'neutral'} className="shrink-0">
-              {deadlineInfo.status}
-            </Badge>
+            <StatusChip status={chipStatus(deadline, now)}>{dueLabel(deadline.dueAt, now)}</StatusChip>
           </li>
-          );
-        })}
-        {deadlines.length === 0 ? (
-          <li className="py-5 text-sm text-secondary">Tidak ada tugas mendatang.</li>
+        ))}
+        {sorted.length === 0 ? (
+          <li className="py-3 text-sm text-secondary">Tidak ada tenggat.</li>
         ) : null}
       </ul>
     </Card>
