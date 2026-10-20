@@ -408,7 +408,7 @@ Gunakan `getCourseUnits` (nama baru di `courseService`: `getCourseUnits(courseId
 
 - [ ] **Step 7: Rapikan komponen unit & aktivitas**
 
-`MeetingAccordion` (unit + status), `ActivityItem` (materi/diskusi/kuis: judul, format, ukuran berkas, aksi), `QuizCard`, `LecturerCard`, `NextDeadlineCard`, serta `Tabs`, `Accordion`, `ProgressBar`: ganti kelas literal dengan token, samakan warna bar progres dengan `ProgressBar tone="progress" | "done" | "idle"`, dan pastikan label minimal 13px.
+`MeetingAccordion` (unit + status), `ActivityItem` (materi/diskusi/kuis: judul, format, ukuran berkas, aksi), `QuizCard`, `LecturerCard`, `NextDeadlineCard`, serta `Tabs`, `Accordion`, `ProgressBar`: ganti kelas literal dengan token, dan pastikan label minimal 13px. **Jangan memakai prop `tone` pada `ProgressBar` di task ini** — prop itu baru diperkenalkan di Task 7; di sini pakai API `ProgressBar` yang ada.
 
 - [ ] **Step 8: Jalankan verify + test, pastikan lulus**
 
@@ -454,7 +454,7 @@ Hapus blok ikon; terima `href` dan jadi `Link` bila ada; nilai 22–28px; label 
 
 - [ ] **Step 4: Perbaiki semantik warna `ProgressBar`**
 
-Tambahkan prop `tone` dengan tiga nilai di atas; `ProgressBar` lama yang memakai warna hijau/merah acak dibersihkan. Semua pemakaian di repo diperbarui agar menyebut tone secara eksplisit.
+Tambahkan prop `tone` dengan tiga nilai di atas (`'progress' | 'done' | 'idle'` → `bg-primary`, `bg-success`, `bg-surface-3`); `ProgressBar` lama yang memakai warna hijau/merah acak dibersihkan. **Semua pemakaian `ProgressBar` di repo diperbarui untuk menyebut `tone` secara eksplisit** — termasuk yang dibuat di Task 5 dan Task 6, yang sebelumnya memakai API lama.
 
 - [ ] **Step 5: Tulis ulang `DashboardPage`**
 
