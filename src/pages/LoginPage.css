@@ -79,6 +79,14 @@ body:has(.login-kosmik-theme) {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  opacity: 0;
+  animation: flow-in 1.1s ease 0.25s forwards;
+}
+
+@keyframes flow-in {
+  to {
+    opacity: 1;
+  }
 }
 
 /* ---------- brand + back link ---------- */
@@ -160,38 +168,21 @@ body:has(.login-kosmik-theme) {
   margin: 0 auto;
 }
 
-/* Eyebrow tag: microscopic pill, the only uppercase micro-label besides the
-   field labels. */
-.login-kosmik-theme .eb {
-  display: inline-flex;
-  margin: 0 0 14px;
-  padding: 6px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
 .login-kosmik-theme h1 {
   margin: 0 0 12px;
   font-family: var(--font-display);
-  font-size: clamp(40px, 11vw, 52px);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+  font-size: clamp(32px, 9.4vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: none;
   color: #fff;
 }
 
 .login-kosmik-theme .lead {
   margin: 0 0 22px;
   font-family: var(--font-body);
-  font-size: 14.5px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: normal;
@@ -409,15 +400,6 @@ body:has(.login-kosmik-theme) {
   margin-top: 26px;
 }
 
-.login-kosmik-theme .sm {
-  margin: 0 0 10px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-}
-
 .login-kosmik-theme .two {
   display: flex;
   flex-wrap: wrap;
@@ -484,7 +466,7 @@ body:has(.login-kosmik-theme) {
   margin: 18px 0 0;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.1); /* taste-skill-ignore */
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
   letter-spacing: normal;
   text-wrap: pretty;
@@ -501,7 +483,7 @@ body:has(.login-kosmik-theme) {
 
 .login-kosmik-theme .legal-mobile {
   margin: 8px 0 0;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.48);
 }
@@ -600,10 +582,10 @@ body:has(.login-kosmik-theme) {
   .login-kosmik-theme .brand small {
     display: block;
     margin-top: 3px;
-    font-size: 12px;
-    letter-spacing: 0.12em;
+    font-size: 13px;
+    letter-spacing: normal;
     color: var(--faint);
-    text-transform: uppercase;
+    text-transform: none;
   }
 
   /* Logo sits in the middle of the panel, the quote on the bottom edge. */
@@ -661,21 +643,21 @@ body:has(.login-kosmik-theme) {
   .login-kosmik-theme .panel {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: clamp(24px, 4.2vh, 84px) 56px 128px;
+    justify-content: flex-start;
+    padding: clamp(48px, 13vh, 130px) 56px 128px;
+  }
+
+  .login-kosmik-theme .box {
+    max-width: 520px;
   }
 
   .login-kosmik-theme h1 {
-    font-size: clamp(44px, 4.4vw, 64px);
+    font-size: clamp(38px, 3.6vw, 56px);
   }
 
   .login-kosmik-theme .lead {
     margin-bottom: 26px;
-    font-size: 15px;
-  }
-
-  .login-kosmik-theme .eb {
-    margin-bottom: 16px;
+    font-size: 16px;
   }
 
   .login-kosmik-theme .go {
@@ -684,10 +666,6 @@ body:has(.login-kosmik-theme) {
 
   .login-kosmik-theme .help {
     margin-top: 30px;
-  }
-
-  .login-kosmik-theme .sm {
-    display: none;
   }
 
   .login-kosmik-theme .two {
@@ -726,7 +704,7 @@ body:has(.login-kosmik-theme) {
 
   .login-kosmik-theme .legal-desk {
     margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.48);
   }
 }
@@ -866,5 +844,10 @@ body:has(.login-kosmik-theme) {
   .login-kosmik-theme .rv,
   .login-kosmik-theme .sp {
     animation: none;
+  }
+
+  .login-kosmik-theme .flow-canvas {
+    animation: none;
+    opacity: 1;
   }
 }

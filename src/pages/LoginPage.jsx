@@ -134,14 +134,12 @@ export default function LoginPage() {
         {/* Login Panel */}
         <main className="panel">
           <div className="box">
-            <p className="eb rv" style={{ "--i": 2 }}>
-              Portal Akademik
-            </p>
-            <h1 className="rv" style={{ "--i": 2 }}>
-              Masuk
-            </h1>
+            {/* The title paints on the first frame: a visitor must never stare
+                at an empty slot waiting for an animation. */}
+            <h1>Masuk ke portal akademik</h1>
             <p className="lead rv" style={{ "--i": 3 }}>
-              Masuk dengan NIP, NPM, atau NIK akun akademik Anda.
+              Portal Akademik Politeknik Negeri Sriwijaya. Masuk dengan NIP,
+              NPM, atau NIK akun akademik Anda.
             </p>
 
             <form onSubmit={handleLogin} noValidate>
@@ -288,7 +286,6 @@ export default function LoginPage() {
 
             {/* Bantuan & Legal */}
             <div className="help rv" style={{ "--i": 7 }}>
-              <p className="sm">Bantuan</p>
               <div className="two">
                 <button
                   className="gb"

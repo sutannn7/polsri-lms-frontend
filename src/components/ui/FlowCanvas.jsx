@@ -73,6 +73,8 @@ function FlowCanvas() {
     let streams = [];
     const buckets = [[], [], [], []];
     let raf = 0;
+    let buildTimer = 0;
+    let started = false;
     let last = performance.now();
 
     const build = () => {
@@ -162,9 +164,16 @@ function FlowCanvas() {
       off.width = canvas.width;
       off.height = canvas.height;
       offCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      build();
-      paintStreams();
-      if (reduceMotion) draw(0);
+      if (!started) return;
+      // Building the streams means stroking 90 dashed curves. Doing that in
+      // the middle of the reveal animations holds back the first paint, so it
+      // waits for the next frame.
+      window.clearTimeout(buildTimer);
+      buildTimer = window.setTimeout(() => {
+        build();
+        paintStreams();
+        draw(0);
+      }, 0);
     };
 
     const draw = (dt) => {
@@ -233,10 +242,19 @@ function FlowCanvas() {
     observer.observe(canvas);
     document.addEventListener("visibilitychange", onVisibility);
     resize();
-    if (!reduceMotion) raf = requestAnimationFrame(loop);
+    // The flow is decoration, so it waits until the content has revealed
+    // itself. It fades in on top of that.
+    buildTimer = window.setTimeout(() => {
+      started = true;
+      build();
+      paintStreams();
+      draw(0);
+      if (!reduceMotion) raf = requestAnimationFrame(loop);
+    }, 500);
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(buildTimer);
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
