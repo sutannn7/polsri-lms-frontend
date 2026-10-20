@@ -556,14 +556,18 @@ body:has(.login-kosmik-theme) {
     display: grid;
     grid-template-columns: 1.05fr 1fr;
     overflow: hidden;
+    /* One surface for the whole page. The gradient lives on the wrapper, so
+       the artwork and the form no longer meet at a seam. */
+    --glow: radial-gradient(64% 50% at 76% 30%, rgba(255, 193, 7, 0.18), transparent 72%); /* taste-skill-ignore */
+    background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
   }
 
   .login-kosmik-theme .scene {
-    /* Aimed at the panel seam and a touch stronger, so the two navy panels
-       read as one surface. Still the same single glow. */
-    --glow: radial-gradient(64% 50% at 76% 30%, rgba(255, 193, 7, 0.18), transparent 72%); /* taste-skill-ignore */
     --frame: min(90%, 68vh);
-    background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
+    background: transparent;
+    /* The particle layer bleeds across the whole page, so the panel must not
+       clip it. The wrapper clips it at the page edge instead. */
+    overflow: visible;
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
@@ -645,6 +649,18 @@ body:has(.login-kosmik-theme) {
     flex-direction: column;
     justify-content: flex-start;
     padding: clamp(48px, 13vh, 130px) 56px 128px;
+    /* The form sits on the shared background, so it gets a scrim of its own
+       to stay readable over the particles. */
+    background: transparent;
+    background-image: linear-gradient(to right, rgba(7, 13, 34, 0) 0%, rgba(7, 13, 34, 0.5) 34%, rgba(7, 13, 34, 0.82) 100%); /* taste-skill-ignore */
+  }
+
+  .login-kosmik-theme .flow-canvas {
+    /* Bleeds over the form column, so the light gathers in the middle of the
+       page, between the logo and the form. */
+    left: 0;
+    right: auto;
+    width: 100vw;
   }
 
   .login-kosmik-theme .box {
