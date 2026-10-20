@@ -30,7 +30,7 @@ function TodaySchedule({ agenda }) {
               {entry.status === 'done' ? (
                 <Link
                   to={entry.href}
-                  className="mt-1 inline-block text-[13px] font-medium text-primary hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2"
+                  className="mt-1 inline-block text-[13px] font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2"
                 >
                   Lanjut ke materi berikutnya
                 </Link>

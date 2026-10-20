@@ -31,7 +31,7 @@ function ContinueLearningCard({ course, progress, nextSlot }) {
       {schedule ? <p className="mt-1 truncate text-[13px] text-secondary">{schedule}</p> : null}
       <Link
         to={`/mata-kuliah/${course.id}`}
-        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         Lanjutkan Belajar <ArrowRight size={16} aria-hidden="true" />
       </Link>

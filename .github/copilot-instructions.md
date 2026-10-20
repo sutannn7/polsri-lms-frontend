@@ -9,7 +9,8 @@ Seluruh teks antarmuka WAJIB berbahasa Indonesia. Nama kode, variabel, dan kompo
 - Tailwind CSS (utility classes, tanpa CSS terpisah kecuali index.css)
 - React Router v6
 - lucide-react untuk ikon
-- motion untuk animasi pendukung (Notch, TracingBeam)
+- next-themes untuk tema terang/gelap (default light, toggle di navbar, disimpan di localStorage)
+- motion untuk animasi pendukung (Notch)
 - Font: Plus Jakarta Sans (Google Fonts), weight 400/500/600/700
 
 ## Referensi desain
@@ -18,44 +19,50 @@ Desain ada di folder /design (Intro Splash.svg, Login.svg, Beranda.svg, Mata Kul
 Ukuran artboard desktop 1440px. Ikuti desain setepat mungkin: layout, jarak, urutan elemen, dan teks.
 Jangan mengubah teks atau menambah fitur yang tidak ada di desain.
 
-## Design tokens (daftarkan di tailwind.config.js)
+## Design tokens (sumber: src/styles/tokens.css)
 
-- primary: #0056B3
-- primary-dark: #003D82
-- primary-soft: #EDF5FF
-- accent (kuning): #FFC107
-- background halaman: #F8F9FA
-- teks utama: #1F2937
-- teks sekunder: #6B7280
-- border: #E5E7EB
-- success: #16A34A (badge: bg #DCFCE7, teks #166534)
-- danger: #DC2626 (badge: bg #FEE2E2, teks #B91C1C)
-- warning badge: bg #FFF8DF, teks #8A6100
-  Gaya: card putih, border 1px #E5E7EB, radius 12px, shadow sangat halus. Kartu mata kuliah punya border kiri kuning (accent) 4px.
+Palet terang dan gelap didefinisikan sebagai CSS variables di `src/styles/tokens.css`
+(`:root` terang, `html.dark` gelap; `tailwind.config.js` memetakannya: primary,
+primary-soft, on-primary, accent, background, surface-2, surface-3, main, secondary,
+border, success, danger, warning/neutral badge, radius `card`, shadow `card`).
+
+Aturan warna (wajib di components/ dan pages/):
+
+- Semua warna lewat token di atas; JANGAN pakai kelas palet literal (`bg-white`, `gray-*`, dsb).
+- Modifier opacity Tailwind (`/50`, `/70`, …) TIDAK bekerja dengan warna berbasis
+  `var()` — jangan pakai. Untuk warna transparan dari token, pakai `color-mix()`
+  sebagai arbitrary value, contohnya seperti di `src/components/ui/StatusChip.jsx`.
+- Kartu: `rounded-card border border-border bg-background` (tema gelap menambah
+  `dark:shadow-card` bila perlu delineation).
 
 ## Struktur folder (sudah ada, ikuti persis)
 
 src/
 components/
-ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo, FlowCanvas
+ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo, FlowCanvas, StatusChip, ThemeToggle
 layout/ Navbar, Footer, Breadcrumb, MainLayout
 home/ WelcomeBanner, AnnouncementCard, CalendarWidget, DeadlineList, ContinueLearningCard
+schedule/ TodaySchedule
 course/ CourseCard, CourseFilterBar, CourseSummaryBar, CourseHeader, MeetingAccordion,
 ActivityItem, QuizCard, NextDeadlineCard, LecturerCard, MobileCourseTabs
-aceternity/ Notch, TracingBeam
-pages/ LoginPage, HomePage, DashboardPage, MyCoursesPage, CourseDetailPage, NotFoundPage
+aceternity/ Notch
+pages/ LoginPage, HomePage, DashboardPage, MyCoursesPage, CourseDetailPage, GuidePage, NotFoundPage
 routes/ AppRouter, ProtectedRoute
 context/ AuthContext
 data/ user.json, courses.json, meetings.json, announcements.json, deadlines.json
 services/ authService.js, courseService.js, homeService.js
 hooks/ useAuth.js, useCourses.js, useHomeData.js
-utils/ formatDate.js, courseStatus.js
-styles/ index.css, notch.css, tracing-beam.css
+utils/ formatDate.js, courseStatus.js, schedule.js, progress.js, due.js
+styles/ index.css, tokens.css, notch.css
+
+tests/ due.test.js, progress.test.js, schedule.test.js, tokens.test.js (node --test)
+scripts/ verify-pages.mjs (verifikasi halaman di Chrome headless, lihat bagian bawah)
 
 ## Routing
 
 / (redirect ke /login)
-/login (halaman Login)
+/login (halaman Login, bertaut "Bantuan login" ke /panduan)
+/panduan (GuidePage, publik tanpa layout)
 /beranda, /dasbor, /mata-kuliah, /mata-kuliah/:id (MainLayout, dilindungi ProtectedRoute)
 
 - (NotFoundPage)
@@ -74,10 +81,12 @@ styles/ index.css, notch.css, tracing-beam.css
 
 ## Konsistensi data (penting)
 
-- Kode MI2301 = Pemrograman Web (Dwi Lestari, S.Kom., M.Kom.). Halaman Detail Mata Kuliah memakai data mata kuliah yang sama, bukan judul lain.
+- Data mengikuti jadwal riil mahasiswa contoh: 11 mata kuliah DIPLOMA IV - 5MIM (21 SKS) di courses.json, 13 pertemuan mingguan di schedule pada meetings.json, dan tenggat di satu daftar deadlines.json yang dipakai bersama Beranda dan Dasbor. Halaman Detail Mata Kuliah memakai data mata kuliah yang sama, bukan judul lain.
+- Progres mata kuliah dihitung dari aktivitas bertanda `completed` di meetings.json (via utils/progress.js), bukan angka yang disimpan di data.
+- Jadwal hari ini dan slot kelas berikutnya dihitung oleh utils/schedule.js dalam zona Asia/Jakarta (WIB).
 - Kalender di Beranda harus dinamis (berdasarkan tanggal hari ini), bukan statis.
 - "Mata kuliah aktif" = mata kuliah dengan progres di bawah 100%. Hitung dari data, jangan hardcode angka.
-- Rata-rata progres dan total SKS dihitung dari courses.json.
+- Rata-rata progres dan total SKS dihitung dari courses.json/meetings.json.
 
 ## Skill tambahan
 

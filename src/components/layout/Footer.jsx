@@ -14,7 +14,7 @@ function Footer({ year = new Date().getFullYear() }) {
           >
             Panduan Penggunaan
           </Link>
-          <span aria-disabled="true" title="Pusat bantuan belum tersedia" className="cursor-not-allowed text-secondary/70">
+          <span aria-disabled="true" title="Pusat bantuan belum tersedia" className="cursor-not-allowed text-secondary">
             Pusat bantuan
           </span>
         </nav>

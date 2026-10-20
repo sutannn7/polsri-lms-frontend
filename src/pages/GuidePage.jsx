@@ -27,7 +27,7 @@ const sections = [
     id: 'cara-masuk',
     title: 'Cara masuk',
     paragraphs: [
-      'Buka LearnEase di peramban Anda, lalu halaman masuk akan meminta NIP, NPM, atau NIK beserta kata sandi (minimal 6 karakter). Isi keduanya, kemudian pilih tombol Masuk.',
+      'Buka LearnEase di peramban Anda, lalu halaman masuk akan meminta NIP, NPH, atau NPM beserta kata sandi (minimal 6 karakter). Isi keduanya, kemudian pilih tombol Masuk.',
       'Selama sesi masih tersimpan di peramban, membuka LearnEase lagi akan langsung membawa Anda ke Beranda tanpa perlu memasukkan identitas ulang.',
     ],
   },

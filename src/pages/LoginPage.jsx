@@ -45,7 +45,7 @@ export default function LoginPage() {
     setAlertMsg("");
 
     const nextId = identifier.trim();
-    const nextErrId = nextId ? "" : "NIP / NPM / NIK wajib diisi.";
+    const nextErrId = nextId ? "" : "NIP / NPH / NPM wajib diisi.";
     const nextErrPass = !password
       ? "Kata sandi wajib diisi."
       : password.length < 6
@@ -138,14 +138,14 @@ export default function LoginPage() {
             <h1>Masuk ke portal akademik</h1>
             <p className="lead rv" style={{ "--i": 3 }}>
               Portal Akademik Politeknik Negeri Sriwijaya. Masuk dengan NIP,
-              NPM, atau NIK akun akademik Anda.
+              NPH, atau NPM akun akademik Anda.
             </p>
 
             <form onSubmit={handleLogin} noValidate>
               {/* Field Identitas */}
               <div className="field rv" style={{ "--i": 4 }}>
                 <label className="lb" htmlFor="u">
-                  NIP / NPM / NIK
+                  NIP / NPH / NPM
                 </label>
                 <div className="shell">
                   <div className="core">
@@ -168,7 +168,7 @@ export default function LoginPage() {
                       autoComplete="username"
                       autoCapitalize="none"
                       spellCheck="false"
-                      placeholder="Masukkan NIP / NPM / NIK"
+                      placeholder="Masukkan NIP / NPH / NPM"
                       aria-invalid={!!errId}
                       aria-describedby={errId ? "u-e" : undefined}
                       value={identifier}

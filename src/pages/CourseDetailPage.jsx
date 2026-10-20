@@ -30,7 +30,7 @@ function CourseDetailPage() {
   if (!course) {
     return (
       <section className="rounded-card border border-border bg-background p-6 dark:shadow-card sm:p-8">
-        <Link to="/mata-kuliah" className="text-sm font-semibold text-primary hover:text-primary-dark">
+        <Link to="/mata-kuliah" className="text-sm font-semibold text-primary hover:underline">
           Kembali ke Mata Kuliah Saya
         </Link>
         <h1 className="mt-5 font-display text-3xl font-semibold text-main">Mata kuliah tidak ditemukan</h1>
