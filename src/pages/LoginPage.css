@@ -461,11 +461,9 @@ body:has(.login-kosmik-theme) {
   color: var(--muted);
 }
 
-/* Hairline between the help group and the legal group (mobile). */
+/* Legal line on mobile. */
 .login-kosmik-theme .tm {
   margin: 18px 0 0;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1); /* taste-skill-ignore */
   font-size: 13px;
   line-height: 1.6;
   letter-spacing: normal;
@@ -554,7 +552,7 @@ body:has(.login-kosmik-theme) {
 @media (min-width: 901px) {
   .login-kosmik-theme .wrap {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
     overflow: hidden;
     /* One surface for the whole page. The gradient lives on the wrapper, so
        the artwork and the form no longer meet at a seam. */
@@ -704,7 +702,8 @@ body:has(.login-kosmik-theme) {
     display: none;
   }
 
-  /* Thin footer line pinned to the base of the right panel. */
+  /* Legal line pinned to the base of the right panel, aligned with the form
+     column so both sit on the same margin. */
   .login-kosmik-theme .panel-foot {
     display: flex;
     position: absolute;
@@ -712,14 +711,15 @@ body:has(.login-kosmik-theme) {
     right: 0;
     bottom: 0;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 16px;
     padding: 14px 56px 22px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* taste-skill-ignore */
   }
 
   .login-kosmik-theme .legal-desk {
-    margin: 0;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
     font-size: 13px;
     color: rgba(255, 255, 255, 0.48);
   }
