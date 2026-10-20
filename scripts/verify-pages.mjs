@@ -13,6 +13,9 @@
  *  - semua <img> complete && naturalWidth > 0
  *  - tidak ada elemen di <main> dengan computed font-size < 13px
  *  - tidak ada elemen fokus-able ber-class outline-none tanpa focus-visible:ring
+ *  - (khusus /beranda) section "Jadwal hari ini" ada, jumlah <li> sama dengan
+ *    jumlah pertemuan hari ini dari src/data/meetings.json, dan tiap <li>
+ *    memuat tautan ke /mata-kuliah/
  * Dengan --theme-switch: tiap iterasi dimulai dari tema asli aplikasi
  * (localStorage 'theme' dibersihkan lalu halaman dimuat ulang), tombol
  * tema diklik, dan di-assert classList <html> berubah, localStorage 'theme'
@@ -31,6 +34,7 @@ import { existsSync, mkdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
+import meetingsData from '../src/data/meetings.json' with { type: 'json' };
 
 const CHROME_CANDIDATES = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -279,6 +283,24 @@ const THEME_SWITCH = `
   })()
 `;
 
+// Khusus /beranda: blok "Jadwal hari ini" harus ada, jumlah <li>-nya sama
+// dengan jumlah pertemuan hari ini (dihitung lokal dari meetings.json),
+// dan tiap <li> memuat tautan ke /mata-kuliah/.
+const AGENDA_HARI_INI_CHECK = `
+  (() => {
+    const section = document.querySelector('section[aria-label="Jadwal hari ini"]');
+    if (!section) return { found: false };
+    const items = [...section.querySelectorAll('ul > li')];
+    return {
+      found: true,
+      itemCount: items.length,
+      liWithoutLink: items.filter(
+        (li) => li.querySelector('a[href^="/mata-kuliah/"]') === null
+      ).length,
+    };
+  })()
+`;
+
 const PAGE_CHECKS = (theme) => `
   (() => {
     // Classlist SEBELUM skrip memaksa tema: kalau aplikasi sudah
@@ -393,6 +415,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
   try {
     await navigateWithRetry(cdp, sessionId, base + route);
     await delay(400);
+    const agendaFailures = [];
 
     // Dengan --theme-switch, tiap iterasi dimulai dari tema ASLI aplikasi:
     // hapus tema tersimpan (kunci 'theme' milik next-themes), muat ulang,
@@ -409,6 +432,21 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     checks.consoleErrors = counters.consoleErrors;
     checks.failedRequests = counters.failedRequests;
     checks.wantedRoute = route;
+
+    if (route === '/beranda') {
+      const agenda = await evaluateJson(cdp, sessionId, AGENDA_HARI_INI_CHECK);
+      if (!agenda.found) {
+        agendaFailures.push('section "Jadwal hari ini" tidak ditemukan');
+      } else {
+        const todayCount = meetingsData.schedule.filter(
+          (meeting) => meeting.dayOfWeek === new Date().getDay()
+        ).length;
+        if (agenda.itemCount !== todayCount)
+          agendaFailures.push(`jadwal hari ini ${agenda.itemCount} item, diharapkan ${todayCount}`);
+        if (agenda.liWithoutLink > 0)
+          agendaFailures.push(`${agenda.liWithoutLink} li tanpa tautan /mata-kuliah/`);
+      }
+    }
 
     // Tema: tema milik aplikasi (classList sebelum dipaksa) hanya
     // DILAPORKAN, bukan ditekan — aplikasi boleh saja sedang memakai tema
@@ -429,6 +467,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     }
 
     const failed = summarize(checks);
+    failed.push(...agendaFailures);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
     writeFileSync(path.join(outDir, `${theme}-${slug}.png`), Buffer.from(png.data, 'base64'));

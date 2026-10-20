@@ -1,6 +1,7 @@
 import announcementsData from '../data/announcements.json';
 import deadlinesData from '../data/deadlines.json';
 import meetingsData from '../data/meetings.json';
+import { buildAgenda } from '../utils/schedule';
 
 function jakartaDueAt(daysFromToday) {
   const target = new Date(Date.now() + daysFromToday * 86_400_000);
@@ -29,4 +30,8 @@ export function getDeadlines() {
 
 export function getMeetings() {
   return meetingsData.schedule.map((meeting) => ({ ...meeting }));
+}
+
+export function getTodayAgenda(now = new Date()) {
+  return buildAgenda(getMeetings(), now);
 }

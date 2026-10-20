@@ -1,74 +1,51 @@
 import { useMemo } from 'react';
-import { ArrowRight, BookOpenCheck, CalendarDays, ClipboardList } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AnnouncementCard from '../components/home/AnnouncementCard';
 import CalendarWidget from '../components/home/CalendarWidget';
 import ContinueLearningCard from '../components/home/ContinueLearningCard';
 import DeadlineList from '../components/home/DeadlineList';
-import WelcomeBanner from '../components/home/WelcomeBanner';
-import StatCard from '../components/ui/StatCard';
+import TodaySchedule from '../components/schedule/TodaySchedule';
 import useAuth from '../hooks/useAuth';
 import useCourses from '../hooks/useCourses';
 import useHomeData from '../hooks/useHomeData';
-import { getLastOpenedCourseId } from '../services/courseService';
-import { getActiveCourses, getCourseStats } from '../utils/courseStatus';
-import { getDeadlineInfo, isUpcomingDeadline } from '../utils/formatDate';
+import { getActiveCourses } from '../utils/courseStatus';
+import { isUpcomingDeadline } from '../utils/formatDate';
+
+const todayLabel = new Intl.DateTimeFormat('id-ID', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'Asia/Jakarta',
+});
 
 function HomePage() {
   const { user } = useAuth();
   const { courses } = useCourses();
-  const { announcements, deadlines, meetings } = useHomeData();
+  const { announcements, deadlines, meetings, agenda, nextMeeting } = useHomeData();
   const today = new Date();
-  const stats = getCourseStats(courses);
   const upcomingDeadlines = deadlines.filter((deadline) => isUpcomingDeadline(deadline, today));
-  const closeDeadlines = upcomingDeadlines
-    .filter((deadline) => getDeadlineInfo(deadline, today).status === 'Mendesak')
-    .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
-  const todaysMeetings = meetings.filter((meeting) => meeting.dayOfWeek === today.getDay());
   const continueCourses = useMemo(
     () => getActiveCourses(courses).sort((a, b) => b.progress - a.progress).slice(0, 3),
     [courses],
   );
-  const lastOpenedCourseId = getLastOpenedCourseId();
-  const lastOpenedCourse = courses.find((course) => course.id === lastOpenedCourseId);
-  const fallbackCourse = lastOpenedCourse ?? continueCourses[0];
-  const nearestDeadline = closeDeadlines[0];
-  const bannerSummary = nearestDeadline
-    ? `Ada ${closeDeadlines.length} tugas yang jatuh tempo dalam waktu dekat. Tenggat terdekat ${getDeadlineInfo(nearestDeadline, today).label.toLowerCase()}: ${nearestDeadline.title}.`
-    : lastOpenedCourse
-      ? `Tidak ada tenggat dalam 2 hari ke depan. Mata kuliah terakhir dibuka: ${lastOpenedCourse.name}.`
-      : `Tidak ada tenggat dalam 2 hari ke depan. Mulai pembelajaran dari ${fallbackCourse?.name ?? 'daftar mata kuliah Anda'}.`;
-  const bannerCourseHref = nearestDeadline
-    ? `/mata-kuliah/${nearestDeadline.courseId}`
-    : fallbackCourse
-      ? `/mata-kuliah/${fallbackCourse.id}`
-      : undefined;
+  const jadwalSummary = agenda.meetings.length > 0
+    ? `${agenda.meetings.length} kelas hari ini${nextMeeting ? ` · berikutnya ${nextMeeting.meeting.startTime}` : ''}`
+    : nextMeeting
+      ? `Tidak ada kelas hari ini · kelas berikutnya ${nextMeeting.meeting.startTime}`
+      : 'Tidak ada kelas hari ini';
 
   return (
     <div className="space-y-8">
-      <WelcomeBanner
-        name={user?.name ?? 'Mahasiswa'}
-        summary={bannerSummary}
-        courseHref={bannerCourseHref}
-      />
+      <header className="space-y-1">
+        <h1 className="text-2xl font-bold text-main">Selamat datang, {user?.name ?? 'Mahasiswa'}!</h1>
+        <p className="text-sm text-secondary">
+          {todayLabel.format(today)} · {jadwalSummary}
+        </p>
+      </header>
 
-      <section aria-label="Ringkasan pembelajaran" className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        <StatCard
-          icon={<ClipboardList size={21} />}
-          label="Tugas Terdekat"
-          value={`${upcomingDeadlines.length} Tugas`}
-        />
-        <StatCard
-          icon={<CalendarDays size={21} />}
-          label="Jadwal Hari Ini"
-          value={`${todaysMeetings.length} Kelas`}
-        />
-        <StatCard
-          icon={<BookOpenCheck size={21} />}
-          label="Mata Kuliah Aktif"
-          value={`${stats.activeCourses} Mata Kuliah`}
-        />
-      </section>
+      <TodaySchedule agenda={agenda} />
 
       <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="min-w-0 space-y-8">
