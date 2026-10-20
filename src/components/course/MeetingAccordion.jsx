@@ -11,7 +11,7 @@ function MeetingAccordion({ unit, defaultOpen = false, onActivityAction }) {
   return (
     <Accordion
       defaultOpen={defaultOpen}
-      className="shadow-card transition-shadow hover:shadow-md"
+      className="dark:shadow-card transition-shadow dark:hover:shadow-md"
       title={
         <span className="flex min-w-0 items-center gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary">

@@ -52,7 +52,9 @@ function ActivityItem({ activity, index, onAction }) {
       <Button
         type="button"
         size="sm"
-        variant={isAssignment ? 'primary' : 'outline'}
+        variant={isAssignment
+          ? (deadlineInfo.status === 'Selesai' ? 'outline' : 'primary')
+          : 'outline'}
         className="shrink-0 self-start sm:self-center"
         icon={!isAssignment && !isDiscussion ? <Download size={15} /> : undefined}
         onClick={() => onAction?.(activity)}

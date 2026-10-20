@@ -29,11 +29,11 @@ function CourseDetailPage() {
 
   if (!course) {
     return (
-      <section className="rounded-card border border-border bg-background p-6 shadow-card sm:p-8">
+      <section className="rounded-card border border-border bg-background p-6 dark:shadow-card sm:p-8">
         <Link to="/mata-kuliah" className="text-sm font-semibold text-primary hover:text-primary-dark">
           Kembali ke Mata Kuliah Saya
         </Link>
-        <h1 className="mt-5 text-2xl font-bold text-main">Mata kuliah tidak ditemukan</h1>
+        <h1 className="mt-5 font-display text-3xl font-semibold text-main">Mata kuliah tidak ditemukan</h1>
         <p className="mt-2 text-sm text-secondary">Mata kuliah {id} tidak terdaftar.</p>
       </section>
     );
@@ -74,12 +74,11 @@ function CourseDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <Breadcrumb
         items={[
           { label: 'Mata Kuliah Saya', href: '/mata-kuliah' },
-          { label: course.name, href: `/mata-kuliah/${course.id}` },
-          { label: 'Detail Mata Kuliah' },
+          { label: course.name },
         ]}
       />
 
@@ -102,7 +101,9 @@ function CourseDetailPage() {
                     <MeetingAccordion
                       unit={unit}
                       defaultOpen={unit.number === activeMeeting?.number}
-                      onActivityAction={() => showTasks()}
+                      onActivityAction={(activity) => {
+                        if (activity.type === 'assignment') showTasks();
+                      }}
                     />
                   </div>
                 ))}
@@ -120,7 +121,12 @@ function CourseDetailPage() {
                 {tasks.map((task) => (
                   <ActivityItem
                     key={task.id}
-                    activity={{ ...task, type: 'assignment', statusLabel: task.status, action: 'Kerjakan Tugas' }}
+                    activity={{
+                      ...task,
+                      type: 'assignment',
+                      statusLabel: task.status,
+                      action: task.status === 'Selesai' ? 'Tinjau Tugas' : 'Kerjakan Tugas',
+                    }}
                   />
                 ))}
               </div>

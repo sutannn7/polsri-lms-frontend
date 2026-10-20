@@ -13,7 +13,7 @@ function CourseHeader({ course }) {
           {course.program} <span aria-hidden="true">•</span> Semester {course.semester}{' '}
           <span aria-hidden="true">•</span> {course.credits} SKS <span aria-hidden="true">•</span> Kelas {course.class}
         </p>
-        <h1 className="mt-3 line-clamp-2 text-2xl font-bold leading-tight text-main sm:text-3xl">
+        <h1 className="mt-3 line-clamp-2 font-display text-3xl font-semibold leading-tight text-main">
           {course.name}
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-secondary">{course.description}</p>
@@ -26,7 +26,7 @@ function CourseHeader({ course }) {
 
       <div className="rounded-card border border-border bg-background p-4 sm:p-5">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-sm font-semibold text-main">Progres belajar</h2>
+          <h2 className="text-base font-bold text-main">Progres belajar</h2>
           <span className="text-3xl font-bold tabular-nums text-primary">{course.progress}%</span>
         </div>
         <ProgressBar

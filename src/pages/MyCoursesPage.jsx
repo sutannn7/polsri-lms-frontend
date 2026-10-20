@@ -52,6 +52,11 @@ function MyCoursesPage() {
         onSearchChange={setSearch}
         statusValue={status}
         onStatusChange={setStatus}
+        statusCounts={{
+          all: stats.totalCourses,
+          active: stats.activeCourses,
+          completed: stats.completedCourses,
+        }}
         sortValue={sort}
         onSortChange={setSort}
         view={view}

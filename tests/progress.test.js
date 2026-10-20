@@ -73,5 +73,12 @@ describe('mata kuliah dari service (units terlampir)', () => {
     assert.ok(courses.every((course) => course.units.length >= 2), 'units harus terlampir dari meetings.json');
     assert.ok(courses.every((course) => computeCourseProgress(course) >= 40), 'progres harus 40-70, bukan 0');
     assert.ok(getCourseById('perbankan').units.length >= 2);
+    // Kontrak halaman daftar/detail: progress & nextSlot terlampir di tiap kursus.
+    assert.ok(courses.every((course) => typeof course.progress === 'number'), 'progress harus angka, bukan undefined');
+    assert.ok(
+      courses.every((course) => course.nextSlot === null
+        || (course.nextSlot !== undefined && typeof course.nextSlot === 'object')),
+      'nextSlot harus slot agenda atau null, bukan undefined',
+    );
   });
 });

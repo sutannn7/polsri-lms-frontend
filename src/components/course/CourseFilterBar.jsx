@@ -2,7 +2,7 @@ import { ArrowDownWideNarrow, LayoutGrid, List, Search } from 'lucide-react';
 
 // Latar surface-2; offset cincin fokus mengikuti latar yang sama
 // agar cincin terlihat di kedua tema.
-const fieldClass = 'h-11 w-full min-w-0 appearance-none rounded-lg border border-border bg-surface-2 px-3 text-sm text-main transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+const fieldClass = 'h-11 w-full min-w-0 appearance-none rounded-lg border border-border bg-surface-2 pr-9 pl-3 text-sm text-main transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
 const selectShellClass = 'relative min-w-0';
 
 function CourseFilterBar({
@@ -10,6 +10,7 @@ function CourseFilterBar({
   onSearchChange,
   statusValue,
   onStatusChange,
+  statusCounts = { all: 0, active: 0, completed: 0 },
   sortValue,
   onSortChange,
   view,
@@ -39,10 +40,11 @@ function CourseFilterBar({
             onChange={(event) => onStatusChange(event.target.value)}
             className={fieldClass}
           >
-            <option value="all">Semua status</option>
-            <option value="active">Sedang dipelajari</option>
-            <option value="completed">Selesai</option>
+            <option value="all">Semua ({statusCounts.all})</option>
+            <option value="active">Sedang dipelajari ({statusCounts.active})</option>
+            <option value="completed">Selesai ({statusCounts.completed})</option>
           </select>
+          <span aria-hidden="true" className="pointer-events-none absolute right-3 top-4 border-x-4 border-t-4 border-x-transparent border-t-secondary" />
         </label>
         <label className={selectShellClass}>
           <span className="sr-only">Urutkan mata kuliah</span>
