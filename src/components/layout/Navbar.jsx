@@ -48,7 +48,7 @@ function Navbar({
       <button
         type="button"
         onClick={handleLogout}
-        className="flex min-h-10 w-full items-center gap-2 rounded-lg px-3 text-left text-sm font-medium text-danger transition-colors hover:bg-danger-badge focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="flex min-h-10 w-full items-center gap-2 rounded-lg px-3 text-left text-sm font-medium text-danger-text transition-colors hover:bg-danger-badge focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
         <LogOut size={17} aria-hidden="true" />
         Keluar
@@ -77,7 +77,7 @@ function Navbar({
           type="search"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary/80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary focus-visible:ring-offset-background"
+          className="min-w-0 w-full border-0 bg-transparent text-sm text-main outline-none placeholder:text-secondary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary focus-visible:ring-offset-background"
         />
         <button
           type="submit"
@@ -132,7 +132,7 @@ function Navbar({
               onClick={() => setIsProfileMenuOpen((open) => !open)}
               className="inline-flex max-w-52 shrink-0 items-center gap-2 rounded-lg py-1.5 pl-1.5 pr-2 text-left transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
+              <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-[13px] font-bold text-primary-dark">
                 {initials || '?'}
               </span>
               {userName ? <span className="truncate text-sm font-medium text-main">{userName}</span> : null}
@@ -188,7 +188,7 @@ function Navbar({
                 onClick={() => setIsProfileMenuOpen((open) => !open)}
                 className="inline-flex min-w-0 items-center gap-2 rounded-lg py-1 pr-2 text-left transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs font-bold text-primary-dark">
+                <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-[13px] font-bold text-primary-dark">
                   {initials || '?'}
                 </span>
                 <span className="truncate text-sm font-medium text-main">{userName}</span>

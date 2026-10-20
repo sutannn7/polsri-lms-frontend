@@ -6,8 +6,8 @@
 const variantClasses = {
   live: 'text-warning-text bg-[color-mix(in_srgb,var(--accent)_15%,transparent)]',
   urgent: 'text-warning-text bg-[color-mix(in_srgb,var(--accent)_15%,transparent)]',
-  done: 'text-secondary bg-surface-2',
-  upcoming: 'text-secondary bg-surface-3',
+  done: 'text-secondary bg-surface-3',
+  upcoming: 'text-secondary bg-surface-2',
 };
 
 const defaultLabels = {

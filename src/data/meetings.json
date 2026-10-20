@@ -91,8 +91,8 @@
       "room": "Lantai 2 - Teori 5"
     },
     {
-      "id": "metodologi-penetliaan-sabtu",
-      "courseId": "metodologi-penetliaan",
+      "id": "metodologi-penelitian-sabtu",
+      "courseId": "metodologi-penelitian",
       "courseName": "Metodologi Penelitian",
       "dayOfWeek": 6,
       "startTime": "07.00",
@@ -356,7 +356,7 @@
         ]
       }
     ],
-    "metodologi-penetliaan": [
+    "metodologi-penelitian": [
       {
         "number": 1,
         "title": "Dasar-dasar penelitian informasi",

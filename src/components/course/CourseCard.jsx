@@ -40,7 +40,7 @@ function CourseCard({
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-3 text-sm">
               <span className="text-secondary">Progres belajar</span>
-              <span className={`font-semibold ${isCompleted ? 'text-success' : 'text-primary'}`}>
+              <span className={`font-semibold ${isCompleted ? 'text-success-text' : 'text-primary'}`}>
                 {progress}%
               </span>
             </div>

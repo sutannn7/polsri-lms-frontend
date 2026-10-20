@@ -20,7 +20,9 @@ function CalendarWidget({ meetings = [], deadlines = [], now = new Date() }) {
   ];
   const isCurrentMonth = visibleMonth.getFullYear() === now.getFullYear()
     && visibleMonth.getMonth() === now.getMonth();
-  // Titik emas = hari itu ada agenda (kelas atau tenggat) pada bulan terlihat.
+  // shortcut: getDay() dan getDate() memakai zona waktu perangkat; jadwal
+  // aplikasi sendiri WIB. Diselaraskan saat zona waktu pengguna ditangani.
+  // Titik = hari itu ada agenda (kelas atau tenggat) pada bulan terlihat.
   const markedDays = new Map();
 
   function addDayLabel(day, label) {
@@ -94,12 +96,12 @@ function CalendarWidget({ meetings = [], deadlines = [], now = new Date() }) {
                 title={hasEvents ? eventDescription : undefined}
                 className={`relative flex h-9 w-9 items-center justify-center rounded-lg border text-[13px] transition-colors ${
                   isToday
-                    ? 'border-accent font-semibold text-main ring-2 ring-accent'
+                    ? 'border-primary font-semibold text-main ring-2 ring-primary'
                     : 'border-border text-main hover:bg-surface-2'
                 }`}
               >
                 {day}
-                {hasEvents ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
+                {hasEvents ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-primary" /> : null}
               </span>
             </span>
           );

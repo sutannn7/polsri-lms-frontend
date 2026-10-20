@@ -41,7 +41,7 @@ src/
 components/
 ui/ Button, Card, Badge, ProgressBar, StatCard, Tabs, Accordion, PolsriLogo, FlowCanvas, StatusChip, ThemeToggle
 layout/ Navbar, Footer, Breadcrumb, MainLayout
-home/ WelcomeBanner, AnnouncementCard, CalendarWidget, DeadlineList, ContinueLearningCard
+home/ AnnouncementCard, CalendarWidget, DeadlineList, ContinueLearningCard
 schedule/ TodaySchedule
 course/ CourseCard, CourseFilterBar, CourseSummaryBar, CourseHeader, MeetingAccordion,
 ActivityItem, QuizCard, NextDeadlineCard, LecturerCard, MobileCourseTabs

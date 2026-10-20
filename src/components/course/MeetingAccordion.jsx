@@ -3,7 +3,7 @@ import Accordion from '../ui/Accordion';
 import ActivityItem from './ActivityItem';
 import QuizCard from './QuizCard';
 
-function MeetingAccordion({ unit, defaultOpen = false, onActivityAction }) {
+function MeetingAccordion({ unit, defaultOpen = false }) {
   const completedCount = unit.activities.filter((activity) => activity.completed).length;
   const activityCount = unit.activities.length;
   const isCompleted = unit.status === 'completed';
@@ -41,14 +41,12 @@ function MeetingAccordion({ unit, defaultOpen = false, onActivityAction }) {
             <QuizCard
               key={`${unit.number}-${activity.title}`}
               activity={activity}
-              onAction={onActivityAction}
             />
           ) : (
             <ActivityItem
               key={`${unit.number}-${activity.title}`}
               activity={activity}
               index={index + 1}
-              onAction={onActivityAction}
             />
           ),
         )}

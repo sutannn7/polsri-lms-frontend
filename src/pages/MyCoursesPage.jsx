@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import CourseCard from '../components/course/CourseCard';
 import CourseFilterBar from '../components/course/CourseFilterBar';
 import CourseSummaryBar from '../components/course/CourseSummaryBar';
@@ -9,11 +10,18 @@ import { getCourseStats } from '../utils/courseStatus';
 function MyCoursesPage() {
   const { user } = useAuth();
   const { courses } = useCourses();
-  const [search, setSearch] = useState('');
+  // Pencarian disimpan di URL (?q=) agar navbar dan kolom pencarian halaman
+  // memakai nilai yang sama, termasuk saat rute ini sudah terbuka.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('q') ?? '';
   const [status, setStatus] = useState('all');
   const [sort, setSort] = useState('name-asc');
   const [view, setView] = useState('grid');
   const stats = getCourseStats(courses);
+
+  function handleSearchChange(value) {
+    setSearchParams(value ? { q: value } : {}, { replace: true });
+  }
 
   const filteredCourses = useMemo(() => {
     const normalizedSearch = search.trim().toLocaleLowerCase('id-ID');
@@ -49,7 +57,7 @@ function MyCoursesPage() {
 
       <CourseFilterBar
         searchValue={search}
-        onSearchChange={setSearch}
+        onSearchChange={handleSearchChange}
         statusValue={status}
         onStatusChange={setStatus}
         statusCounts={{

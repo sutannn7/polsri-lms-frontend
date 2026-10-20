@@ -3,7 +3,7 @@ import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 
-function QuizCard({ activity, onAction }) {
+function QuizCard({ activity }) {
   return (
     <Card className="bg-surface-2 p-4 sm:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -25,9 +25,12 @@ function QuizCard({ activity, onAction }) {
             type="button"
             size="sm"
             variant={activity.completed ? 'outline' : 'primary'}
-            onClick={() => onAction?.(activity)}
+            disabled
+            aria-disabled="true"
+            title="Belum tersedia"
           >
             {activity.action}
+            <span className="sr-only"> (belum tersedia)</span>
           </Button>
         </div>
       </div>

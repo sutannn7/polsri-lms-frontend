@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { getCourseMeetings, getCourses } from '../services/courseService';
+import { getCourses } from '../services/courseService';
 
 function useCourses() {
   const courses = useMemo(() => getCourses(), []);
-  return { courses, getCourseMeetings };
+  return { courses };
 }
 
 export default useCourses;

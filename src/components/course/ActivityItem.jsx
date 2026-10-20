@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import { formatDate, getDeadlineInfo } from '../../utils/formatDate';
 
-function ActivityItem({ activity, index, onAction }) {
+function ActivityItem({ activity, index }) {
   const isAssignment = activity.type === 'assignment';
   const isDiscussion = activity.type === 'discussion';
   const isCompleted = Boolean(activity.completed) || activity.statusLabel === 'Terkirim';
@@ -38,7 +38,7 @@ function ActivityItem({ activity, index, onAction }) {
                 {statusBadge.label}
               </Badge>
               <span className="text-[13px] text-secondary">
-                {isCompleted ? 'Tenggat' : `${deadlineInfo.label} • tenggat`} {formatDate(activity.dueAt, { includeTime: true })}
+                {isCompleted ? 'Tenggat' : `${deadlineInfo.label}, tenggat`} {formatDate(activity.dueAt, { includeTime: true })}
               </span>
             </div>
           ) : (
@@ -57,9 +57,12 @@ function ActivityItem({ activity, index, onAction }) {
           : 'outline'}
         className="shrink-0 self-start sm:self-center"
         icon={!isAssignment && !isDiscussion ? <Download size={15} /> : undefined}
-        onClick={() => onAction?.(activity)}
+        disabled
+        aria-disabled="true"
+        title="Belum tersedia"
       >
         {actionLabel}
+        <span className="sr-only"> (belum tersedia)</span>
       </Button>
       {index ? <span className="sr-only">Aktivitas {index}</span> : null}
     </Card>

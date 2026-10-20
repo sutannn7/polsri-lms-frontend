@@ -15,6 +15,7 @@ const TOKENS = [
   '--text-muted',
   '--brand',
   '--brand-soft',
+  '--on-primary',
   '--accent',
   '--danger',
   '--success',

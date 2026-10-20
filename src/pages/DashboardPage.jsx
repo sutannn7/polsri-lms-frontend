@@ -24,13 +24,11 @@ function DashboardPage() {
   // Blok pertemuan memakai mata kuliah Perbankan: data pertemuannya paling
   // lengkap di meeting dan detail laman perbankan ikut diverifikasi.
   const meetingCourse = courses.find((course) => course.id === 'perbankan');
-  const courseMeetings = meetingCourse ? meetingCourse.units : [];
-  const completedMeetings = courseMeetings.filter(
-    (meeting) => meeting.status === 'completed',
-  ).length;
-  const meetingPercent = courseMeetings.length
-    ? Math.round((completedMeetings / courseMeetings.length) * 100)
-    : 0;
+  // Angka yang sama dengan halaman detail: dihitung dari aktivitas selesai,
+  // bukan status unit, agar kedua layar tidak menampilkan persentase berbeda.
+  const courseActivities = (meetingCourse?.units ?? []).flatMap((unit) => unit.activities ?? []);
+  const completedActivities = courseActivities.filter((activity) => activity.completed).length;
+  const meetingPercent = meetingCourse?.progress ?? 0;
 
   return (
     <div className="space-y-9">
@@ -77,7 +75,7 @@ function DashboardPage() {
                       to={`/mata-kuliah/${course.id}`}
                       className="block rounded-lg px-2 py-4 transition-colors duration-150 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
-                      <p className="text-[13px] font-medium text-secondary">{course.id}</p>
+                      <p className="text-[13px] font-medium text-secondary">Semester {course.semester} · {course.credits} SKS</p>
                       <p className="mt-0.5 font-semibold leading-5 text-main">{course.name}</p>
                       <div className="mt-3 flex items-center gap-3">
                         <ProgressBar
@@ -86,7 +84,7 @@ function DashboardPage() {
                           label={`Progres ${course.name}`}
                         />
                         <span
-                          className={`w-10 shrink-0 text-right text-sm font-semibold ${isCompleted ? 'text-success' : 'text-primary'}`}
+                          className={`w-10 shrink-0 text-right text-sm font-semibold ${isCompleted ? 'text-success-text' : 'text-primary'}`}
                         >
                           {course.progress}%
                         </span>
@@ -148,18 +146,18 @@ function DashboardPage() {
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               <h2 id="pertemuan-heading" className="text-lg font-bold text-main">
-                Progres Pertemuan {meetingCourse?.name ?? 'Mata Kuliah'}
+                Progres Belajar {meetingCourse?.name ?? 'Mata Kuliah'}
               </h2>
               <p className="mt-2 text-sm text-secondary">
-                {completedMeetings} dari {courseMeetings.length} pertemuan selesai
+                {completedActivities} dari {courseActivities.length} aktivitas selesai
               </p>
               <div className="mt-3 flex items-center gap-3">
                 <ProgressBar
                   value={meetingPercent}
                   tone="done"
-                  label={`Progres pertemuan ${meetingCourse?.name ?? 'Mata Kuliah'}`}
+                  label={`Progres belajar ${meetingCourse?.name ?? 'Mata Kuliah'}`}
                 />
-                <span className="w-10 shrink-0 text-right text-sm font-semibold text-success">
+                <span className="w-10 shrink-0 text-right text-sm font-semibold text-success-text">
                   {meetingPercent}%
                 </span>
               </div>

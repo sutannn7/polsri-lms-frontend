@@ -174,7 +174,7 @@ describe('buildAgenda', () => {
   test('nextMeeting di hari lain tetap upcoming walau now berada di dalam rentang jamnya', () => {
     // Selasa 08.00 terletak "di dalam" jam slot Kamis 07.00-09.00, tetapi slot
     // Kamis itu belum terjadi — tidak boleh diberi status live/done.
-    const slotKamis = { ...pertemuanSenin, id: 'metodologi-penetliaan-sabtu', courseId: 'metodologi-penetliaan', dayOfWeek: 4, startTime: '07.00', endTime: '09.00' };
+    const slotKamis = { ...pertemuanSenin, id: 'metodologi-penelitian-sabtu', courseId: 'metodologi-penelitian', dayOfWeek: 4, startTime: '07.00', endTime: '09.00' };
     const agenda = buildAgenda([slotKamis], new Date('2026-10-20T08:00:00+07:00'));
     assert.equal(agenda.nextMeeting.meeting.dayOfWeek, 4);
     assert.equal(agenda.nextMeeting.status, 'upcoming');

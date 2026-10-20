@@ -19,7 +19,7 @@ function ContinueLearningCard({ course, progress, nextSlot }) {
       </h3>
       <div className="mt-3 flex items-center justify-between gap-3 text-sm">
         <span className="text-secondary">Progres belajar</span>
-        <span className={`font-semibold ${progress >= 100 ? 'text-success' : 'text-primary'}`}>{progress}%</span>
+        <span className={`font-semibold ${progress >= 100 ? 'text-success-text' : 'text-primary'}`}>{progress}%</span>
       </div>
       <ProgressBar
         className="mt-2"

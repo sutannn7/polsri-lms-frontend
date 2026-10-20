@@ -29,13 +29,6 @@ export function getCourseById(id) {
   return getCourses().find((course) => course.id === id) ?? null;
 }
 
-export function getCourseMeetings(courseId) {
-  return (meetingsData.courses[courseId] ?? []).map((unit) => ({
-    ...unit,
-    activities: unit.activities.map((activity) => ({ ...activity })),
-  }));
-}
-
 export function setLastOpenedCourseId(courseId) {
   if (typeof window !== 'undefined') {
     window.sessionStorage.setItem('learnease:last-opened-course', courseId);

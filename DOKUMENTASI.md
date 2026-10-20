@@ -93,7 +93,7 @@ src/
 │   │   ├── CalendarWidget.jsx
 │   │   ├── ContinueLearningCard.jsx
 │   │   ├── DeadlineList.jsx
-│   │   └── WelcomeBanner.jsx
+│   │   └── ContinueLearningCard.jsx
 │   ├── layout/
 │   │   ├── Breadcrumb.jsx
 │   │   ├── Footer.jsx
@@ -189,7 +189,7 @@ Fungsi folder utama:
 | `/login` | Login | Form login prototipe dengan tema kosmik tersendiri serta tautan "Bantuan login" ke `/panduan`. | Tidak |
 | `/panduan` | Panduan Penggunaan | Panduan publik untuk pengguna: cara masuk, lupa kata sandi, Beranda, mengikuti kelas, enrollment key, dan kontak bantuan. | Tidak |
 | `/beranda` | Beranda | Ringkasan pembelajaran: agenda "Jadwal hari ini", pengumuman, kalender, tenggat, dan mata kuliah untuk dilanjutkan. | Ya |
-| `/dasbor` | Dasbor | Statistik progres belajar, aktivitas tugas, dan rekomendasi fokus belajar. | Ya |
+| `/dasbor` | Dasbor | Statistik progres belajar, progres per mata kuliah, tugas belum selesai, dan progres belajar satu mata kuliah contoh. | Ya |
 | `/mata-kuliah` | Mata Kuliah Saya | Ringkasan, pencarian, filter, pengurutan, dan daftar mata kuliah. | Ya |
 | `/mata-kuliah/:id` | Detail Mata Kuliah | Informasi mata kuliah, jadwal kelas berikutnya, pertemuan, aktivitas, dan sidebar pembelajaran. | Ya |
 | `*` | Halaman tidak ditemukan | Pesan 404 dan tautan kembali ke Beranda saat login, atau ke Login bila belum masuk. | Tidak |
@@ -221,7 +221,7 @@ Data halaman saat ini diimpor dari file JSON statis di `src/data/`, bukan diambi
 | `announcements.json` | Tiga pengumuman kampus: akademik, beasiswa, dan kegiatan, masing-masing dengan tanggal dan deskripsi. |
 | `deadlines.json` | Empat tenggat pada satu daftar bersama yang dipakai oleh Beranda dan Dasbor; setiap entri memiliki `dueInDays` relatif terhadap hari ini dan status, sehingga data demo tidak pernah seluruhnya lewat. |
 
-Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitungnya dari aktivitas yang bertanda `completed` pada unit di `meetings.json` (`computeCourseProgress`), dan `courseStatus.js` menurunkan status "Sedang dipelajari/Selesai" serta rata-rata progres dari sana. Jadwal kelas berikutnya per mata kuliah dihitung oleh `schedule.js` (`getNextSlot`) dari daftar jadwal yang sama, dan warna/label chip tenggat diturunkan oleh `due.js` (`chipStatus`, `dueLabel`). `courseService.js` dan `homeService.js` membaca data lokal tersebut, dan hook `useCourses` serta `useHomeData` menyediakan data untuk halaman React.
+Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitungnya dari aktivitas yang bertanda `completed` pada unit di `meetings.json` (`computeCourseProgress`), dan `courseStatus.js` merangkumnya menjadi jumlah mata kuliah, SKS, mata kuliah aktif/selesai, serta rata-rata progres (`getCourseStats`, memakai `averageProgress`). Jadwal kelas berikutnya per mata kuliah dihitung oleh `schedule.js` (`getNextSlot`) dari daftar jadwal yang sama, dan warna/label chip tenggat diturunkan oleh `due.js` (`chipStatus`, `dueLabel`). `courseService.js` dan `homeService.js` membaca data lokal tersebut, dan hook `useCourses` serta `useHomeData` menyediakan data untuk halaman React.
 
 ## 7. Fitur yang Sudah Berfungsi
 
@@ -246,9 +246,9 @@ Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitu
 
 ### Beranda
 
-- Menampilkan sapaan berdasarkan profil pengguna, lengkap dengan tanggal hari ini (format Indonesia, zona WIB) dan ringkasan jadwal ("N kelas hari ini · berikutnya HH.mm", atau "Tidak ada kelas hari ini").
+- Menampilkan sapaan berdasarkan profil pengguna, lengkap dengan tanggal hari ini (format Indonesia, zona WIB) dan ringkasan jadwal ("N kelas hari ini · berikutnya <hari> <jam> · <ruang>", atau "Tidak ada kelas hari ini"). Hari selalu disertakan agar kelas berikutnya tidak disangka hari ini.
 - Menampilkan blok "Jadwal hari ini" (`TodaySchedule`): daftar pertemuan hari ini diurutkan dari jam, masing-masing dengan rentang waktu, nama mata kuliah, dosen, ruangan terpendek, chip status (`StatusChip`: Akan datang/Berlangsung/Selesai/Mendesak), dan tautan baris ke `/mata-kuliah/<id>`; pertemuan yang sudah selesai mendapat tautan lanjut ke materi berikutnya. Bila tidak ada kelas, blok menampilkan "Tidak ada kelas hari ini" beserta jadwal kelas berikutnya.
-- Agenda dihitung oleh `schedule.js` (`buildAgenda`) dalam zona waktu Asia/Jakarta (WIB) dari daftar 13 pertemuan mingguan di `meetings.json`.
+- Agenda dihitung oleh `schedule.js` (`buildAgenda`) dalam zona waktu Asia/Jakarta (WIB) dari daftar 13 pertemuan mingguan di `meetings.json`, dan disegarkan tiap menit agar status sesi yang mulai/berakhir ikut berubah.
 - Menampilkan "Tenggat terdekat" (chip dan label relatif dari `due.js`) dan "Pengumuman Kampus".
 - Menampilkan tiga mata kuliah aktif dengan progres tertinggi pada bagian "Lanjutkan belajar", masing-masing dengan jadwal kelas berikutnya (`getNextSlot`), ditautkan ke detail mata kuliahnya; tautan "Lihat semua mata kuliah" membuka `/mata-kuliah`.
 - Kalender bulan berjalan (`CalendarWidget`) menandai tanggal hari ini serta titik-titik agenda deadline dan pertemuan.
@@ -256,9 +256,9 @@ Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitu
 ### Mata Kuliah Saya
 
 - Menampilkan ringkasan jumlah mata kuliah, total SKS, rata-rata progres, program studi, semester, dan kelas dari data pengguna/mata kuliah.
-- Menyediakan pencarian berdasarkan kode, nama mata kuliah, atau nama dosen.
-- Menyediakan tab Semua/Sedang dipelajari/Selesai dengan jumlah dinamis dan pengurutan nama A–Z/Z–A. Filter semester hanya tampil bila ada lebih dari satu semester.
-- Pencarian dari Navbar membuka daftar mata kuliah dengan kata kunci pada parameter `q`.
+- Menyediakan pencarian berdasarkan nama mata kuliah atau nama dosen.
+- Menyediakan pilihan status Semua/Sedang dipelajari/Selesai dengan jumlah dinamis serta pengurutan nama A–Z/Z–A. Tidak ada filter semester.
+- Pencarian dari Navbar membuka daftar mata kuliah dengan kata kunci pada parameter `q`; kolom pencarian halaman memakai nilai itu dan menulis kembali perubahan kata kunci ke URL.
 - Dapat mengubah tampilan daftar antara grid dan list.
 - Kartu mata kuliah menampilkan dosen, progres (dari aktivitas selesai), jadwal kelas berikutnya atau status selesai, materi berikutnya, dan tautan ke halaman detail.
 
@@ -273,8 +273,8 @@ Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitu
 ### Dasbor
 
 - Menghitung rata-rata progres, total SKS, jumlah mata kuliah selesai, dan tugas belum selesai dari data yang tersedia.
-- Menampilkan seluruh mata kuliah menurut progres tertinggi ke terendah; setiap entri dapat membuka detail mata kuliah.
-- Menampilkan tenggat dari daftar bersama dengan chip status `StatusChip` + `chipStatus`, serta merekomendasikan mata kuliah aktif dengan progres terendah.
+- Menampilkan seluruh mata kuliah menurut progres tertinggi ke terendah; setiap entri menampilkan semester/SKS dan dapat membuka detail mata kuliah.
+- Menampilkan tenggat dari daftar bersama dengan chip status `StatusChip` + `chipStatus`, lalu blok progres belajar mata kuliah Perbankan yang dihitung dari aktivitas selesai (angka yang sama dengan halaman detailnya).
 
 ### Panduan Penggunaan (`/panduan`)
 
@@ -287,9 +287,9 @@ Progres mata kuliah **tidak disimpan di `courses.json`**: `progress.js` menghitu
 - Login hanya simulasi sisi klien. Identitas (NIP/NPH/NPM) yang tidak kosong dan kata sandi minimal enam karakter diterima, tanpa pencocokan akun atau verifikasi server.
 - Status progres diturunkan dari tanda `completed` pada data statis dan tidak diperbarui melalui server atau penyimpanan permanen sebagai catatan belajar pengguna.
 - Data unit, materi, dan tugas merupakan data contoh statis; aktivitas tidak tersimpan sebagai catatan belajar pengguna.
-- Tombol Unduh, Kirim Tugas, dan Mulai Kuis merupakan elemen antarmuka; belum terhubung ke file materi, pengumpulan tugas, atau sistem kuis.
+- Tombol aksi aktivitas (Kerjakan/Tinjau Tugas, Buka Materi, Masuk Diskusi, Mulai Kuis) ditampilkan nonaktif dengan catatan "Belum tersedia"; belum terhubung ke file materi, pengumpulan tugas, atau sistem kuis.
 - Fitur pemulihan kata sandi dan pusat bantuan belum tersedia; kontrolnya ditandai nonaktif ("Pusat bantuan" di footer).
-- Pencarian Navbar hanya mencari mata kuliah melalui kode, nama, dan dosen; pencarian materi dan notifikasi belum tersedia.
+- Pencarian Navbar meneruskan kata kunci ke pencarian halaman Mata Kuliah Saya (nama mata kuliah dan dosen); pencarian materi dan notifikasi belum tersedia.
 - Tenggat ditampilkan menggunakan data lokal dengan tanggal relatif (`dueInDays`) dari hari ini; label relatif dihitung dari tanggal/waktu perangkat.
 - Rute halaman 404 bersifat publik; tombol kembali mengarah ke Beranda saat login dan ke Login bila belum login.
 

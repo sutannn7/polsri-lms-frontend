@@ -5,6 +5,7 @@ function CourseHeader({ course }) {
   const units = course.units ?? [];
   const completedUnits = units.filter((unit) => unit.status === 'completed').length;
   const nextClass = slotSentence(course.nextSlot);
+  const isCompleted = course.progress >= 100;
 
   return (
     <section className="grid gap-6 rounded-card border border-border bg-surface-2 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center lg:gap-8">
@@ -27,11 +28,11 @@ function CourseHeader({ course }) {
       <div className="rounded-card border border-border bg-background p-4 sm:p-5">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-base font-bold text-main">Progres belajar</h2>
-          <span className="text-3xl font-bold tabular-nums text-primary">{course.progress}%</span>
+          <span className={`text-3xl font-bold tabular-nums ${isCompleted ? 'text-success-text' : 'text-primary'}`}>{course.progress}%</span>
         </div>
         <ProgressBar
           value={course.progress}
-          tone="progress"
+          tone={isCompleted ? 'done' : 'progress'}
           label={`Progres belajar ${course.name}`}
           className="mt-3"
         />

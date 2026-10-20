@@ -1,6 +1,7 @@
 // src/pages/GuidePage.jsx — halaman panduan pengguna, publik (di luar MainLayout).
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 function GuideSection({ id, title, paragraphs }) {
   return (
@@ -74,6 +75,7 @@ const sections = [
 ];
 
 function GuidePage() {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="border-b border-border">
@@ -90,11 +92,11 @@ function GuidePage() {
             </span>
           </div>
           <Link
-            to="/login"
+            to={isAuthenticated ? '/beranda' : '/login'}
             className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <ArrowLeft size={16} aria-hidden="true" />
-            Kembali ke halaman masuk
+            {isAuthenticated ? 'Kembali ke Beranda' : 'Kembali ke halaman masuk'}
           </Link>
         </div>
       </header>

@@ -9,7 +9,7 @@ function Breadcrumb({ items = [], className = '' }) {
           const isCurrent = index === items.length - 1;
           return (
             <li key={`${item.label}-${index}`} className="inline-flex items-center gap-2">
-              {index > 0 ? <ChevronRight size={15} aria-hidden="true" className="text-secondary/70" /> : null}
+              {index > 0 ? <ChevronRight size={15} aria-hidden="true" className="text-secondary" /> : null}
               {isCurrent || !item.href ? (
                 <span aria-current={isCurrent ? 'page' : undefined} className={isCurrent ? 'font-medium text-main' : 'text-secondary'}>
                   {item.label}

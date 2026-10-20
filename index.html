@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F3F5F9" />
+    <script>
+      // Warnai chrome peramban seluler sesuai tema tersimpan, atau preferensi sistem.
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0A1426' : '#F3F5F9');
+      })();
+    </script>
     <link rel="icon" type="image/png" href="/logo-polsri.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

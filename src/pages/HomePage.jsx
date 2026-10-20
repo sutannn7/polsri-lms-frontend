@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth';
 import useCourses from '../hooks/useCourses';
 import useHomeData from '../hooks/useHomeData';
 import { computeCourseProgress } from '../utils/progress';
-import { getNextSlot } from '../utils/schedule';
+import { getNextSlot, slotSentence } from '../utils/schedule';
 
 const todayLabel = new Intl.DateTimeFormat('id-ID', {
   weekday: 'long',
@@ -25,10 +25,13 @@ function HomePage() {
   const { courses } = useCourses();
   const { announcements, deadlines, meetings, agenda, nextMeeting } = useHomeData();
   const now = new Date();
+  // Sertakan hari pada ringkasan agar slot setelah kelas terakhir hari ini
+  // tidak terbaca sebagai jadwal hari ini.
+  const nextSlot = slotSentence(nextMeeting);
   const jadwalSummary = agenda.meetings.length > 0
-    ? `${agenda.meetings.length} kelas hari ini${nextMeeting ? ` · berikutnya ${nextMeeting.meeting.startTime}` : ''}`
-    : nextMeeting
-      ? `Tidak ada kelas hari ini · kelas berikutnya ${nextMeeting.meeting.startTime}`
+    ? `${agenda.meetings.length} kelas hari ini${nextSlot ? ` · berikutnya ${nextSlot}` : ''}`
+    : nextSlot
+      ? `Tidak ada kelas hari ini · kelas berikutnya ${nextSlot}`
       : 'Tidak ada kelas hari ini';
   const continueCourses = useMemo(
     () => courses

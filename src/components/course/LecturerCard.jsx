@@ -11,7 +11,7 @@ function LecturerCard({ name, degree, onOpenForum }) {
         </span>
         <div className="min-w-0">
           <p className="font-semibold text-main">{name}</p>
-          <p className="mt-1 text-sm text-secondary">{degree}</p>
+          {degree ? <p className="mt-1 text-sm text-secondary">{degree}</p> : null}
         </div>
       </div>
       <button

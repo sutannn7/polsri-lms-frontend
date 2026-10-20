@@ -101,9 +101,6 @@ function CourseDetailPage() {
                     <MeetingAccordion
                       unit={unit}
                       defaultOpen={unit.number === activeMeeting?.number}
-                      onActivityAction={(activity) => {
-                        if (activity.type === 'assignment') showTasks();
-                      }}
                     />
                   </div>
                 ))}
