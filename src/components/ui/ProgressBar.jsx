@@ -25,7 +25,7 @@ function ProgressBar({
         className="h-1.5 w-full overflow-hidden rounded-full bg-surface-2"
       >
         <div
-          className={`h-full rounded-full transition-[width] duration-300 ${toneClasses[tone] ?? toneClasses.progress}`}
+          className={`h-full rounded-full transition-[width] duration-300 motion-reduce:transition-none ${toneClasses[tone] ?? toneClasses.progress}`}
           style={{ width: `${progress}%` }}
         />
       </div>

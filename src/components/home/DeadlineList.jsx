@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
 import Card from '../ui/Card';
 import StatusChip from '../ui/StatusChip';
-import { dueLabel, isOverdue } from '../../utils/due';
-
-// Warna chip mengikuti satu bahasa status aplikasi:
-// emas = mendesak/terlambat, netral (abu) = selesai/akan datang.
-function chipStatus(deadline, now) {
-  if (deadline.status === 'Selesai') return 'done';
-  if (deadline.status === 'Mendesak' || isOverdue(deadline.dueAt, now)) return 'urgent';
-  return 'upcoming';
-}
+import { chipStatus, dueLabel } from '../../utils/due';
 
 function DeadlineList({ deadlines = [], now = new Date() }) {
   const sorted = [...deadlines].sort(

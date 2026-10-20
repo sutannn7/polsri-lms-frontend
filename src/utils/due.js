@@ -17,3 +17,11 @@ export function dueLabel(dueAt, now) {
   if (days === 1) return 'Besok';
   return `${days} hari lagi`;
 }
+
+// Pemetaan status tenggat ke warna chip — dipakai bersama Beranda dan Dasbor
+// agar emas (urgent) bermakna sama di mana pun: mendesak atau terlambat.
+export function chipStatus(deadline, now) {
+  if (deadline.status === 'Selesai') return 'done';
+  if (deadline.status === 'Mendesak' || isOverdue(deadline.dueAt, now)) return 'urgent';
+  return 'upcoming';
+}

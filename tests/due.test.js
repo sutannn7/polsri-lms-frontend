@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { daysUntil, isOverdue, dueLabel } from '../src/utils/due.js';
+import { daysUntil, isOverdue, dueLabel, chipStatus } from '../src/utils/due.js';
 
 describe('daysUntil', () => {
   test('1 hari (23.59 besok, lihat sekarang pagi)', () => {
@@ -55,5 +55,25 @@ describe('dueLabel', () => {
       dueLabel('2026-10-18T23:59:00+07:00', new Date('2026-10-20T08:00:00+07:00')),
       'Terlambat 2 hari',
     );
+  });
+});
+
+describe('chipStatus', () => {
+  const now = new Date('2026-10-20T08:00:00+07:00');
+
+  test('Mendesak → urgent', () => {
+    assert.equal(chipStatus({ status: 'Mendesak', dueAt: '2026-10-23T23:59:00+07:00' }, now), 'urgent');
+  });
+
+  test('Akan Datang → upcoming', () => {
+    assert.equal(chipStatus({ status: 'Akan Datang', dueAt: '2026-10-23T23:59:00+07:00' }, now), 'upcoming');
+  });
+
+  test('Selesai → done', () => {
+    assert.equal(chipStatus({ status: 'Selesai', dueAt: '2026-10-18T23:59:00+07:00' }, now), 'done');
+  });
+
+  test('Akan Datang yang sudah lewat → urgent', () => {
+    assert.equal(chipStatus({ status: 'Akan Datang', dueAt: '2026-10-18T23:59:00+07:00' }, now), 'urgent');
   });
 });
