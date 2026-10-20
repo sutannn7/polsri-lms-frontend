@@ -2,19 +2,10 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Card from '../ui/Card';
 import ProgressBar from '../ui/ProgressBar';
-
-const NAMA_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-
-// "Senin · 18.30–20.20 · L3 · Lab 8" — hari, jam, dan ruang dari slot berikutnya.
-function scheduleLabel(nextSlot) {
-  if (!nextSlot) return null;
-  return [NAMA_HARI[nextSlot.meeting.dayOfWeek], nextSlot.timeLabel, nextSlot.roomLabel]
-    .filter(Boolean)
-    .join(' · ');
-}
+import { slotLabel } from '../../utils/schedule';
 
 function ContinueLearningCard({ course, progress, nextSlot }) {
-  const schedule = scheduleLabel(nextSlot);
+  const schedule = slotLabel(nextSlot);
 
   return (
     <Card as="article" className="p-5">

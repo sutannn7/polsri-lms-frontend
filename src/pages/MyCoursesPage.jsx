@@ -41,8 +41,8 @@ function MyCoursesPage() {
 
   const tabs = [
     { id: 'all', label: 'Semua', count: semesterCourses.length },
-    { id: 'active', label: 'Sedang dipelajari', count: semesterCourses.filter((course) => course.progress < 100).length },
-    { id: 'completed', label: 'Selesai', count: semesterCourses.filter((course) => course.progress >= 100).length },
+    { id: 'active', label: 'Sedang dipelajari', count: semesterCourses.filter((course) => computeCourseProgress(course) < 100).length },
+    { id: 'completed', label: 'Selesai', count: semesterCourses.filter((course) => computeCourseProgress(course) >= 100).length },
   ];
 
   const filteredCourses = useMemo(() => {
@@ -51,8 +51,8 @@ function MyCoursesPage() {
       const matchesSearch = !normalizedSearch
         || `${course.id} ${course.name} ${course.lecturer}`.toLocaleLowerCase('id-ID').includes(normalizedSearch);
       const matchesStatus = status === 'all'
-        || (status === 'active' && course.progress < 100)
-        || (status === 'completed' && course.progress >= 100);
+        || (status === 'active' && computeCourseProgress(course) < 100)
+        || (status === 'completed' && computeCourseProgress(course) >= 100);
       return matchesSearch && matchesStatus;
     });
     const sortDirection = sort === 'name-desc' ? -1 : 1;

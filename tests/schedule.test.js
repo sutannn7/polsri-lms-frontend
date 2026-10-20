@@ -11,6 +11,7 @@ import {
   normalizeCourseName,
   buildAgenda,
   getNextSlot,
+  slotLabel,
 } from '../src/utils/schedule.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -198,6 +199,22 @@ describe('getNextSlot', () => {
     const slot = getNextSlot('praktikum-analisis-data', schedule, new Date('2026-10-21T19:00:00+07:00'));
     assert.equal(slot.meeting.dayOfWeek, 4);
     assert.equal(slot.status, 'upcoming');
+  });
+});
+
+describe('slotLabel', () => {
+  // Entri agenda nyata dari getNextSlot, lalu labelnya kini dari slotLabel.
+  test('slot pada hari Kamis → label hari, jam, dan ruang', () => {
+    const schedule = [
+      { ...pertemuanThu, id: 'pad-selasa', dayOfWeek: 2, startTime: '20.30', endTime: '21.10' },
+      pertemuanThu,
+    ];
+    const slot = getNextSlot('praktikum-analisis-data', schedule, new Date('2026-10-21T10:00:00+07:00'));
+    assert.equal(slotLabel(slot), 'Kamis · 18.30–19.50 · L3 · Lab 5 (Pemrograman Web)');
+  });
+
+  test('slot kosong → null', () => {
+    assert.equal(slotLabel(null), null);
   });
 });
 

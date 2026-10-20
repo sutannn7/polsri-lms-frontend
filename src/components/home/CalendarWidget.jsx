@@ -99,7 +99,7 @@ function CalendarWidget({ meetings = [], deadlines = [], now = new Date() }) {
                 }`}
               >
                 {day}
-                {hasEvents && !isToday ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
+                {hasEvents ? <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" /> : null}
               </span>
             </span>
           );

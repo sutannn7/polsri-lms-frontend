@@ -5,14 +5,12 @@ const variantClasses = {
     'border-transparent bg-primary text-on-primary hover:bg-primary-dark disabled:opacity-60',
   outline:
     'border-border bg-background text-main hover:border-primary hover:bg-primary-soft hover:text-primary disabled:bg-surface-3 disabled:opacity-60',
-  success:
-    'border-transparent bg-success text-white hover:opacity-90 disabled:opacity-60',
   ghost:
     'border-transparent bg-transparent text-primary hover:bg-primary-soft disabled:text-secondary',
 };
 
 const sizeClasses = {
-  sm: 'min-h-9 px-3 text-xs',
+  sm: 'min-h-9 px-3 text-[13px]',
   md: 'min-h-11 px-4 text-sm',
 };
 

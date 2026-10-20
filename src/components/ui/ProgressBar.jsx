@@ -22,7 +22,7 @@ function ProgressBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={progress}
-        className="h-2 w-full overflow-hidden rounded-full bg-gray-200"
+        className="h-2 w-full overflow-hidden rounded-full bg-surface-3"
       >
         <div
           className={`h-full rounded-full transition-[width] duration-300 ${colorClasses[color] ?? colorClasses.primary}`}

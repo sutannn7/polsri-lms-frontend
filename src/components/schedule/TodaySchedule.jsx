@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import StatusChip from '../ui/StatusChip';
 import useCourses from '../../hooks/useCourses';
-
-const NAMA_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+import { slotLabel } from '../../utils/schedule';
 
 function TodaySchedule({ agenda }) {
   const { courses } = useCourses();
@@ -44,9 +43,7 @@ function TodaySchedule({ agenda }) {
           <p className="text-sm font-semibold text-main">Tidak ada kelas hari ini</p>
           <p className="text-sm text-secondary">
             {agenda.nextMeeting
-              ? `Kelas berikutnya: ${agenda.nextMeeting.courseLabel} (${
-                  NAMA_HARI[agenda.nextMeeting.meeting.dayOfWeek] ?? ''
-                }, ${agenda.nextMeeting.timeLabel})`
+              ? `Kelas berikutnya: ${agenda.nextMeeting.courseLabel} (${slotLabel(agenda.nextMeeting)})`
               : 'Kelas berikutnya: belum dijadwalkan'}
           </p>
         </div>

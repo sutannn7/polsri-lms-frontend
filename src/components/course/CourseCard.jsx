@@ -2,26 +2,16 @@ import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import ProgressBar from '../ui/ProgressBar';
-
-const NAMA_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-
-// "Senin · 18.30–20.20 · L3 · Lab 8" — satu mk bisa punya dua slot, jadi
-// yang ditampilkan selalu slot pertemuan berikutnya, bukan slot tetap.
-function scheduleLabel(nextSlot) {
-  if (!nextSlot) return null;
-  return [NAMA_HARI[nextSlot.meeting.dayOfWeek], nextSlot.timeLabel, nextSlot.roomLabel]
-    .filter(Boolean)
-    .join(' · ');
-}
+import { slotLabel } from '../../utils/schedule';
 
 function CourseCard({
   course,
-  progress,
+  progress = 0,
   nextSlot = null,
   variant = 'grid',
 }) {
   const isCompleted = progress >= 100;
-  const schedule = scheduleLabel(nextSlot);
+  const schedule = slotLabel(nextSlot);
 
   return (
     <Card as="article" className="overflow-hidden">
@@ -67,7 +57,7 @@ function CourseCard({
           <Button
             as={Link}
             to={`/mata-kuliah/${course.id}`}
-            variant={isCompleted ? 'success' : 'primary'}
+            variant="primary"
             className={variant === 'list' ? 'mt-4 w-full sm:mt-3 sm:w-auto' : 'mt-4 w-full'}
             rightArrow
           >

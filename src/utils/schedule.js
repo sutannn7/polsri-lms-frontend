@@ -118,3 +118,14 @@ export function getNextSlot(courseId, schedule, now) {
   const next = findNextMeeting(mine, now);
   return next ? toAgendaEntry(next, now, 'upcoming') : null;
 }
+
+const NAMA_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+// Label slot jadwal dari entri agenda: "Senin · 18.30–20.20 · L3 · Lab 8",
+// satu mk bisa punya dua slot, jadi yang ditampilkan slot pertemuan berikutnya.
+export function slotLabel(nextSlot) {
+  if (!nextSlot) return null;
+  return [NAMA_HARI[nextSlot.meeting.dayOfWeek], nextSlot.timeLabel, nextSlot.roomLabel]
+    .filter(Boolean)
+    .join(' · ');
+}

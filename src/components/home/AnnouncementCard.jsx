@@ -1,11 +1,12 @@
 import Card from '../ui/Card';
 
-// Tanggal pengumuman adalah string "YYYY-MM-DD" absolut, jadi formatnya
-// langsung dari Intl tanpa util formatDate (yang menambah offset WIB).
+// Kategori + judul + tanggal "12 Okt 2026"; tanggal date-only ("2026-10-12")
+// diparse UTC sehingga zona barat tidak menggeser tampilannya sehari.
 const dateLabel = new Intl.DateTimeFormat('id-ID', {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
+  timeZone: 'UTC',
 });
 
 function AnnouncementCard({ announcement }) {
