@@ -9,8 +9,7 @@
  *  - tanpa request gagal (Network.loadingFailed)
  *  - tema aktif di document.documentElement.classList
  *  - semua <img> complete && naturalWidth > 0
- *  - tidak ada elemen di <main> dengan computed font-size < 13px (dicatat
- *    sebagai catatan, bukan kegagalan — konversi ukuran teks tugas Task 4-7)
+ *  - tidak ada elemen di <main> dengan computed font-size < 13px
  *  - tidak ada elemen fokus-able ber-class outline-none tanpa focus-visible:ring
  * Dengan --theme-switch: tiap iterasi dimulai dari tema asli aplikasi
  * (localStorage 'theme' dibersihkan lalu halaman dimuat ulang), tombol
@@ -353,20 +352,16 @@ async function login(cdp, sessionId, base) {
 
 function summarize(checks) {
   const failed = [];
-  const notes = [];
   if (checks.overflow > 1) failed.push(`overflow horizontal ${checks.overflow}px`);
   if (checks.path !== checks.wantedRoute)
     failed.push(`rute berakhir ${checks.path}, diminta ${checks.wantedRoute}`);
   if (checks.consoleErrors > 0) failed.push(`${checks.consoleErrors} error console`);
   if (checks.failedRequests > 0) failed.push(`${checks.failedRequests} request gagal`);
   if (checks.brokenImages.length > 0) failed.push(`img gagal dimuat: ${checks.brokenImages.join(', ')}`);
-  // Teks < 13px masih ada di komponen yang dikonversi Task 4-7: dicatat,
-  // tidak menggagalkan rute agar verifikasi tema tidak tersandung itu.
-  if (checks.smallText.length > 0)
-    notes.push(`teks < 13px (dikonversi Task 4-7): ${checks.smallText.join(', ')}`);
+  if (checks.smallText.length > 0) failed.push(`teks < 13px: ${checks.smallText.join(', ')}`);
   if (checks.badFocus.length > 0)
     failed.push(`outline-none tanpa focus-visible:ring: ${checks.badFocus.join(', ')}`);
-  return { failed, notes };
+  return failed;
 }
 
 async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwitch) {
@@ -431,7 +426,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
       themeNote = 'tema dipaksa (aplikasi belum mengatur tema)';
     }
 
-    const { failed, notes } = summarize(checks);
+    const failed = summarize(checks);
     if (themeMismatch) failed.unshift(`dokumen ber-theme ${opposite}, diminta ${theme}`);
     const png = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
     const slug = route.replace(/^\//, '').replace(/\//g, '-') || 'root';
@@ -459,8 +454,7 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
     const status = failed.length === 0 ? 'LOLOS' : 'GAGAL';
     console.log(
       `[${status}] ${theme} ${route} (${checks.path}) — ${themeNote}` +
-        (failed.length ? ' | ' + failed.join(' | ') : '') +
-        (notes.length ? ' | catatan: ' + notes.join(' | ') : '')
+        (failed.length ? ' | ' + failed.join(' | ') : '')
     );
     return { route, theme, ok: failed.length === 0 };
   } catch (e) {
