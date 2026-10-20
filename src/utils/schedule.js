@@ -71,10 +71,10 @@ function slugify(name) {
     .replace(/^-+|-+$/g, '');
 }
 
-function toAgendaEntry(meeting, now) {
+function toAgendaEntry(meeting, now, statusOverride) {
   return {
     meeting,
-    status: getMeetingStatus(meeting, now),
+    status: statusOverride ?? getMeetingStatus(meeting, now),
     timeLabel: formatTimeRange(meeting),
     roomLabel: shortRoom(meeting.room),
     courseLabel: normalizeCourseName(meeting.courseName),
@@ -101,18 +101,20 @@ function findNextMeeting(pool, now) {
   return null;
 }
 
+// Slot berikutnya pada hari lain belum pernah terjadi, jadi statusnya selalu
+// 'upcoming' — bandingkan jam per hari hanya berlaku untuk sesi hari yang sama.
 export function buildAgenda(schedule, now) {
   const meetings = getScheduleForDate(schedule, now).map((meeting) => toAgendaEntry(meeting, now));
   const next = findNextMeeting(schedule, now);
   return {
     kind: meetings.length > 0 ? 'list' : 'empty',
     meetings,
-    nextMeeting: next ? toAgendaEntry(next, now) : null,
+    nextMeeting: next ? toAgendaEntry(next, now, 'upcoming') : null,
   };
 }
 
 export function getNextSlot(courseId, schedule, now) {
   const mine = schedule.filter((meeting) => meeting.courseId === courseId);
   const next = findNextMeeting(mine, now);
-  return next ? toAgendaEntry(next, now) : null;
+  return next ? toAgendaEntry(next, now, 'upcoming') : null;
 }

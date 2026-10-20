@@ -27,14 +27,14 @@ const pertemuanSelasa = {
   room: 'Lantai 3 - Lab 3 (Jaringan Komputer)',
 };
 
-const pertemuanMon = {
-  id: 'perbankan-jumat',
-  courseId: 'perbankan',
-  courseName: 'Perbankan',
+const pertemuanSenin = {
+  id: 'praktikum-keamanan-komputer-senin',
+  courseId: 'praktikum-keamanan-komputer',
+  courseName: 'Prak. Keamanan Komputer',
   dayOfWeek: 1,
-  startTime: '18.10',
-  endTime: '19.50',
-  room: 'Lantai 2 - Teori 5',
+  startTime: '18.30',
+  endTime: '20.20',
+  room: 'Lantai 3 - Lab 8 (Keamanan Komputer)',
 };
 
 const pertemuanThu = {
@@ -84,7 +84,7 @@ describe('getMeetingStatus', () => {
   });
 
   test('tetap menilai rentang WIB walau Date dibangun di zona lain', () => {
-    // 12.00 UTC == 19.00 WIB: 07.00-09.00 WIB sudah lewat.
+    // 03.00 UTC == 10.00 WIB: 07.00-09.00 WIB sudah lewat.
     assert.equal(getMeetingStatus({ startTime: '07.00', endTime: '09.00' }, new Date('2026-10-20T03:00:00Z')), 'done');
     // 12.00 UTC == 19.00 WIB: 18.30-20.20 sedang berjalan.
     assert.equal(getMeetingStatus({ startTime: '18.30', endTime: '20.20' }, new Date('2026-10-20T12:00:00Z')), 'live');
@@ -145,7 +145,7 @@ describe('buildAgenda', () => {
   });
 
   test('hari minggu kosong, nextMeeting menunjuk pertemuan Senin berikutnya', () => {
-    const agenda = buildAgenda([pertemuanMon], new Date('2026-10-25T10:00:00+07:00'));
+    const agenda = buildAgenda([pertemuanSenin], new Date('2026-10-25T10:00:00+07:00'));
     assert.equal(agenda.kind, 'empty');
     assert.equal(agenda.meetings.length, 0);
     assert.ok(agenda.nextMeeting, 'nextMeeting tidak boleh null saat masih ada jadwal');
@@ -153,13 +153,30 @@ describe('buildAgenda', () => {
     assert.equal(agenda.nextMeeting.status, 'upcoming');
   });
 
-  test('nextMeeting mengambil pertemuan berikutnya di hari yang sama', () => {
+  test('nextMeeting = slot berikutnya pada hari yang sama', () => {
     const schedule = [
      pertemuanSelasa,
       { ...pertemuanSelasa, id: 'pad-selasa', courseId: 'praktikum-analisis-data', courseName: 'Praktikum analisis data', startTime: '20.30', endTime: '21.10' },
     ];
     const agenda = buildAgenda(schedule, new Date('2026-10-20T19:00:00+07:00'));
     assert.equal(agenda.nextMeeting.meeting.courseId, 'praktikum-analisis-data');
+  });
+
+  test('nextMeeting tetap upcoming walau now sudah lewat jam kelas pada hari itu', () => {
+    // Minggu 21.30 (setelah rentang 18.30-20.20 Senin): hari Senin berikutnya belum terjadi.
+    const agenda = buildAgenda([pertemuanSenin], new Date('2026-10-25T21:30:00+07:00'));
+    assert.equal(agenda.kind, 'empty');
+    assert.equal(agenda.nextMeeting.meeting.dayOfWeek, 1);
+    assert.equal(agenda.nextMeeting.status, 'upcoming');
+  });
+
+  test('nextMeeting di hari lain tetap upcoming walau now berada di dalam rentang jamnya', () => {
+    // Selasa 08.00 terletak "di dalam" jam slot Kamis 07.00-09.00, tetapi slot
+    // Kamis itu belum terjadi — tidak boleh diberi status live/done.
+    const slotKamis = { ...pertemuanSenin, id: 'metodologi-penetliaan-sabtu', courseId: 'metodologi-penetliaan', dayOfWeek: 4, startTime: '07.00', endTime: '09.00' };
+    const agenda = buildAgenda([slotKamis], new Date('2026-10-20T08:00:00+07:00'));
+    assert.equal(agenda.nextMeeting.meeting.dayOfWeek, 4);
+    assert.equal(agenda.nextMeeting.status, 'upcoming');
   });
 });
 
@@ -174,6 +191,13 @@ describe('getNextSlot', () => {
     assert.ok(slot);
     assert.equal(slot.meeting.dayOfWeek, 4);
     assert.equal(slot.href, '/mata-kuliah/praktikum-analisis-data');
+  });
+
+  test('slot berikutnya tetap upcoming walau now berada di dalam rentang jamnya', () => {
+    // Rabu 19.00 terletak di dalam jam slot Kamis 18.30-19.50, tetapi slot itu belum terjadi.
+    const slot = getNextSlot('praktikum-analisis-data', schedule, new Date('2026-10-21T19:00:00+07:00'));
+    assert.equal(slot.meeting.dayOfWeek, 4);
+    assert.equal(slot.status, 'upcoming');
   });
 });
 
