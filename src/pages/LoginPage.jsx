@@ -1,7 +1,7 @@
 // src/pages/LoginPage.jsx
 import { useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import FloatingPaths from "../components/ui/FloatingPaths";
+import FlowCanvas from "../components/ui/FlowCanvas";
 import useAuth from "../hooks/useAuth";
 import "./LoginPage.css";
 
@@ -94,7 +94,7 @@ export default function LoginPage() {
       <div className="wrap">
         {/* Kosmik Scene */}
         <aside className="scene" aria-label="Identitas Politeknik Negeri Sriwijaya">
-          <FloatingPaths />
+          <FlowCanvas />
           <div className="scene-top rv" style={{ "--i": 0 }}>
             <div className="brand">
               <img

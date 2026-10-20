@@ -67,35 +67,16 @@ body:has(.login-kosmik-theme) {
   background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
 }
 
-/* ---------- floating paths (desktop only) ---------- */
+/* ---------- particle flow (desktop only) ---------- */
 
-.login-kosmik-theme .login-paths {
+.login-kosmik-theme .flow-canvas {
   position: absolute;
   inset: 0;
   z-index: 0;
-  color: rgba(255, 255, 255, 0.85);
-  pointer-events: none;
-}
-
-.login-kosmik-theme .login-paths svg {
   display: block;
   width: 100%;
   height: 100%;
-  /* The whole layer drifts as one composited transform. Animating the dash
-     pattern of each path instead repainted the SVG every frame (30fps) and
-     made the lines blink on every loop. */
-  animation: login-drift 28s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes login-drift {
-  from {
-    transform: translate3d(-1.4%, 0.9%, 0) scale(1.05);
-  }
-
-  to {
-    transform: translate3d(1.4%, -0.9%, 0) scale(1.09);
-  }
+  pointer-events: none;
 }
 
 /* ---------- brand + back link ---------- */
@@ -881,10 +862,6 @@ body:has(.login-kosmik-theme) {
 @media (prefers-reduced-motion: reduce) {
   .login-kosmik-theme .rv,
   .login-kosmik-theme .sp {
-    animation: none;
-  }
-
-  .login-kosmik-theme .login-paths svg {
     animation: none;
   }
 }

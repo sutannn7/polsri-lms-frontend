@@ -93,7 +93,7 @@ src/
 │       ├── Badge.jsx
 │       ├── Button.jsx
 │       ├── Card.jsx
-│       ├── FloatingPaths.jsx
+│       ├── FlowCanvas.jsx
 │       ├── PolsriLogo.jsx
 │       ├── ProgressBar.jsx
 │       ├── StatCard.jsx
@@ -138,7 +138,7 @@ Fungsi folder utama:
 
 | Folder | Fungsi |
 |---|---|
-| `components/ui/` | Komponen antarmuka umum seperti tombol, kartu, badge, tab, progress bar, dan latar animasi halaman login. |
+| `components/ui/` | Komponen antarmuka umum seperti tombol, kartu, badge, tab, progress bar, dan latar partikel animasi halaman login. |
 | `components/layout/` | Kerangka dan navigasi halaman aplikasi yang memerlukan login. |
 | `components/home/` | Komponen khusus Beranda, seperti kartu pengumuman, kalender, dan daftar tenggat. |
 | `components/course/` | Komponen daftar mata kuliah dan detail aktivitas/pertemuan pembelajaran. |
