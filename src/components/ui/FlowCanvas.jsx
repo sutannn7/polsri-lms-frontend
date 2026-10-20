@@ -80,14 +80,20 @@ function FlowCanvas() {
     const build = () => {
       const count = desktop ? STREAMS_DESKTOP : STREAMS_MOBILE;
       const perStream = desktop ? PARTICLES_DESKTOP : PARTICLES_MOBILE;
+      // On desktop the light gathers just left of the middle, in the gap
+      // between the logo and the form, so it never runs into the fields.
+      const focus = desktop ? width * 0.45 : width / 2;
       streams = Array.from({ length: count }, (_, i) => {
         const fromLeft = i % 2 === 0;
         const startY = (i / count) * height * 1.5 - height * 0.25;
         return {
           p0: { x: fromLeft ? 0 : width, y: startY },
           p1: { x: fromLeft ? width * 0.25 : width * 0.75, y: startY },
-          p2: { x: fromLeft ? width * 0.4 : width * 0.6, y: height / 2 },
-          p3: { x: width / 2, y: height / 2 },
+          p2: {
+            x: fromLeft ? focus * 0.8 : focus + (width - focus) * 0.3,
+            y: height / 2,
+          },
+          p3: { x: focus, y: height / 2 },
           // Every fifth stream is gold, the rest fade from white to gold.
           gold: i % 5 === 0,
           particles: Array.from({ length: perStream }, () => ({
@@ -102,11 +108,12 @@ function FlowCanvas() {
     const paintStreams = () => {
       offCtx.clearRect(0, 0, width, height);
 
+      const focus = desktop ? width * 0.45 : width / 2;
       const glow = offCtx.createRadialGradient(
-        width / 2,
+        focus,
         height / 2,
         0,
-        width / 2,
+        focus,
         height / 2,
         Math.min(width, height) * 0.5,
       );

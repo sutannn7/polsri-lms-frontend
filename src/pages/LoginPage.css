@@ -558,8 +558,8 @@ body:has(.login-kosmik-theme) {
     overflow: hidden;
     /* One surface for the whole page. The gradient lives on the wrapper, so
        the artwork and the form no longer meet at a seam. */
-    --glow: radial-gradient(64% 50% at 76% 30%, rgba(255, 193, 7, 0.18), transparent 72%); /* taste-skill-ignore */
-    background: var(--glow), radial-gradient(120% 90% at 18% 4%, #0a2450 0%, #061433 48%, var(--ink) 100%); /* taste-skill-ignore */
+    --glow: radial-gradient(58% 52% at 78% 34%, rgba(255, 193, 7, 0.24), transparent 72%); /* taste-skill-ignore */
+    background: var(--glow), radial-gradient(150% 110% at 50% 0%, #0a2450 0%, #061433 40%, var(--ink) 100%); /* taste-skill-ignore */
   }
 
   .login-kosmik-theme .scene {
@@ -649,10 +649,10 @@ body:has(.login-kosmik-theme) {
     flex-direction: column;
     justify-content: flex-start;
     padding: clamp(48px, 13vh, 130px) 56px 128px;
-    /* The form sits on the shared background, so it gets a scrim of its own
-       to stay readable over the particles. */
+    /* A soft veil over the form, ramped in from the edge of the panel so no
+       seam appears: the right half keeps the same light as the left. */
     background: transparent;
-    background-image: linear-gradient(to right, rgba(7, 13, 34, 0) 0%, rgba(7, 13, 34, 0.5) 34%, rgba(7, 13, 34, 0.82) 100%); /* taste-skill-ignore */
+    background-image: linear-gradient(to right, rgba(7, 13, 34, 0) 0%, rgba(7, 13, 34, 0.22) 38%, rgba(7, 13, 34, 0.22) 100%); /* taste-skill-ignore */
   }
 
   .login-kosmik-theme .flow-canvas {
