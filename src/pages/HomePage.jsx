@@ -70,7 +70,7 @@ function HomePage() {
           <section aria-labelledby="continue-learning-heading" className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 id="continue-learning-heading" className="text-xl font-bold text-main">Lanjutkan belajar</h2>
-              <Link to="/mata-kuliah" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+              <Link to="/mata-kuliah" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
                 Lihat semua mata kuliah <ArrowRight size={17} aria-hidden="true" />
               </Link>
             </div>

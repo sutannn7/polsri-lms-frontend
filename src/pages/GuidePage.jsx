@@ -6,7 +6,7 @@ function GuideSection({ id, title, paragraphs }) {
   return (
     <section
       aria-labelledby={`${id}-heading`}
-      className="rounded-card border border-border bg-surface-2 p-6 sm:p-8"
+      className="rounded-card border border-border bg-surface-2 dark:shadow-card p-6 sm:p-8"
     >
       <h2 id={`${id}-heading`} className="text-xl font-bold text-main">
         {title}
@@ -91,7 +91,7 @@ function GuidePage() {
           </div>
           <Link
             to="/login"
-            className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <ArrowLeft size={16} aria-hidden="true" />
             Kembali ke halaman masuk

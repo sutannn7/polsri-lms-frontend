@@ -451,16 +451,6 @@ body:has(.login-kosmik-theme) {
   color: var(--accent);
 }
 
-.login-kosmik-theme .hp {
-  margin-top: 14px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--muted);
-}
-
 /* Legal line on mobile. */
 .login-kosmik-theme .tm {
   margin: 18px 0 0;

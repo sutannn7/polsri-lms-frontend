@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Footer({ year = new Date().getFullYear() }) {
   return (
-    <footer className="border-t border-border bg-white">
+    <footer className="border-t border-border bg-background">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-3 px-5 py-5 text-sm text-secondary sm:px-8 md:flex-row lg:px-0">
         <p className="text-center md:text-left">
           © {year} Politeknik Negeri Sriwijaya
@@ -10,7 +10,7 @@ function Footer({ year = new Date().getFullYear() }) {
         <nav aria-label="Tautan bantuan" className="flex items-center gap-6">
           <Link
             to="/panduan"
-            className="transition-colors hover:text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className="transition-colors hover:text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Panduan Penggunaan
           </Link>
