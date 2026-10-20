@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 
 const variantClasses = {
   primary:
-    'border-transparent bg-primary text-white hover:bg-primary-dark disabled:opacity-60',
+    'border-transparent bg-primary text-on-primary hover:bg-primary-dark disabled:opacity-60',
   outline:
     'border-border bg-background text-main hover:border-primary hover:bg-primary-soft hover:text-primary disabled:bg-surface-3 disabled:opacity-60',
   success:

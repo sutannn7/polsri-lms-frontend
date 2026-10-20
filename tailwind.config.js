@@ -10,6 +10,8 @@ export default {
           dark: 'var(--brand)',
           soft: 'var(--brand-soft)',
         },
+        // Teks/ikon di atas permukaan brand (Button primary), bukan brand itu sendiri.
+        'on-primary': 'var(--on-primary)',
         accent: 'var(--accent)',
         background: 'var(--surface)',
         'surface-2': 'var(--surface-2)',
