@@ -7,3 +7,5 @@ screenshots/
 !.env.example
 .github/prompts/
 .github/skills/
+design/
+.vscode/
