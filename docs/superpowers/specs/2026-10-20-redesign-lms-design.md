@@ -64,7 +64,8 @@ Semua warna aplikasi lewat variabel CSS; nilai gelap hanya menimpa variabelnya, 
 | `--border` | `#E2E8F2` | `#1E2C48` | garis kartu & pemisah |
 | `--text` | `#0F172A` | `#E9EFFA` | teks utama |
 | `--text-muted` | `#5A6782` | `#9FB0CC` | teks sekunder |
-| `--brand` | `#0B2A5B` (navy) | `#0B2A5B` | aksen utama: link, tombol utama |
+| `--brand` | `#0B2A5B` (navy) | `#4C8DF6` | aksen utama: link, tombol utama |
+| `--brand-strong` | `#08203F` | `#6BA4FF` | brand untuk hover/press di atas permukaan brand (jika sama dengan `--brand`, tombol utama tidak memberi umpan balik) |
 | `--on-primary` | `#FFFFFF` | `#0A1426` | teks dan ikon DI ATAS permukaan brand (tombol utama, tab aktif) - selalu kontras >= 4,5:1 terhadap `--brand` |
 | `--accent` | `#FFC107` (emas) | `#FFC107` | status berjalan, sorotan, logo |
 | `--danger` | `#D64545` | `#FF9BA0` | tenggat mendesak, error |

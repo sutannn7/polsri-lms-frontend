@@ -7,7 +7,7 @@ export default {
       colors: {
         primary: {
           DEFAULT: 'var(--brand)',
-          dark: 'var(--brand)',
+          dark: 'var(--brand-strong)',
           soft: 'var(--brand-soft)',
         },
         // Teks/ikon di atas permukaan brand (Button primary), bukan brand itu sendiri.

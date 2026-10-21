@@ -19,6 +19,8 @@
   --text-muted: #5A6782;
   /* brand: warna utama CTA, untuk permukaan gelap-terang pakai varian .dark */
   --brand: #0B2A5B;
+  /* brand-strong: brand yang lebih gelap untuk hover/press di atas permukaan brand */
+  --brand-strong: #08203F;
   /* on-primary: teks/ikon di atas permukaan brand (kontras cukup di kedua tema) */
   --on-primary: #FFFFFF;
   /* brand-soft: latar lembut di bawah brand (badge, hover, highlight) */
@@ -62,6 +64,8 @@
   --text-muted: #9FB0CC;
   /* brand: brand jadi terang-terangan agar kontras di atas gelap */
   --brand: #4C8DF6;
+  /* brand-strong: brand yang lebih terang untuk hover/press di atas permukaan brand */
+  --brand-strong: #6BA4FF;
   /* on-primary: teks gelap di atas brand terang agar kontras ≥ 4,5:1 */
   --on-primary: #0A1426;
   /* brand-soft: latar lembut di bawah brand */
