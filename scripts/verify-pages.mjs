@@ -410,7 +410,7 @@ const COURSE_DETAIL_CHECK = `
 `;
 
 const PAGE_CHECKS = (theme) => `
-  (() => {
+  (async () => {
     // Classlist SEBELUM skrip memaksa tema: kalau aplikasi sudah
     // mengatur light/dark sendiri, inilah bukti tema yang dipakai aplikasi.
     const initialClasses = [...document.documentElement.classList];
@@ -435,14 +435,33 @@ const PAGE_CHECKS = (theme) => `
       }
     }
 
+    // Tunggu gambar selesai dimuat: logo 280 KB butuh waktu, dan mengecek
+    // terlalu awal membuat alat melaporkan "img gagal dimuat" padahal aman.
+    const settleImages = async () => {
+      const imgs = [...document.images].filter((i) => !i.complete);
+      await Promise.race([
+        Promise.all(
+          imgs.map(
+            (img) =>
+              new Promise((resolve) => {
+                img.addEventListener('load', resolve, { once: true });
+                img.addEventListener('error', resolve, { once: true });
+              }),
+          ),
+        ),
+        new Promise((resolve) => setTimeout(resolve, 8000)),
+      ]);
+      return [...document.images]
+        .filter((i) => !i.complete || i.naturalWidth === 0)
+        .map((i) => i.src)
+        .slice(0, 3);
+    };
+
     return {
       initialClasses,
       path: location.pathname,
       overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      brokenImages: [...document.images]
-        .filter((i) => !i.complete || i.naturalWidth === 0)
-        .map((i) => i.src)
-        .slice(0, 3),
+      brokenImages: await settleImages(),
       smallText: smallText.slice(0, 3),
       badFocus: badFocus.slice(0, 3),
     };
@@ -536,7 +555,9 @@ async function verifyRoute(cdp, sessionId, base, route, theme, outDir, themeSwit
       switchCheck = await evaluateJson(cdp, sessionId, THEME_SWITCH, { awaitPromise: true });
     }
 
-    const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme));
+    const checks = await evaluateJson(cdp, sessionId, PAGE_CHECKS(theme), {
+      awaitPromise: true,
+    });
     checks.consoleErrors = counters.consoleErrors;
     checks.failedRequests = counters.failedRequests;
     checks.wantedRoute = route;
