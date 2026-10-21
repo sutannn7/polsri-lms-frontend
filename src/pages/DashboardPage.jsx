@@ -97,80 +97,82 @@ function DashboardPage() {
           </Card>
         </section>
 
-        <section aria-labelledby="tugas-heading" id="tugas-belum-selesai" className="scroll-mt-24">
-          <Card className="p-5 sm:p-6">
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <h2 id="tugas-heading" className="text-lg font-bold text-main">Tugas Belum Selesai</h2>
-              <p className="text-[13px] text-secondary">
-                {unfinishedDeadlines.length} tenggat aktif
-              </p>
-            </div>
-            <ul className="mt-3 divide-y divide-border">
-              {unfinishedDeadlines.length === 0 ? (
-                <li className="py-4 text-[13px] text-secondary">Semua tugas sudah selesai.</li>
-              ) : (
-                unfinishedDeadlines.map((deadline) => (
-                  <li key={deadline.id} className="flex items-start justify-between gap-3 py-4 first:pt-4 last:pb-0">
-                    <div className="min-w-0">
-                      <Link
-                        to={`/mata-kuliah/${deadline.courseId}`}
-                        className="rounded-sm font-semibold text-main transition-colors duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                      >
-                        {deadline.title}
-                      </Link>
-                      <p className="mt-1 truncate text-[13px] text-secondary">{deadline.courseName}</p>
-                      <div className="mt-2 flex items-center gap-3">
-                        <ProgressBar
-                          value={0}
-                          tone="idle"
-                          label={`Tugas ${deadline.title} belum mulai`}
-                        />
-                        <span className="shrink-0 text-sm font-semibold text-secondary">
-                          Belum mulai
-                        </span>
-                      </div>
-                    </div>
-                    <StatusChip status={chipStatus(deadline, now)}>
-                      {dueLabel(deadline.dueAt, now)}
-                    </StatusChip>
-                  </li>
-                ))
-              )}
-            </ul>
-          </Card>
-        </section>
-      </div>
-
-      <section aria-labelledby="pertemuan-heading">
-        <Card className="p-5 sm:p-6">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
-              <h2 id="pertemuan-heading" className="text-lg font-bold text-main">
-                Progres Belajar {meetingCourse?.name ?? 'Mata Kuliah'}
-              </h2>
-              <p className="mt-2 text-sm text-secondary">
-                {completedActivities} dari {courseActivities.length} aktivitas selesai
-              </p>
-              <div className="mt-3 flex items-center gap-3">
-                <ProgressBar
-                  value={meetingPercent}
-                  tone="done"
-                  label={`Progres belajar ${meetingCourse?.name ?? 'Mata Kuliah'}`}
-                />
-                <span className="w-10 shrink-0 text-right text-sm font-semibold text-success-text">
-                  {meetingPercent}%
-                </span>
+        <div className="space-y-9 lg:sticky lg:top-24">
+          <section aria-labelledby="tugas-heading" id="tugas-belum-selesai" className="scroll-mt-24">
+            <Card className="p-5 sm:p-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 id="tugas-heading" className="text-lg font-bold text-main">Tugas Belum Selesai</h2>
+                <p className="text-[13px] text-secondary">
+                  {unfinishedDeadlines.length} tenggat aktif
+                </p>
               </div>
-            </div>
-            <Link
-              to="/mata-kuliah/perbankan"
-              className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-on-primary transition-colors duration-150 hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              Lihat Detail Pertemuan
-            </Link>
-          </div>
-        </Card>
-      </section>
+              <ul className="mt-3 divide-y divide-border">
+                {unfinishedDeadlines.length === 0 ? (
+                  <li className="py-4 text-[13px] text-secondary">Semua tugas sudah selesai.</li>
+                ) : (
+                  unfinishedDeadlines.map((deadline) => (
+                    <li key={deadline.id} className="flex items-start justify-between gap-3 py-4 first:pt-4 last:pb-0">
+                      <div className="min-w-0">
+                        <Link
+                          to={`/mata-kuliah/${deadline.courseId}`}
+                          className="rounded-sm font-semibold text-main transition-colors duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                        >
+                          {deadline.title}
+                        </Link>
+                        <p className="mt-1 truncate text-[13px] text-secondary">{deadline.courseName}</p>
+                        <div className="mt-2 flex items-center gap-3">
+                          <ProgressBar
+                            value={0}
+                            tone="idle"
+                            label={`Tugas ${deadline.title} belum mulai`}
+                          />
+                          <span className="shrink-0 text-sm font-semibold text-secondary">
+                            Belum mulai
+                          </span>
+                        </div>
+                      </div>
+                      <StatusChip status={chipStatus(deadline, now)}>
+                        {dueLabel(deadline.dueAt, now)}
+                      </StatusChip>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </Card>
+          </section>
+
+          <section aria-labelledby="pertemuan-heading">
+            <Card className="p-5 sm:p-6">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <h2 id="pertemuan-heading" className="text-lg font-bold text-main">
+                    Progres Belajar {meetingCourse?.name ?? 'Mata Kuliah'}
+                  </h2>
+                  <p className="mt-2 text-sm text-secondary">
+                    {completedActivities} dari {courseActivities.length} aktivitas selesai
+                  </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <ProgressBar
+                      value={meetingPercent}
+                      tone="done"
+                      label={`Progres belajar ${meetingCourse?.name ?? 'Mata Kuliah'}`}
+                    />
+                    <span className="w-10 shrink-0 text-right text-sm font-semibold text-success-text">
+                      {meetingPercent}%
+                    </span>
+                  </div>
+                </div>
+                <Link
+                  to="/mata-kuliah/perbankan"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-on-primary transition-colors duration-150 hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  Lihat Detail Pertemuan
+                </Link>
+              </div>
+            </Card>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
